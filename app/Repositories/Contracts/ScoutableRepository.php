@@ -1,0 +1,13 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Repositories\Contracts;
+
+use App\Models\User;
+use Illuminate\Support\Collection;
+
+interface ScoutableRepository
+{
+    public function search(string $keywords, int $limit, ?User $user = null): Collection;
+}

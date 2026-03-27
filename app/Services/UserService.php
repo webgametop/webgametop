@@ -4,4 +4,21 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-class UserService {}
+use App\Repositories\UserRepository;
+
+class UserService
+{
+    public function __construct(
+        private readonly UserRepository $repository,
+    )
+    {
+    }
+
+    public function createUser()
+    {
+    }
+
+    public function updateUser()
+    {
+    }
+}
