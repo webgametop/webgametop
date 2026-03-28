@@ -8,23 +8,33 @@ use App\Attributes\HashingAlgoMetadata as Metadata;
 
 enum HashingAlgo: string
 {
-    #[Metadata('secure')]
+    #[Metadata('secure', 256)]
     case SHA256 = 'sha256';
-    #[Metadata('secure')]
-    case SHA384 = 'sha384';
-    #[Metadata('secure')]
+    #[Metadata('secure', 512)]
     case SHA512 = 'sha512';
-    #[Metadata('legacy')]
+    #[Metadata('legacy', 128)]
     case MD5 = 'md5';
+    #[Metadata('legacy', 160)]
+    case SHA1 = 'sha1';
 
     public function isSecure(): bool
     {
         return $this->getCategory() === 'secure';
     }
 
+    public function getHexLength(): int
+    {
+        return intdiv($this->getBits(), 4);
+    }
+
     public function getCategory(): string
     {
         return $this->getMetadata()->category;
+    }
+
+    public function getBits(): int
+    {
+        return $this->getMetadata()->bits;
     }
 
     private function getMetadata(): Metadata

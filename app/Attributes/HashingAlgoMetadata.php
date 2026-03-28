@@ -9,7 +9,10 @@ use Attribute;
 #[Attribute(Attribute::TARGET_CLASS_CONSTANT)]
 class HashingAlgoMetadata
 {
-    public function __construct(public string $category)
+    public function __construct(
+        public string $category,
+        public int $bits,
+    )
     {
     }
 }

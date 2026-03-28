@@ -5,20 +5,26 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Repositories\UserRepository;
+use App\Values\User\UserCreateData;
+use App\Values\User\UserUpdateData;
 
 class UserService
 {
     public function __construct(
-        private readonly UserRepository $repository,
+        readonly private UserRepository $repository,
     )
     {
     }
 
-    public function createUser()
+    public function createUser(UserCreateData $dto)
     {
     }
 
-    public function updateUser()
+    public function updateUser(UserUpdateData $dto)
+    {
+    }
+
+    public function deleteUser()
     {
     }
 }

@@ -6,4 +6,6 @@ namespace App\Repositories;
 
 use App\Repositories\Contracts\Repository as RepositoryContract;
 
-abstract class Repository implements RepositoryContract {}
+abstract class Repository implements RepositoryContract
+{
+}

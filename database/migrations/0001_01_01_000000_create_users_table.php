@@ -14,16 +14,14 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('status')->default('pending');
-            $table->string('profilename', 128);
-            $table->string('profilelink',32)->unique('unq_users_on_profilelink');
+            $table->string('username',32)->unique('unq_users_on_username');
+            $table->string('nickname', 128);
             $table->string('email')->unique('unq_users_on_email');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->dateTime('last_seen_at');
-            $table->string('autologin_token', 100);
             $table->rememberToken();
-            $table->string('registration_ip_hash');
-            $table->string('registration_country');
+            $table->string('registration_ip_hash', 64);
+            $table->string('registration_country', 2);
             $table->timestamps();
         });
 

@@ -6,7 +6,7 @@ namespace App\Services\Contracts;
 
 interface PasswordHasherInterface
 {
-    public function hash(string $value): string;
-    public function verify(string $value, string $hash): bool;
+    public function hash(string $password): string;
+    public function verify(string $password, string $hash): bool;
     public function needsRehash(string $hash): bool;
 }
