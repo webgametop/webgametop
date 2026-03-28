@@ -7,6 +7,15 @@ Route::group([], function () {
 });
 
 Route::get('/', function () {
+    $hasher = new \App\Services\DataHasherService;
+    $algo = \App\Enums\HashingAlgo::MD5;
+
+    dd(
+        $hash = $hasher->hash('test'),
+        $hasher->verify('test', $hash),
+
+        $algo->isSecure(),
+    );
 
     return view('welcome');
 
