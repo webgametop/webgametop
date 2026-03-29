@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserLoginRequest;
 use Illuminate\Http\Request;
 
 class AuthLoginController extends Controller
@@ -21,13 +22,13 @@ class AuthLoginController extends Controller
      */
     public function create()
     {
-        //
+        return view('web.users.sign-in');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserLoginRequest $request)
     {
         //
     }

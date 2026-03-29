@@ -4,10 +4,21 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserStoreRequest;
+use App\Repositories\UserRepository;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 
 class AuthRegisterController extends Controller
 {
+    public function __construct(
+        private readonly UserRepository $userRepository,
+        private readonly UserService $userService,
+    )
+    {
+    }
+
+
     /**
      * Display a listing of the resource.
      */
@@ -21,15 +32,15 @@ class AuthRegisterController extends Controller
      */
     public function create()
     {
-        //
+        return view('web.users.sign-up');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserStoreRequest $request)
     {
-        //
+        $user = $this->userService->createUser($request->toDto());
     }
 
     /**
