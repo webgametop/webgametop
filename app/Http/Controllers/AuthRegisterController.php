@@ -41,6 +41,10 @@ class AuthRegisterController extends Controller
     public function store(UserStoreRequest $request)
     {
         $user = $this->userService->createUser($request->toDto());
+
+        \Auth::login($user);
+
+        return redirect('/');
     }
 
     /**

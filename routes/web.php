@@ -12,6 +12,7 @@ Route::get('/', function (
     \App\Services\HmacHasherService $hmacHasher,
 ) {
     $algo = \App\Enums\HashingAlgo::MD5;
+    $format = \App\Enums\HashingFormat::BINARY;
 
     dd(
         $hash = $passwordHasher->hash('test'),
@@ -23,8 +24,8 @@ Route::get('/', function (
         $hash = $hasher->hash('test', $algo),
         $hasher->verify('test2', $hash, $algo) ,
 
-        $hash = $hmacHasher->hash('test'),
-        $hmacHasher->verify('test', $hash)
+        $hash = $hmacHasher->hash('test', $format),
+        $hmacHasher->verify('test', $hash, $format)
     );
 
     return view('welcome');

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\AuthLoginController;
 use App\Http\Controllers\AuthRegisterController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest'])->group(function () {
@@ -18,3 +19,7 @@ Route::middleware(['guest'])->group(function () {
         }); # sign-in
     }); # users
 }); # guest
+
+Route::group(['prefix' => 'users', 'as' => 'users'], function () {
+    Route::get('/', [UserController::class, 'index']);
+});

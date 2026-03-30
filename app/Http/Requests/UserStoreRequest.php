@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Enums\HashingFormat;
 use App\Enums\UserStatus as Status;
 use App\Services\HmacHasherService;
 use App\Services\PasswordHasherService;
@@ -48,7 +49,7 @@ class UserStoreRequest extends Request
             nickname: Support\Str::random(128),
             email: $requestData['email'],
             password_hash: $this->passwordHasherService->hash($requestData['password']),
-            registration_ip_hash: $this->hmacHasherService->hash($ip = $this->ip()),
+            registration_ip_hash: $this->hmacHasherService->hash($this->ip(), HashingFormat::BINARY),
             registration_country: 'RU',
         );
     }
