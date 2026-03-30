@@ -20,7 +20,7 @@
                         <input type="password" name="user[password]" id="user_password" class="form-control" required>
                     </div>
                 </div>
-                <button type="button" class="btn btn-light rounded-5">Войти</button>
+                <button type="submit" class="btn btn-light rounded-5">Войти</button>
                 <a href="{{ route('register') }}" class="ms-3">Зарегистрировать новый аккаунт</a>
                 <a href="" class="ms-3">Забыли пароль?</a>
             </form>

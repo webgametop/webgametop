@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Enums\HashingAlgo as Algo;
-use App\Services\Contracts\DataHasherInterface;
+use App\Services\Contracts\HasherInterface;
 
-class DataHasherService implements DataHasherInterface
+class HasherService implements HasherInterface
 {
     public function hash(string $value, Algo $algo = Algo::SHA256): string
     {

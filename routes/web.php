@@ -8,7 +8,8 @@ Route::group([], function () {
 
 Route::get('/', function (
     \App\Services\Contracts\PasswordHasherInterface $passwordHasher,
-    \App\Services\Contracts\DataHasherInterface $dataHasher
+    \App\Services\Contracts\HasherInterface $hasher,
+    \App\Services\Contracts\HmacHasherInterface $hmacHasher,
 ) {
     $algo = \App\Enums\HashingAlgo::MD5;
 
@@ -19,7 +20,11 @@ Route::get('/', function (
         $algo->isSecure(),
         $algo->getHexLength(),
 
-        $dataHasher->hash('test'),
+        $hash = $hasher->hash('test'),
+        $hasher->verify('test2', $hash) ,
+
+        $hash = $hmacHasher->hash('test'),
+        $hmacHasher->verify('test', $hash)
     );
 
     return view('welcome');

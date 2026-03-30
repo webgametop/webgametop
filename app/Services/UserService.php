@@ -18,6 +18,7 @@ class UserService
 
     public function createUser(UserCreateData $dto)
     {
+        dd($dto);
     }
 
     public function updateUser(UserUpdateData $dto)
