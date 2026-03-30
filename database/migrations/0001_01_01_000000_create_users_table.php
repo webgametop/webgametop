@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->string('registration_ip_hash', 64);
+            $table->binary('registration_ip_hash', 32)->index('idx_users_on_registration_ip_hash');
             $table->string('registration_country', 2);
             $table->timestamps();
         });

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use App\Enums\UserStatus as Status;
-use App\Services\Contracts\HasherInterface;
-use App\Services\Contracts\PasswordHasherInterface;
+use App\Services\HmacHasherService;
+use App\Services\PasswordHasherService;
 use App\Values\User\UserCreateData;
 use Illuminate\Support;
 use Illuminate\Validation\Rules;
@@ -17,8 +17,8 @@ use Illuminate\Validation\Rules;
 class UserStoreRequest extends Request
 {
     public function __construct(
-        private readonly PasswordHasherInterface $hasher,
-        private readonly HasherInterface $dataHasher,
+        private readonly PasswordHasherService $passwordHasherService,
+        private readonly HmacHasherService $hmacHasherService,
     )
     {
         parent::__construct();
@@ -47,8 +47,8 @@ class UserStoreRequest extends Request
             username: Support\Str::random(32),
             nickname: Support\Str::random(128),
             email: $requestData['email'],
-            password_hash: $this->hasher->hash($requestData['password']),
-            registration_ip_hash: $this->dataHasher->hash($ip = $this->ip()),
+            password_hash: $this->passwordHasherService->hash($requestData['password']),
+            registration_ip_hash: $this->hmacHasherService->hash($ip = $this->ip()),
             registration_country: 'RU',
         );
     }

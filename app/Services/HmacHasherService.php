@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Services\Contracts\HmacHasherInterface;
+use App\Services\Contracts\HasherInterface;
 
-class HmacHasherService implements HmacHasherInterface
+class HmacHasherService implements HasherInterface
 {
     public function hash(string $value): string
     {

@@ -9,14 +9,14 @@ use Illuminate\Support\Facades\Hash;
 
 class PasswordHasherService implements PasswordHasherInterface
 {
-    public function hash(string $password): string
+    public function hash(string $value): string
     {
-        return Hash::make($password);
+        return Hash::make($value);
     }
 
-    public function verify(string $password, string $hash): bool
+    public function verify(string $value, string $hash): bool
     {
-        return Hash::check($password, $hash);
+        return Hash::check($value, $hash);
     }
 
     public function needsRehash(string $hash): bool

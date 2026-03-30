@@ -8,6 +8,6 @@ use App\Enums\HashingAlgo as Algo;
 
 interface HasherInterface
 {
-    public function hash(string $value, Algo $algo): string;
-    public function verify(string $value, string $hash, Algo $algo): bool;
+    public function hash(string $value): string;
+    public function verify(string $value, string $hash): bool;
 }

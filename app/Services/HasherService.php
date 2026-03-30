@@ -16,6 +16,6 @@ class HasherService implements HasherInterface
 
     public function verify(string $value, string $hash, Algo $algo = Algo::SHA256): bool
     {
-        return hash_equals(hash($algo->value, $value), $hash);
+        return hash_equals($this->hash($value, $algo), $hash);
     }
 }
