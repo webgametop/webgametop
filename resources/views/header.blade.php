@@ -5,21 +5,21 @@
             <div class="col-12">
                 <nav class="main-nav justify-content-between">
                     <!-- ***** Logo Start ***** -->
-                    <a href="index.html">
-                        <img src="/build/assets/images/logo.png" alt="">
+                    <a href="/">
+                        <h1 class="text-uppercase">{{ config('app.name') }}</h1>
                     </a>
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                        <li><a href="index.html">Главная</a></li>
-                        <li style="padding-right: 0;">
+                        <li><a href="/">Главная</a></li>
+                        <li class="pe-0">
                             @guest
                             <a href="{{ route('login') }}" class="{{ request()->routeIs(['login', 'register']) ? 'active' : '' }}">
                                 <span>Вход | Регистрация</span>
                                 <img src="/build/assets/images/profile-header.jpg" alt="">
                             </a>
                             @else
-                            <a href="profile.html">
+                            <a href="/">
                                 <span>Профиль</span>
                                 <img src="/build/assets/images/profile-header.jpg" alt="">
                             </a>

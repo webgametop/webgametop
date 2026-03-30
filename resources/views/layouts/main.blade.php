@@ -16,5 +16,7 @@
 <script src="/build/assets/js/tabs.js"></script>
 <script src="/build/assets/js/popup.js"></script>
 <script src="/build/assets/js/custom.js"></script>
+
+@stack('body-script')
 </body>
 </html>
