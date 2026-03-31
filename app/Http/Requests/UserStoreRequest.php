@@ -37,9 +37,9 @@ class UserStoreRequest extends Request
 
         return UserCreateData::make(
             status: Status::PENDING,
-            username: Support\Str::random(32),
-            nickname: Support\Str::random(128),
-            email: $email->value(),
+            username: uniqid(),
+            nickname: strstr($email->value(), '@', true),
+            email: Support\Str::lower($email),
             password_hash: $this->passwordHasherService->hash($password->value()),
             registration_ip_hash: $this->hmacHasherService->hash($this->ip(), HashingFormat::BINARY),
             registration_country: 'RU',

@@ -12,24 +12,25 @@
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li><a href="/">Главная</a></li>
+                        <li><a href="{{ route('users') }}" class="{{ request()->routeIs('users') ? 'active' : '' }}">Пользователи</a></li>
                         <li class="pe-0">
                             @guest
-                            <a href="{{ route('login') }}" class="{{ request()->routeIs(['login', 'register']) ? 'active' : '' }}">
+                            <a
+                                href="{{ route('login') }}"
+                                @class(['active' => request()->routeIs(['login', 'register'])])
+                            >
                                 <span>Вход | Регистрация</span>
-                                <img src="/build/assets/images/profile-header.jpg" alt="">
+                                <img src="/build/assets/images/profile.jpg" alt="">
                             </a>
                             @else
-                            <a href="/">
+                            @php($user = auth()->user())
+                            <a
+                                href="{{ route('users.show', [$user, $user->username]) }}"
+                                @class(['active' => request()->user?->equals($user) && request()->routeIs('users.show')])
+                            >
                                 <span>Профиль</span>
-                                <img src="/build/assets/images/profile-header.jpg" alt="">
+                                <img src="{{ gravatar($user->email, 2048) }}" alt="" class="bg-info rounded-5">
                             </a>
-                            <form action="{{ route('logout') }}" method="post">
-                                @csrf
-                                <button type="submit" class="btn btn-light rounded-5">
-                                    <i class="fas fa-sign-out-alt" style="font-size: 16px;"></i>
-                                    <span>Выход</span>
-                                </button>
-                            </form>
                             @endguest
                         </li>
                     </ul>

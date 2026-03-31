@@ -35,7 +35,7 @@ class AuthLoginController extends Controller
         $request->authenticate();
         $request->session()->regenerate();
 
-        return redirect()->intended(route('users'));
+        return redirect()->intended(route('users.redirect', \Auth::user()));
     }
 
     /**

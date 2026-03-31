@@ -54,4 +54,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function equals(self $other): bool
+    {
+        return $this->is($other);
+    }
 }

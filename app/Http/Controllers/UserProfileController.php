@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class UserProfileController extends Controller
@@ -35,9 +37,9 @@ class UserProfileController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $user)
     {
-        //
+        return view('web.users.profile.index', compact('user'));
     }
 
     /**
@@ -62,5 +64,14 @@ class UserProfileController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function redirect(?User $user): RedirectResponse
+    {
+        if (! $user) {
+            abort(404, 'The requested user does not exist.');
+        }
+
+        return redirect()->route('users.show', [$user, $user->username]);
     }
 }

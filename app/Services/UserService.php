@@ -19,11 +19,11 @@ class UserService
 
     public function createUser(UserCreateData $dto): User
     {
-        $modelUser = User::make($dto->toArray());
+        $user = User::make($dto->toArray());
 
-        throw_if(! $modelUser->save(), new \Exception('user not saved'));
+        throw_if(! $user->save(), new \Exception('user not saved'));
 
-        return $modelUser;
+        return $user;
     }
 
     public function updateUser(UserUpdateData $dto)

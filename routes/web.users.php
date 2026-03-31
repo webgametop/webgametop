@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\AuthLoginController;
 use App\Http\Controllers\AuthRegisterController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest'])->group(function () {
@@ -28,4 +29,12 @@ Route::middleware(['auth'])->group(function () {
 
 Route::group(['prefix' => 'users', 'as' => 'users'], function () {
     Route::get('/', [UserController::class, 'index']);
+    Route::group(['prefix' => '{user:id}'], function () {
+        Route::get('/', [UserProfileController::class, 'redirect'])->name('.redirect');
+        Route::group(['prefix' => '{username}'], function () {
+            Route::group(['as' => '.show'], function () {
+                Route::get('/', [UserProfileController::class, 'show']);
+            });
+        }); # show
+    }); # profile
 });
