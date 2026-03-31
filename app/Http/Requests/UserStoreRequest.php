@@ -12,9 +12,6 @@ use App\Values\User\UserCreateData;
 use Illuminate\Support;
 use Illuminate\Validation\Rules;
 
-/**
- * @property-read array $user
- */
 class UserStoreRequest extends Request
 {
     public function __construct(
@@ -35,20 +32,15 @@ class UserStoreRequest extends Request
 
     public function toDto(): UserCreateData
     {
-        /**
-         * @var array{
-         *     email: string,
-         *     password: string,
-         * } $requestData
-         */
-        $requestData = $this->user;
+        $email = $this->string('user.email');
+        $password = $this->string('user.password');
 
         return UserCreateData::make(
             status: Status::PENDING,
             username: Support\Str::random(32),
             nickname: Support\Str::random(128),
-            email: $requestData['email'],
-            password_hash: $this->passwordHasherService->hash($requestData['password']),
+            email: $email->value(),
+            password_hash: $this->passwordHasherService->hash($password->value()),
             registration_ip_hash: $this->hmacHasherService->hash($this->ip(), HashingFormat::BINARY),
             registration_country: 'RU',
         );

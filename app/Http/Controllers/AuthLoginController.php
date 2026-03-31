@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserLoginRequest;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades;
 
 class AuthLoginController extends Controller
 {
@@ -30,7 +32,10 @@ class AuthLoginController extends Controller
      */
     public function store(UserLoginRequest $request)
     {
-        //
+        $request->authenticate();
+        $request->session()->regenerate();
+
+        return redirect()->intended(route('users'));
     }
 
     /**
@@ -60,8 +65,13 @@ class AuthLoginController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        Facades\Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('users');
     }
 }

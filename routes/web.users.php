@@ -20,6 +20,12 @@ Route::middleware(['guest'])->group(function () {
     }); # users
 }); # guest
 
+Route::middleware(['auth'])->group(function () {
+    Route::group(['prefix' => 'users'], function () {
+        Route::post('sign-out', [AuthLoginController::class, 'destroy'])->name('logout');
+    });
+}); # auth
+
 Route::group(['prefix' => 'users', 'as' => 'users'], function () {
     Route::get('/', [UserController::class, 'index']);
 });

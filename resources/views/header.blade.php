@@ -23,6 +23,13 @@
                                 <span>Профиль</span>
                                 <img src="/build/assets/images/profile-header.jpg" alt="">
                             </a>
+                            <form action="{{ route('logout') }}" method="post">
+                                @csrf
+                                <button type="submit" class="btn btn-light rounded-5">
+                                    <i class="fas fa-sign-out-alt" style="font-size: 16px;"></i>
+                                    <span>Выход</span>
+                                </button>
+                            </form>
                             @endguest
                         </li>
                     </ul>

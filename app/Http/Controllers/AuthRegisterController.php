@@ -44,7 +44,7 @@ class AuthRegisterController extends Controller
 
         \Auth::login($user);
 
-        return redirect('/');
+        return redirect()->route('users');
     }
 
     /**
