@@ -31,7 +31,7 @@ Route::group(['prefix' => 'users', 'as' => 'users'], function () {
     Route::get('/', [UserController::class, 'index']);
     Route::group(['prefix' => '{user:id}'], function () {
         Route::get('/', [UserProfileController::class, 'redirect'])->name('.redirect');
-        Route::group(['prefix' => '{username}'], function () {
+        Route::group(['prefix' => '{username}', 'middleware' => ['redirect.username']], function () {
             Route::group(['as' => '.show'], function () {
                 Route::get('/', [UserProfileController::class, 'show']);
             });
