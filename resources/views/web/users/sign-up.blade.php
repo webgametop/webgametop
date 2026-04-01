@@ -36,4 +36,16 @@
             </form>
         </div>
     </div>
+    @push('body-script')
+    <script type="module">
+        $('form').on('submit', function () {
+            const $button = $(this).find('button');
+            $button.prop('disabled', true);
+            $button.html([
+                $('<span>', { 'class': 'spinner-border spinner-border-sm', 'aria-hidden': true}),
+                $('<span>', { 'class': 'ms-2', 'role': 'status', 'text': 'Выход...'}),
+            ]);
+        });
+    </script>
+    @endpush
 </x-layouts::main>

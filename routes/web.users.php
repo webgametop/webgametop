@@ -34,7 +34,7 @@ Route::group(['prefix' => 'users', 'as' => 'users'], function () {
         Route::group(['prefix' => '{username}', 'middleware' => ['redirect.username']], function () {
             Route::group(['as' => '.show'], function () {
                 Route::get('/', [UserProfileController::class, 'show']);
-            });
-        }); # show
+            }); # show
+        });
     }); # profile
 });

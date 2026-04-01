@@ -8,6 +8,8 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades;
+use Illuminate\Support;
 
 class User extends Authenticatable
 {
@@ -58,5 +60,11 @@ class User extends Authenticatable
     public function equals(self $other): bool
     {
         return $this->is($other);
+    }
+
+    public function isOnline(): bool
+    {
+        $keyCache = 'users:{id}:online';
+        return Facades\Cache::has(Support\Str::replace('{id}', $this->id, $keyCache));
     }
 }

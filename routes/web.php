@@ -25,7 +25,7 @@ Route::get('/', function (
         $hasher->verify('test2', $hash, $algo) ,
 
         $hash = $hmacHasher->hash('test', $format),
-        $hmacHasher->verify('test', $hash, $format)
+        $hmacHasher->verify('test', $hash, $format),
     );
 
     return view('welcome');
