@@ -29,7 +29,7 @@
                                 @class(['active' => request()->user?->equals($user) && request()->routeIs('users.show')])
                             >
                                 <span>Профиль</span>
-                                <img src="{{ gravatar($user->email, 2048) }}" alt="" class="bg-info rounded-5">
+                                <img src="{{ $user->gravatar(2048) }}" alt="" class="bg-info rounded-5">
                             </a>
                             @endguest
                         </li>

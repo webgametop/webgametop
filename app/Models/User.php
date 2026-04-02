@@ -67,4 +67,9 @@ class User extends Authenticatable
         $keyCache = 'users:{id}:online';
         return Facades\Cache::has(Support\Str::replace('{id}', $this->id, $keyCache));
     }
+
+    public function gravatar(int $size = 192): string
+    {
+        return gravatar($this->email, $size);
+    }
 }

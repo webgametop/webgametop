@@ -11,7 +11,7 @@
                     <div class="main-profile ">
                         <div class="row">
                             <div class="col-lg-2">
-                                <img src="{{ gravatar($user->email, 2048) }}" alt="" class="bg-info rounded-5">
+                                <img src="{{ $user->gravatar(2048) }}" alt="" class="bg-info rounded-5">
                                 @auth
                                 @if($user->equals(request()->user()))
                                 <form action="{{ route('logout') }}" method="post" class="mt-4">
