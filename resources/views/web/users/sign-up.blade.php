@@ -43,7 +43,7 @@
             $button.prop('disabled', true);
             $button.html([
                 $('<span>', { 'class': 'spinner-border spinner-border-sm', 'aria-hidden': true}),
-                $('<span>', { 'class': 'ms-2', 'role': 'status', 'text': 'Выход...'}),
+                $('<span>', { 'class': 'ms-2', 'role': 'status', 'text': 'Регистрация...'}),
             ]);
         });
     </script>

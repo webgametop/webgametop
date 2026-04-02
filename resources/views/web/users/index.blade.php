@@ -20,7 +20,7 @@
                     @foreach($users as $user)
                     <div class="item">
                         <ul class="d-flex">
-                            <li><img src="{{ $user->gravatar() }}" alt="" class="templatemo-item bg-info rounded-5"></li>
+                            <li><img src="{{ $user->gravatar() }}" alt="" class="templatemo-item bg-info rounded-4"></li>
                             <li><h4>{{ $user->nickname }}</h4><span @class(['text-success' => $user->isOnline()])>{{ $user->isOnline() ? 'Online' : 'Offline' }}</span></li>
                             <li><h4 class="text-uppercase">Регистрация</h4><span>{{ $user->created_at->ago() }}</span></li>
                             <li class="flex-grow-1">

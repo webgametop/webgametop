@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserStoreRequest;
-use App\Repositories\UserRepository;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 
 class AuthRegisterController extends Controller
 {
     public function __construct(
-        private readonly UserRepository $userRepository,
         private readonly UserService $userService,
     )
     {
@@ -40,7 +38,16 @@ class AuthRegisterController extends Controller
      */
     public function store(UserStoreRequest $request)
     {
-        $user = $this->userService->createUser($request->toDto());
+        $dto = $request->toDto();
+
+        if (! $this->userService->canRegisterFromIp($dto->getIpHash())) {
+            return redirect()->route('register')->with('flash', [
+                'message' => 'Maximum number of registrations from this IP address has been reached',
+                'type' => 'info',
+            ]);
+        }
+
+        $user = $this->userService->createUser($dto);
 
         \Auth::login($user);
 

@@ -41,6 +41,11 @@ final readonly class UserCreateData implements Arrayable
         );
     }
 
+    public function getIpHash(): string
+    {
+        return $this->registration_ip_hash;
+    }
+
     public function toArray(): array
     {
         return [
