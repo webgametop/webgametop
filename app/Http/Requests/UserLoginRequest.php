@@ -25,7 +25,15 @@ class UserLoginRequest extends Request
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Facades\Auth::attempt($this->user, $this->boolean('remember'))) {
+        /**
+         * @var array{
+         *     password: string,
+         *     email: string,
+         * } $data
+         */
+        $data = $this->only('user.password', 'user.email')['user'];
+
+        if (! Facades\Auth::attempt($data, $this->boolean('user.remember'))) {
             Facades\RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([

@@ -32,15 +32,20 @@ class UserStoreRequest extends Request
 
     public function toDto(): UserCreateData
     {
-        $email = $this->string('user.email');
-        $password = $this->string('user.password');
+        /**
+         * @var array{
+         *     password: string,
+         *     email: string,
+         * } $data
+         */
+        $data = $this->only('user.password', 'user.email')['user'];
 
         return UserCreateData::make(
             status: Status::PENDING,
             username: uniqid(),
-            nickname: strstr($email->value(), '@', true),
-            email: Support\Str::lower($email),
-            password_hash: $this->passwordHasherService->hash($password->value()),
+            nickname: strstr($data['email'], '@', true),
+            email: Support\Str::lower($data['email']),
+            password_hash: $this->passwordHasherService->hash($data['password']),
             registration_ip_hash: $this->hmacHasherService->hash($this->ip(), HashingFormat::BINARY),
             registration_country: 'RU',
         );
