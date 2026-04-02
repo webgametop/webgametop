@@ -5,6 +5,8 @@ declare(strict_types=1);
 use App\Http\Controllers\AuthLoginController;
 use App\Http\Controllers\AuthRegisterController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserEditAccountController;
+use App\Http\Controllers\UserEditController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,12 +31,19 @@ Route::middleware(['auth'])->group(function () {
 
 Route::group(['prefix' => 'users', 'as' => 'users'], function () {
     Route::get('/', [UserController::class, 'index']);
-    Route::group(['prefix' => '{user:id}'], function () {
+    Route::group(['prefix' => '{user}'], function () {
         Route::get('/', [UserProfileController::class, 'redirect'])->name('.redirect');
         Route::group(['prefix' => '{username}', 'middleware' => ['redirect.username']], function () {
             Route::group(['as' => '.show'], function () {
                 Route::get('/', [UserProfileController::class, 'show']);
             }); # show
+            Route::group(['prefix' => 'edit', 'as' => '.edit', 'middleware' => ['auth', 'access.edit']], function () {
+                Route::get('/', [UserEditController::class, 'redirect'])->name('.redirect');
+                Route::group(['prefix' => 'account', 'as' => '.account'], function () {
+                    Route::get('/', [UserEditAccountController::class, 'show']);
+                    Route::put('/', [UserEditAccountController::class, 'update'])->name('.update');
+                }); # account
+            });
         });
     }); # profile
-});
+}); # users

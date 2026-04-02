@@ -38,7 +38,10 @@
                                 @auth
                                 @if($user->equals(request()->user()))
                                 <div class="main-border-button mb-4">
-                                    <a href="" class="w-100">Редактировать профиль</a>
+                                    <a
+                                        href="{{ route('users.edit.account', [$user, $user->username]) }}"
+                                        class="w-100" style="text-transform: unset;"
+                                    >Редактировать профиль</a>
                                 </div>
                                 @endif
                                 @endauth

@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class UserAccountController extends Controller
+class UserEditAccountController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -33,9 +36,9 @@ class UserAccountController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $user)
     {
-        //
+        return view('web.users.edit.account', compact(['user']));
     }
 
     /**

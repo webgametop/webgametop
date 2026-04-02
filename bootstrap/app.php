@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\UserEnsureCorrectRedirect;
+use App\Http\Middleware\UserEnsureEditOnlySelfAccount;
 use App\Http\Middleware\UserHeartbeat;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -17,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->appendToGroup('web', UserHeartbeat::class);
         $middleware->alias([
             'redirect.username' => UserEnsureCorrectRedirect::class,
+            'access.edit' => UserEnsureEditOnlySelfAccount::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
