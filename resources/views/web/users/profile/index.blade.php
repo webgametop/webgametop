@@ -5,7 +5,6 @@
 <x-layouts::main>
     <div class="container">
         <div class="page-content">
-            <!-- ***** Banner Start ***** -->
             <div class="row">
                 <div class="col-lg-12">
                     <div class="main-profile ">
@@ -50,10 +49,10 @@
 {{--                                    <li data-achievements>Достижения <span><a href="">0</a></span></li>--}}
 {{--                                </ul>--}}
                                 <ul class="mb-4">
-                                    <li data-games>Игры <span><a href="">32</a></span></li>
-                                    <li data-reviews>Обзоры <span><a href="">1</a></span></li>
-                                    <li data-feedbacks>Отзывы <span><a href="">16</a></span></li>
-                                    <li data-comments>Комментарии <span><a href="">3</a></span></li>
+                                    <li data-games>Игры <span><a href="">0</a></span></li>
+{{--                                    <li data-reviews>Обзоры <span><a href="">1</a></span></li>--}}
+{{--                                    <li data-feedbacks>Отзывы <span><a href="">16</a></span></li>--}}
+{{--                                    <li data-comments>Комментарии <span><a href="">3</a></span></li>--}}
                                 </ul>
 {{--                                <ul class="mb-4">--}}
 {{--                                    <li data-friends>Друзья <span><a href="">32</a></span></li>--}}
@@ -64,7 +63,6 @@
                     </div>
                 </div>
             </div>
-            <!-- ***** Banner End ***** -->
         </div>
     </div>
     @push('body-script')

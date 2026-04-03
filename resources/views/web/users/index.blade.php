@@ -11,11 +11,10 @@
                 <h5>В данном разделе представлены все пользователи сайта, отсортированные по дате последнего посещения.</h5>
             </div>
             <hr>
-            <!-- ***** Users list Start ***** -->
             <div class="gaming-library mt-0">
                 <div class="col-lg-12">
 {{--                    <div class="heading-section">--}}
-{{--                        <h4><em>Your Gaming</em> Library</h4>--}}
+{{--                        <h4><em>Пользователи</em> по дате последнего посещения</h4>--}}
 {{--                    </div>--}}
                     @foreach($users as $user)
                     <div class="item">
@@ -36,7 +35,6 @@
                     </div>
                 </div>
             </div>
-            <!-- ***** Users list End ***** -->
         </div>
     </div>
 </x-layouts::main>

@@ -28,6 +28,6 @@ class UserProfile extends Component
         /** @var User $user */
         $user = $this->request->user;
 
-        return view('layouts.main', compact(['user']));
+        return view('layouts.main', compact('user'));
     }
 }

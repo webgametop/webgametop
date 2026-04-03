@@ -8,6 +8,7 @@ use App\Http\Requests\UserLoginRequest;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades;
+use Illuminate\Support;
 
 class AuthLoginController extends Controller
 {
@@ -35,7 +36,15 @@ class AuthLoginController extends Controller
         $request->authenticate();
         $request->session()->regenerate();
 
-        return redirect()->intended(route('users.redirect', \Auth::user()));
+        $user = \Auth::user();
+
+        $message_template = 'С возвращением, <b>:nickname</b>!';
+        $message = Support\Str::replace(':nickname', $user->nickname, $message_template);
+
+        $route_data = [$user, $user->username];
+        $flash_data = ['type' => 'success', 'message' => $message];
+
+        return redirect()->intended(route('users.show', $route_data))->with('flash', $flash_data);
     }
 
     /**
@@ -67,11 +76,16 @@ class AuthLoginController extends Controller
      */
     public function destroy(Request $request)
     {
+        $user = \Auth::user();
+
+        $message_template = 'До скорой встречи, <b>:nickname</b>!';
+        $message = Support\Str::replace(':nickname', $user->nickname, $message_template);
+
         Facades\Auth::guard('web')->logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('users');
+        return redirect()->route('users')->with('flash', ['type' => 'info', 'message' => $message]);
     }
 }

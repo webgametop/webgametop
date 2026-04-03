@@ -38,7 +38,7 @@ class UserEditAccountController extends Controller
      */
     public function show(User $user)
     {
-        return view('web.users.edit.account', compact(['user']));
+        return view('web.users.edit.account', compact('user'));
     }
 
     /**

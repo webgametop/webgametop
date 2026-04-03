@@ -8,6 +8,9 @@
                 <h5>На данной странице вы сможете авторизоваться на нашем сайте.</h5>
             </div>
             <hr>
+            @if($errors->count())
+            <div class="text-danger mb-4">{{ $errors->first() }}</div>
+            @endif
             <form action="{{ route('login.store') }}" method="post">
                 @csrf
                 <div class="col-12 col-lg-4">

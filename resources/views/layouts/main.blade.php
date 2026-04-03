@@ -12,7 +12,7 @@
         style="z-index: 999; max-width: 1296px; top: 25px;"
         role="alert"
     >
-        {{ session('flash.message') }}
+        <span>{!! session('flash.message') !!}</span>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 </div>
