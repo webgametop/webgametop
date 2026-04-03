@@ -33,7 +33,7 @@ class IpInfoService implements GeolocationService
             /** @var IpInfoLiteData $dto */
             $dto = $this->connector->send(new GetLiteDataRequest($ip))->dto();
 
-            return $dto->countryCode;
+            return $dto->bogon ? 'ZZ' : $dto->countryCode;
         });
     }
 }

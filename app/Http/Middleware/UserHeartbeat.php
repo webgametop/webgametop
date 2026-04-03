@@ -40,7 +40,7 @@ class UserHeartbeat
         $key = cache_key(Str::replace('{id}', $user->id, $keyCache));
 
         if (! Facades\Cache::has($key)) {
-            Facades\Cache::put($key, true, $ttlCache);
+            Facades\Cache::put($key, 'heartbeat', $ttlCache);
 
             $user->timestamps = false;
             $user->updateQuietly(['last_seen_at' => $now]);

@@ -29,6 +29,8 @@ Route::get('/', function (
         $hmacHasher->verify('test', $hash, $format),
 
         $ipInfoService->getCountryCodeFromIp('84.17.46.76'),
+
+        request()->ip(),
     );
 
     return view('welcome');

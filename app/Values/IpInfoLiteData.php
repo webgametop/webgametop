@@ -18,6 +18,7 @@ class IpInfoLiteData implements Arrayable
         public string $country,
         public string $continentCode,
         public string $continent,
+        public bool $bogon,
     )
     {
     }
@@ -35,12 +36,13 @@ class IpInfoLiteData implements Arrayable
             country: $json['country'] ?? '',
             continentCode: $json['continent_code'] ?? '',
             continent: $json['continent'] ?? '',
+            bogon: isset($json['bogon'])
         );
     }
 
     public function toArray(): array
     {
-        return [
+        return array_filter([
             'ip' => $this->ip,
             'asn' => $this->asn,
             'as_name' => $this->asName,
@@ -49,6 +51,7 @@ class IpInfoLiteData implements Arrayable
             'country' => $this->country,
             'continent_code' => $this->continentCode,
             'continent' => $this->continent,
-        ];
+            'bogon' => $this->bogon,
+        ], fn($v) => !empty($v));
     }
 }
