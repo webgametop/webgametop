@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Exceptions\UserEmailTakenException;
 use App\Exceptions\UserPersistenceException;
+use App\Exceptions\UserRegisterLimitWithOneIpException;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Values\User\UserCreateData;
@@ -32,6 +33,15 @@ class UserService
         return $user;
     }
 
+    public function registerUser(UserCreateData $dto): User
+    {
+        $ip_hash = $dto->getIpHash();
+
+        throw_if(! $this->canRegisterFromIp($ip_hash), new UserRegisterLimitWithOneIpException);
+
+        return $this->createUser($dto);
+    }
+
     public function updateUser(UserUpdateData $dto)
     {
     }
@@ -40,8 +50,8 @@ class UserService
     {
     }
 
-    public function canRegisterFromIp(string $ipHash): bool
+    public function canRegisterFromIp(string $ip_hash): bool
     {
-        return $this->repository->countUsersByIpHash($ipHash) < self::MAX_REGISTER_PER_FROM_IP;
+        return $this->repository->countUsersByIpHash($ip_hash) < self::MAX_REGISTER_PER_FROM_IP;
     }
 }

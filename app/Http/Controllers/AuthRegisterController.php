@@ -40,14 +40,11 @@ class AuthRegisterController extends Controller
     {
         $dto = $request->toDto();
 
-        if (! $this->userService->canRegisterFromIp($dto->getIpHash())) {
-            return redirect()->route('register')->with('flash', [
-                'message' => 'Maximum number of registrations from this IP address has been reached',
-                'type' => 'info',
-            ]);
+        try {
+            $user = $this->userService->registerUser($dto);
+        } catch (\Exception $e) {
+            return redirect()->route('register')->with('flash', ['type' => 'info', 'message' => $e->getMessage()]);
         }
-
-        $user = $this->userService->createUser($dto);
 
         \Auth::login($user);
 
