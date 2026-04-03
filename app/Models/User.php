@@ -3,10 +3,13 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Casts\UserStatusCast;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades;
+use Illuminate\Support;
 
 class User extends Authenticatable
 {
@@ -19,9 +22,15 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'status',
+        'username',
+        'nickname',
         'email',
         'password',
+        'last_seen_at',
+        'autologin_token',
+        'registration_ip_hash',
+        'registration_country',
     ];
 
     /**
@@ -42,8 +51,30 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
+            'status' => UserStatusCast::class,
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'last_seen_at' => 'datetime',
         ];
+    }
+
+    public function equals(self $other): bool
+    {
+        return $this->is($other);
+    }
+
+    public function isOnline(): bool
+    {
+        $keyCache = 'users:{id}:online';
+
+        /** @var string $key */
+        $key = Support\Str::replace('{id}', $this->id, $keyCache);
+
+        return Facades\Cache::has($key);
+    }
+
+    public function gravatar(int $size = 192): string
+    {
+        return urlGravatar($this->email, $size);
     }
 }
