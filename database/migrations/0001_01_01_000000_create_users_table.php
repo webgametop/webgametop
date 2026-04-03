@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('email')->unique('unq_users_on_email');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->dateTime('last_seen_at')->nullable();
             $table->rememberToken();
             $table->binary('registration_ip_hash', 32)->index('idx_users_on_registration_ip_hash');
             $table->string('registration_country', 2);

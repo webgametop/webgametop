@@ -27,6 +27,7 @@ class User extends Authenticatable
         'nickname',
         'email',
         'password',
+        'last_seen_at',
         'autologin_token',
         'registration_ip_hash',
         'registration_country',
@@ -52,8 +53,8 @@ class User extends Authenticatable
         return [
             'status' => UserStatusCast::class,
             'email_verified_at' => 'datetime',
-            'last_seen_at' => 'datetime',
             'password' => 'hashed',
+            'last_seen_at' => 'datetime',
         ];
     }
 
@@ -65,11 +66,15 @@ class User extends Authenticatable
     public function isOnline(): bool
     {
         $keyCache = 'users:{id}:online';
-        return Facades\Cache::has(Support\Str::replace('{id}', $this->id, $keyCache));
+
+        /** @var string $key */
+        $key = Support\Str::replace('{id}', $this->id, $keyCache);
+
+        return Facades\Cache::has($key);
     }
 
     public function gravatar(int $size = 192): string
     {
-        return gravatar($this->email, $size);
+        return urlGravatar($this->email, $size);
     }
 }

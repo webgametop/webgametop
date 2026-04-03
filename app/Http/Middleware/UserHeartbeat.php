@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserHeartbeat
 {
+    private const OFFLINE_THRESHOLD_MINUTES = 3;
+
     /**
      * Handle an incoming request.
      *
@@ -25,18 +27,24 @@ class UserHeartbeat
             return $next($request);
         }
 
+        /** @var ?User $user */
+        $user = Facades\Auth::user();
+
         $now = Carbon::now();
-        $expiresAt = $now->copy()->subMinutes(15);
+        $expiresAt = $now->copy()->subMinutes(self::OFFLINE_THRESHOLD_MINUTES);
+        $lastSeenAt = Carbon::parse($user->last_seen_at);
 
         $keyCache = 'users:{id}:online';
         $ttlCache = $expiresAt->diffInSeconds($now);
 
-        /** @var ?User $user */
-        $user = Facades\Auth::user();
-
         /** @var string $key */
-        if (! Facades\Cache::has($key = Str::replace('{id}', $user->id, $keyCache))) {
+        $key = Str::replace('{id}', $user->id, $keyCache);
+
+        if (! Facades\Cache::has($key)) {
             Facades\Cache::put($key, true, $ttlCache);
+
+            $user->timestamps = false;
+            $user->updateQuietly(['last_seen_at' => $now]);
         }
 
         return $next($request);
