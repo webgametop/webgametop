@@ -6,5 +6,5 @@ namespace App\Services\Geolocation\Contracts;
 
 interface GeolocationService
 {
-    public function locate(string $ip): array;
+    public function getCountryCodeFromIp(string $ip): ?string;
 }

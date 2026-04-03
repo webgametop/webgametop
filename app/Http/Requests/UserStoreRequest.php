@@ -6,7 +6,6 @@ namespace App\Http\Requests;
 
 use App\Enums\HashingFormat;
 use App\Enums\UserStatus as Status;
-use App\Services\Geolocation\IpLocateService;
 use App\Services\HmacHasherService;
 use App\Services\PasswordHasherService;
 use App\Values\User\UserCreateData;
@@ -18,7 +17,6 @@ class UserStoreRequest extends Request
     public function __construct(
         private readonly PasswordHasherService $passwordHasherService,
         private readonly HmacHasherService $hmacHasherService,
-        private readonly IpLocateService $ipLocateService,
     )
     {
         parent::__construct();
@@ -42,9 +40,7 @@ class UserStoreRequest extends Request
          */
         $data = $this->only('user.password', 'user.email')['user'];
 
-        $res = $this->ipLocateService->lookup($ip = $this->ip());
-
-        $country_code = $res['country_code'] ?? 'RU';
+        $country_code = 'RU';
 
         return UserCreateData::make(
             status: Status::PENDING,
@@ -52,7 +48,7 @@ class UserStoreRequest extends Request
             nickname: strstr($data['email'], '@', true),
             email: Support\Str::lower($data['email']),
             password_hash: $this->passwordHasherService->hash($data['password']),
-            registration_ip_hash: $this->hmacHasherService->hash($ip, HashingFormat::BINARY),
+            registration_ip_hash: $this->hmacHasherService->hash($this->ip(), HashingFormat::BINARY),
             registration_country: $country_code,
         );
     }

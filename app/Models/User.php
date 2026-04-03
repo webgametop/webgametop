@@ -67,14 +67,13 @@ class User extends Authenticatable
     {
         $keyCache = 'users:{id}:online';
 
-        /** @var string $key */
-        $key = Support\Str::replace('{id}', $this->id, $keyCache);
+        $key = cache_key(Support\Str::replace('{id}', $this->id, $keyCache));
 
         return Facades\Cache::has($key);
     }
 
     public function gravatar(int $size = 192): string
     {
-        return urlGravatar($this->email, $size);
+        return url_gravatar($this->email, $size);
     }
 }
