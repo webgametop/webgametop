@@ -10,6 +10,7 @@ Route::get('/', function (
     \App\Services\PasswordHasherService $passwordHasher,
     \App\Services\HasherService $hasher,
     \App\Services\HmacHasherService $hmacHasher,
+    \App\Services\Geolocation\IpLocateService $ipLocate,
 ) {
     $algo = \App\Enums\HashingAlgo::MD5;
     $format = \App\Enums\HashingFormat::BINARY;
@@ -26,6 +27,8 @@ Route::get('/', function (
 
         $hash = $hmacHasher->hash('test', $format),
         $hmacHasher->verify('test', $hash, $format),
+
+        $ipLocate->locate('185.77.216.27')
     );
 
     return view('welcome');
