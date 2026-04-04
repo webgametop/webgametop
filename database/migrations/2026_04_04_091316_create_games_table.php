@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('source');
             $table->string('source_id');
-            $table->string('name');
+            $table->string('title');
             $table->text('description');
             $table->timestamps();
         });

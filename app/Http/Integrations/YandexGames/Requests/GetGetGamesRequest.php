@@ -7,27 +7,26 @@ namespace App\Http\Integrations\YandexGames\Requests;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 
-class GetFeedRequest extends Request
+class GetGetGamesRequest extends Request
 {
-    protected Method $method = Method::GET;
+    protected Method $method = Method::POST;
 
     public function __construct(
-        public readonly ?string $page_id,
+        public readonly array $app_ids,
     )
     {
     }
 
     public function resolveEndpoint(): string
     {
-        return '/feed';
+        return '/get_games';
     }
 
-    protected function defaultQuery(): array
+    protected function defaultBody(): array
     {
         return [
-            'lang' => 'ru',
-            'tab' => 'new',
-            'page_id' => $this->page_id,
+            'appIDs' => implode(',', $this->app_ids),
+            'format' => 'long',
         ];
     }
 }
