@@ -37,11 +37,10 @@ class UserHeartbeat
         $keyCache = 'users:{id}:online';
         $ttlCache = $expiresAt->diffInSeconds($now);
 
-        /** @var string $key */
-        $key = Str::replace('{id}', $user->id, $keyCache);
+        $key = cache_key(Str::replace('{id}', $user->id, $keyCache));
 
         if (! Facades\Cache::has($key)) {
-            Facades\Cache::put($key, true, $ttlCache);
+            Facades\Cache::put($key, 'heartbeat', $ttlCache);
 
             $user->timestamps = false;
             $user->updateQuietly(['last_seen_at' => $now]);

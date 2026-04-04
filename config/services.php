@@ -35,4 +35,13 @@ return [
         ],
     ],
 
+    'ipinfo' => [
+        'token' => env('IPINFO_TOKEN'),
+        'endpoint' => env('IPINFO_ENDPOINT', 'https://api.ipinfo.io'),
+    ],
+
+    'iplocate' => [
+        'endpoint' => env('IPLOCATE_ENDPOINT', 'https://iplocate.io/api/lookup/'),
+    ],
+
 ];
