@@ -7,13 +7,19 @@ Route::group([], function () {
 });
 
 Route::get('/', function (
-    \App\Services\PasswordHasherService $passwordHasher,
-    \App\Services\HasherService $hasher,
-    \App\Services\HmacHasherService $hmacHasher,
+    \App\Services\Security\PasswordHasherService $passwordHasher,
+    \App\Services\Security\HasherService $hasher,
+    \App\Services\Security\HmacHasherService $hmacHasher,
     \App\Services\Geolocation\IpInfoService $ipInfoService,
+    \App\Services\GameProviders\YandexGameProvider $yandexGameProvider,
 ) {
     $algo = \App\Enums\HashingAlgo::MD5;
     $format = \App\Enums\HashingFormat::BINARY;
+
+    $feed = $yandexGameProvider->getFeed();
+    $ids = $feed->games->pluck('id');
+
+    $games = $yandexGameProvider->getGames($ids->toArray());
 
     dd(
         $hash = $passwordHasher->hash('test'),
@@ -30,7 +36,9 @@ Route::get('/', function (
 
         $ipInfoService->getCountryCodeFromIp('84.17.46.76'),
 
-        request()->ip(),
+        $feed,
+
+        $games,
     );
 
     return view('welcome');

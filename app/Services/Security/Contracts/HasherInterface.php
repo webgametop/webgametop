@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Contracts;
-
-use App\Enums\HashingAlgo as Algo;
+namespace App\Services\Security\Contracts;
 
 interface HasherInterface
 {

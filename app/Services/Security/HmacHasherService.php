@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Services\Security;
 
 use App\Enums\HashingFormat as Format;
-use App\Services\Contracts\HasherInterface;
+use App\Services\Security\Contracts\HasherInterface;
 
 class HmacHasherService implements HasherInterface
 {
