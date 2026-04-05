@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Values\YandexGame;
 
-class FeedPageInfoData
+class FeedPageInfo
 {
     public function __construct(
         public readonly string $next_page_id,

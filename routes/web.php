@@ -17,6 +17,7 @@ Route::get('/', function (
     $format = \App\Enums\HashingFormat::BINARY;
 
     $feed = $yandexGameProvider->getFeed();
+    $ids = $feed->games->pluck('id');
 
     dd(
         $hash = $passwordHasher->hash('test'),
@@ -33,7 +34,9 @@ Route::get('/', function (
 
         $ipInfoService->getCountryCodeFromIp('84.17.46.76'),
 
-        $feed
+        $feed,
+
+        $yandexGameProvider->getGames($ids->toArray()),
     );
 
     return view('welcome');

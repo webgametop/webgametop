@@ -17,7 +17,6 @@ class GetGetGameRequest extends Request implements HasBody
 
     public function __construct(
         public readonly int $app_id,
-        public readonly string $draft = 'false',
     )
     {
     }
@@ -31,7 +30,7 @@ class GetGetGameRequest extends Request implements HasBody
     {
         return [
             'lang' => 'ru',
-            'draft' => $this->draft,
+            'draft' => 'false',
         ];
     }
 

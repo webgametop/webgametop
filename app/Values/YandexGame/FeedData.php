@@ -10,9 +10,13 @@ use Saloon\Http\Response;
 
 class FeedData implements Arrayable
 {
+    /**
+     * @param Collection<FeedGame> $games
+     * @param FeedPageInfo $page_info
+     */
     public function __construct(
         public readonly Collection $games,
-        public readonly FeedPageInfoData $page_info,
+        public readonly FeedPageInfo $page_info,
     )
     {
     }
@@ -86,17 +90,17 @@ class FeedData implements Arrayable
              * } $developer
              */
             $developer = $item['developer'];
-            $games->add(new FeedGameData(
+            $games->add(new FeedGame(
                 $item['appID'],
                 $item['title'],
-                new FeedGameDeveloperData(
+                new GameDeveloper(
                     $developer['id'],
                     $developer['name'],
                 )
             ));
         }
 
-        return new self($games, new FeedPageInfoData(
+        return new self($games, new FeedPageInfo(
             $page_info['nextPageId'],
             $page_info['rtxReqId'],
             $page_info['isFirstPage'],
