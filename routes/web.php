@@ -11,12 +11,12 @@ Route::get('/', function (
     \App\Services\Security\HasherService $hasher,
     \App\Services\Security\HmacHasherService $hmacHasher,
     \App\Services\Geolocation\IpInfoService $ipInfoService,
-    \App\Services\Game\YandexGameService $yandexGameService,
+    \App\Services\GameProviders\YandexGameProvider $yandexGameProvider,
 ) {
     $algo = \App\Enums\HashingAlgo::MD5;
     $format = \App\Enums\HashingFormat::BINARY;
 
-    $feed = $yandexGameService->getFeed();
+    $feed = $yandexGameProvider->getFeed();
 
     dd(
         $hash = $passwordHasher->hash('test'),
@@ -33,7 +33,7 @@ Route::get('/', function (
 
         $ipInfoService->getCountryCodeFromIp('84.17.46.76'),
 
-        $feed->games
+        $feed
     );
 
     return view('welcome');

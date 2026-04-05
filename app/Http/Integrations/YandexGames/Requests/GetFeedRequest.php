@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Integrations\YandexGames\Requests;
 
+use App\Values\YandexGame\FeedData;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
+use Saloon\Http\Response;
 
 class GetFeedRequest extends Request
 {
@@ -29,5 +31,10 @@ class GetFeedRequest extends Request
             'tab' => 'new',
             'page_id' => $this->page_id,
         ];
+    }
+
+    public function createDtoFromResponse(Response $response): FeedData
+    {
+        return FeedData::fromSaloonResponse($response);
     }
 }
