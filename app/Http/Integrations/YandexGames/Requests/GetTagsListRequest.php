@@ -7,7 +7,7 @@ namespace App\Http\Integrations\YandexGames\Requests;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 
-class GetTagsRequest extends Request
+class GetTagsListRequest extends Request
 {
     protected Method $method = Method::GET;
 

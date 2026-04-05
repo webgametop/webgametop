@@ -4,26 +4,28 @@ declare(strict_types=1);
 
 namespace App\Http\Integrations\YandexGames\Requests;
 
+use App\Values\YandexGame\GamesData;
 use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
+use Saloon\Http\Response;
 use Saloon\Traits\Body\HasJsonBody;
 
-class GetGetGameRequest extends Request implements HasBody
+class GetGamesListRequest extends Request implements HasBody
 {
     use HasJsonBody;
 
     protected Method $method = Method::POST;
 
     public function __construct(
-        public readonly int $app_id,
+        public readonly array $app_ids,
     )
     {
     }
 
     public function resolveEndpoint(): string
     {
-        return '/get_game';
+        return '/get_games';
     }
 
     protected function defaultQuery(): array
@@ -37,8 +39,13 @@ class GetGetGameRequest extends Request implements HasBody
     protected function defaultBody(): array
     {
         return [
-            'appID' => $this->app_id,
+            'appIDs' => $this->app_ids,
             'format' => 'long',
         ];
+    }
+
+    public function createDtoFromResponse(Response $response): GamesData
+    {
+        return GamesData::fromSaloonResponse($response);
     }
 }

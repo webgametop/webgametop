@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Values\YandexGame;
+namespace App\Values\YandexGame\GameMedia;
 
 use App\Values\YandexGame\GameMedia\GameMediaCover as Cover;
 use App\Values\YandexGame\GameMedia\GameMediaIcon as Icon;

@@ -19,6 +19,8 @@ Route::get('/', function (
     $feed = $yandexGameProvider->getFeed();
     $ids = $feed->games->pluck('id');
 
+    $games = $yandexGameProvider->getGames($ids->toArray());
+
     dd(
         $hash = $passwordHasher->hash('test'),
         $passwordHasher->verify('test', $hash),
@@ -36,7 +38,7 @@ Route::get('/', function (
 
         $feed,
 
-        $yandexGameProvider->getGames($ids->toArray()),
+        $games,
     );
 
     return view('welcome');
