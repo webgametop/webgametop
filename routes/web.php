@@ -10,25 +10,9 @@ Route::get('/', function (
     \App\Services\Security\PasswordHasherService $passwordHasher,
     \App\Services\Security\HasherService $hasher,
     \App\Services\Security\HmacHasherService $hmacHasher,
-    \App\Services\Geolocation\IpInfoService $ipInfoService,
-    \App\Services\GameProviders\YandexGameProvider $yandexGameProvider,
-    \App\Services\GameService $gameService,
 ) {
     $algo = \App\Enums\HashingAlgo::MD5;
     $format = \App\Enums\HashingFormat::BINARY;
-
-    $feed = $yandexGameProvider->getFeed();
-    $ids = $feed->games->pluck('id');
-
-    $games = $yandexGameProvider->getGames($ids->toArray());
-    $game = $yandexGameProvider->getGame(440967);
-
-//    $gameService->createGame([
-//        'provider' => \App\Enums\GameProviderEnum::YANDEXGAMES,
-//        'identity' => $game->id,
-//        'title' => $game->title,
-//        'description' => $game->description,
-//    ]);
 
     dd(
         $hash = $passwordHasher->hash('test'),
@@ -42,13 +26,6 @@ Route::get('/', function (
 
         $hash = $hmacHasher->hash('test', $format),
         $hmacHasher->verify('test', $hash, $format),
-
-        $ipInfoService->getCountryCodeFromIp('84.17.46.76'),
-
-        $feed,
-
-        $games,
-        $game,
     );
 
     return view('welcome');

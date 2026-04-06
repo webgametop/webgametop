@@ -40,12 +40,12 @@ class YandexGameProvider implements Provider
     }
 
     /**
-     * @param array $ids
+     * @param Collection<int> $ids
      * @return Collection<GameDataItem>
      * @throws FatalRequestException
      * @throws RequestException
      */
-    public function getGames(array $ids): Collection
+    public function getGames(Collection $ids): Collection
     {
         /** @var GamesListData $dto */
         $dto = $this->connector->send(new GetGamesListRequest($ids))->dto();

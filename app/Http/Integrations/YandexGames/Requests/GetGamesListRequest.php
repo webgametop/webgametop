@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Integrations\YandexGames\Requests;
 
 use App\Values\YandexGame\GamesListData;
+use Illuminate\Support\Collection;
 use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
@@ -17,8 +18,11 @@ class GetGamesListRequest extends Request implements HasBody
 
     protected Method $method = Method::POST;
 
+    /**
+     * @param Collection<int> $appIds
+     */
     public function __construct(
-        public readonly array $app_ids,
+        public readonly Collection $appIds,
     )
     {
     }
@@ -39,7 +43,7 @@ class GetGamesListRequest extends Request implements HasBody
     protected function defaultBody(): array
     {
         return [
-            'appIDs' => $this->app_ids,
+            'appIDs' => $this->appIds->values(),
             'format' => 'long',
         ];
     }
