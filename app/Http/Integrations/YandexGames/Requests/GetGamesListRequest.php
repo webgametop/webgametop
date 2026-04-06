@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Integrations\YandexGames\Requests;
 
-use App\Values\YandexGame\GamesData;
+use App\Values\YandexGame\GamesListData;
 use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
@@ -44,8 +44,8 @@ class GetGamesListRequest extends Request implements HasBody
         ];
     }
 
-    public function createDtoFromResponse(Response $response): GamesData
+    public function createDtoFromResponse(Response $response): GamesListData
     {
-        return GamesData::fromSaloonResponse($response);
+        return GamesListData::fromSaloonResponse($response);
     }
 }

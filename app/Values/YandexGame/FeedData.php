@@ -11,18 +11,33 @@ use Saloon\Http\Response;
 class FeedData implements Arrayable
 {
     /**
-     * @param Collection<FeedGame> $games
-     * @param FeedPageInfo $page_info
+     * @param Collection<FeedDataItem> $games
+     * @param FeedDataPageInfo $page_info
      */
     public function __construct(
         public readonly Collection $games,
-        public readonly FeedPageInfo $page_info,
+        public readonly FeedDataPageInfo $page_info,
     )
     {
     }
 
     public static function fromSaloonResponse(Response $response): self
     {
+        $games = new Collection;
+
+        /**
+         * @var array{
+         *     feed: array<array>,
+         *     pageInfo: array,
+         *     gamesWithPromos: int,
+         *     shareImage: string,
+         *     siteNavigationLinks: array<array{
+         *         name: string,
+         *         url: string,
+         *     }>,
+         *     gamesRequestId: string,
+         * } $json
+         */
         $json = $response->json();
 
         /**
@@ -47,28 +62,19 @@ class FeedData implements Arrayable
         $page_info = $json['pageInfo'];
 
         /**
-         * @var array<array{
-         *     developer: array{
-         *         name: string,
-         *         id: int,
-         *     },
+         * @var array<array> $items
+         */
+        $items = $suggested['items'];
+
+        /**
+         * @var array{
+         *     developer: array,
          *     categoryIDs: int[],
          *     title: string,
          *     appSlug: string,
          *     appID: int,
          *     ratingCount: int,
-         *     rating: int,
-         *     media: array{
-         *         cover: array{
-         *             prefix-url: string,
-         *             mainColor: string,
-         *         },
-         *         icon: array{
-         *             prefix-url: string,
-         *             mainColor: string,
-         *         },
-         *         videos: array<array>,
-         *     },
+         *     media: array<array>,
          *     tagIDs: int[],
          *     gqRating: int,
          *     features: array,
@@ -76,12 +82,8 @@ class FeedData implements Arrayable
          *     column: int,
          *     row: int,
          *     requestId: string,
-         * }> $items
+         * } $item
          */
-        $items = $suggested['items'];
-
-        $games = new Collection;
-
         foreach ($items as $item) {
             /**
              * @var array{
@@ -90,7 +92,40 @@ class FeedData implements Arrayable
              * } $developer
              */
             $developer = $item['developer'];
-            $games->add(new FeedGame(
+
+            /**
+             * @var array{
+             *     cover: array,
+             *     icon: array,
+             *     videos: array<array>
+             * } $media
+             */
+            $media = $item['media'];
+
+            /**
+             * @var array{
+             *     prefix-url: string,
+             *     mainColor: string,
+             * } $media_cover
+             */
+            $media_cover = $media['cover'];
+
+            /**
+             * @var array{
+             *     prefix-url: string,
+             *     mainColor: string,
+             * } $media_icon
+             */
+            $media_icon = $media['icon'];
+
+            /**
+             * @var array<array{
+             *     // @todo
+             * }> $media_videos
+             */
+            $media_videos = $media['videos'];
+
+            $games->add(new FeedDataItem(
                 $item['appID'],
                 $item['title'],
                 new GameDeveloper(
@@ -100,7 +135,7 @@ class FeedData implements Arrayable
             ));
         }
 
-        return new self($games, new FeedPageInfo(
+        return new self($games, new FeedDataPageInfo(
             $page_info['nextPageId'],
             $page_info['rtxReqId'],
             $page_info['isFirstPage'],

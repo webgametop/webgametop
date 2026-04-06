@@ -10,7 +10,7 @@ class GameMediaScreenshot
         public readonly string $prefix_url,
         public readonly string $main_color,
         public readonly string $orientation,
-        public readonly string $type, // mobile or desktop
+        public readonly string $device, // mobile or desktop
     )
     {
     }

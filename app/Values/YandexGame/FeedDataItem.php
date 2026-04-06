@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Values\YandexGame;
 
-class FeedGame
+class FeedDataItem
 {
     public function __construct(
         public readonly int $id,

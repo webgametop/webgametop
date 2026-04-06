@@ -7,8 +7,8 @@ namespace App\Values\YandexGame\GameMedia;
 class GameMediaCover
 {
     public function __construct(
-        public readonly array $prefix_url,
-        public readonly array $main_color,
+        public readonly string $prefix_url,
+        public readonly string $main_color,
     )
     {
     }

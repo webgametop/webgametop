@@ -7,29 +7,26 @@ namespace App\Http\Integrations\YandexGames\Requests;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 
-class GetDeveloperGamesRequest extends Request
+class GetSimilarGamesListRequest extends Request
 {
     protected Method $method = Method::GET;
 
     public function __construct(
-        public readonly int $developer_id,
-        public readonly ?string $page_id,
+        public readonly int $app_id,
     )
     {
     }
 
     public function resolveEndpoint(): string
     {
-        return '/developer_games';
+        return '/similar_games';
     }
 
     protected function defaultQuery(): array
     {
         return [
-            'lang' => 'ru',
-            'tab' => 'new',
-            'developer_id' => $this->developer_id,
-            'page_id' => $this->page_id,
+            'app_id' => $this->app_id,
+            'format' => 'long',
         ];
     }
 }

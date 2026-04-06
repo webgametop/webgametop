@@ -16,13 +16,13 @@ class GameMedia
      * @param Cover $cover
      * @param Icon $icon
      * @param Collection<Video> $videos
-     * @param ?Collection<Screenshot> $screenshots
+     * @param Collection<Screenshot> $screenshots
      */
     public function __construct(
         public readonly Cover $cover,
         public readonly Icon $icon,
         public readonly Collection $videos,
-        public readonly ?Collection $screenshots,
+        public readonly Collection $screenshots,
     )
     {
     }

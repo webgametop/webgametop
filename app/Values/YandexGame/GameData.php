@@ -9,7 +9,9 @@ use Saloon\Http\Response;
 
 class GameData implements Arrayable
 {
-    public function __construct()
+    public function __construct(
+        public readonly GameDataItem $game
+    )
     {
     }
 
@@ -17,7 +19,12 @@ class GameData implements Arrayable
     {
         $json = $response->json();
 
-        return new self();
+        /**
+         * @var array $item
+         */
+        $item = $json['game'];
+
+        return new self(GameDataItem::make($item));
     }
 
     public function toArray()
