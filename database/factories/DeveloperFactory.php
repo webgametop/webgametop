@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Models\Game;
+use App\Models\Developer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Game>
+ * @extends Factory<Developer>
  */
-class GameFactory extends Factory
+class DeveloperFactory extends Factory
 {
     /**
      * Define the model's default state.
