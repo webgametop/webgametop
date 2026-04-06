@@ -25,6 +25,12 @@ class YandexGameProvider implements Provider
     {
     }
 
+    /**
+     * @param int $id
+     * @return GameDataItem
+     * @throws FatalRequestException
+     * @throws RequestException
+     */
     public function getGame(int $id): GameDataItem
     {
         /** @var GameData $dto */
@@ -47,6 +53,12 @@ class YandexGameProvider implements Provider
         return $dto->games;
     }
 
+    /**
+     * @param ?string $page_id
+     * @return FeedData
+     * @throws FatalRequestException
+     * @throws RequestException
+     */
     public function getFeed(?string $page_id = null): FeedData
     {
         return $this->connector->send(new GetFeedRequest($page_id))->dto();

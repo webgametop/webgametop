@@ -15,11 +15,15 @@ return new class extends Migration
     {
         Schema::create('games', function (Blueprint $table) {
             $table->id();
-            $table->string('source');
-            $table->string('source_id');
+            $table->string('provider');
+            $table->string('identity');
             $table->string('title');
             $table->text('description');
             $table->timestamps();
+        });
+
+        Schema::table('games', function (Blueprint $table) {
+            $table->unique(['provider', 'identity'], 'unq_games_on_provider_and_identity');
         });
     }
 

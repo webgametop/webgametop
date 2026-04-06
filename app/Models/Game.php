@@ -12,4 +12,16 @@ class Game extends Model
 {
     /** @use HasFactory<GameFactory> */
     use HasFactory;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        'provider',
+        'identity',
+        'title',
+        'description',
+    ];
 }
