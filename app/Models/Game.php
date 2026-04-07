@@ -7,6 +7,7 @@ namespace App\Models;
 use Database\Factories\GameFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Game extends Model
 {
@@ -19,9 +20,15 @@ class Game extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'provider',
-        'identity',
+        'developer_id',
+        'original_id',
+        'dedup_hash',
         'title',
         'description',
     ];
+
+    public function developer(): HasOne
+    {
+        return $this->hasOne(Developer::class);
+    }
 }

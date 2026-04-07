@@ -15,15 +15,11 @@ return new class extends Migration
     {
         Schema::create('games', function (Blueprint $table) {
             $table->id();
-            $table->string('provider');
-            $table->string('identity');
+            $table->string('original_id');
+            $table->binary('dedup_hash', 32)->index('idx_games_on_dedup_hash');
             $table->string('title');
             $table->text('description');
             $table->timestamps();
-        });
-
-        Schema::table('games', function (Blueprint $table) {
-            $table->unique(['provider', 'identity'], 'unq_games_on_provider_and_identity');
         });
     }
 

@@ -11,8 +11,8 @@ class UserRepository extends Repository
         return !empty($this->findOneBy(['email' => $email]));
     }
 
-    public function countUsersByIpHash(string $ipHash): int
+    public function countUsersByIpHash(string $ip_hash): int
     {
-        return $this->modelClass::where(['registration_ip_hash' => $ipHash])->count();
+        return $this->modelClass::where(['registration_ip_hash' => $ip_hash])->count();
     }
 }

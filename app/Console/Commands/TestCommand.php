@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use App\Enums\GameProviderEnum;
+use App\Enums\HashingFormat;
+use App\Models\Developer;
 use App\Models\Game;
 use App\Services\GameProviders\YandexGameProvider;
+use App\Services\Security\HmacHasherService;
 use App\Values\YandexGame\GameDataItem;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class TestCommand extends Command
 {
@@ -32,11 +36,16 @@ class TestCommand extends Command
      */
     public function handle(
         YandexGameProvider $provider,
-    )
+        HmacHasherService $hasher,
+    ) : void
     {
-        $feedGameIds = new Collection;
+        $provider_name = GameProviderEnum::YANDEXGAMES->value;
+        $dedup_template = "dedup:$provider_name:original_id:{original_id}";
 
-        $pull = Game::all(['provider', 'identity'])->collect();
+        $gameCache = Game::all(['dedup_hash'])->collect();
+        $developerCache = Developer::all(['id', 'dedup_hash'])->collect();
+
+        $feedGameIds = new Collection;
 
         /** @var ?string $next_page_id */
         $next_page_id = null;
@@ -49,7 +58,10 @@ class TestCommand extends Command
 
             /** @var GameDataItem $game */
             foreach ($games as $game) {
-                if (! $pull->contains('identity', '=', $game->id)) {
+                /** @var string $dedup_key */
+                $dedup_key = Str::replace('{original_id}', $game->id, $dedup_template);
+                $dedup_hash = $hasher->hash($dedup_key, HashingFormat::BINARY);
+                if (! $gameCache->contains('dedup_hash', $dedup_hash)) {
                     $feedGameIds->push($game->id);
                 }
             }
@@ -66,15 +78,34 @@ class TestCommand extends Command
             /** @var Collection<GameDataItem> $games */
             $games = $provider->getGames($ids);
 
-            $data = $games->map(fn(GameDataItem $game): array => [
-                'provider' => GameProviderEnum::YANDEXGAMES,
-                'identity' => $game->id,
-                'title' => $game->title,
-                'description' => $game->description,
-            ]);
+            /** @var Collection<GameDataItem> $data */
+            $data = new Collection;
+
+            foreach ($games as $game) {
+                $dedup_key = Str::replace('{original_id}', $game->id, $dedup_template);
+                $dedup_hash = $hasher->hash($dedup_key, HashingFormat::BINARY);
+
+                $modelGame = Game::make([
+                    'developer_id' => 1,
+                    'original_id' => $game->id,
+                    'dedup_hash' => $dedup_hash,
+                    'title' => $game->title,
+                    'description' => $game->description,
+                ]);
+
+                $modelGame->updateTimestamps();
+
+                $data->push($modelGame);
+                $gameCache->push($modelGame->only(['dedup_hash']));
+            }
 
             if (! $data->isEmpty()) {
-                Game::insertOrIgnore($data->toArray());
+                Game::insert(
+                    $data->map(fn(Game $item) => array_merge($item->toArray(), [
+                        'created_at' => $item->created_at->toDateTimeString(),
+                        'updated_at' => $item->updated_at->toDateTimeString(),
+                    ]))->toArray()
+                );
             }
         }
     }
