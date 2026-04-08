@@ -15,14 +15,14 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-class TestCommand extends Command
+class GameYandexGrabberCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'gameprovider:yandexgame:grabber:run';
+    protected $signature = 'game:yandex:grabber';
 
     /**
      * The console command description.
@@ -40,9 +40,11 @@ class TestCommand extends Command
     ) : void
     {
         $provider_name = GameProviderEnum::YANDEXGAMES->value;
-        $dedup_template = "dedup,$provider_name,identity,:id";
 
-        $gameCache = Game::all(['dedup_hash'])->collect();
+        $dedup_game = "dedup,$provider_name,game,:identity";
+        $dedup_developer = "dedup,$provider_name,developer,:identity";
+
+        $gameCache = Game::all(['dedup_hash'])->keyBy('dedup_hash');
         $developerCache = Developer::all(['id', 'dedup_hash'])->collect();
 
         $feedGameIds = new Collection;
@@ -63,10 +65,10 @@ class TestCommand extends Command
             /** @var GameDataItem $game */
             foreach ($games as $game) {
                 /** @var string $dedup_key */
-                $dedup_key = Str::replace(':id', $game->id, $dedup_template);
+                $dedup_key = Str::replace(':identity', $game->id, $dedup_game);
                 $dedup_hash = $hasher->hash($dedup_key, HashingFormat::BINARY);
 
-                if (! $gameCache->contains('dedup_hash', $dedup_hash)) {
+                if (! $gameCache->has($dedup_hash)) {
                     $feedGameIds->add($game->id);
                 }
             }
@@ -84,20 +86,29 @@ class TestCommand extends Command
 
             foreach ($games as $game) {
                 /** @var string $dedup_key */
-                $dedup_key = Str::replace(':id', $game->developer->id, $dedup_template);
+                $dedup_key = Str::replace(':identity', $game->developer->id, $dedup_developer);
                 $dedup_hash = $hasher->hash($dedup_key, HashingFormat::BINARY);
 
-                $modelDeveloper = Developer::firstOrCreate(
-                    ['dedup_hash' => $dedup_hash],
-                    [
-                        'provider' => $provider_name,
-                        'identity' => $game->developer->id,
-                        'username' => uniqid(),
-                        'nickname' => $game->developer->name,
-                    ],
+                /** @var ?Developer $modelDeveloper */
+                $modelDeveloper = $developerCache->first(
+                    static fn(Developer $item) => $item->dedup_hash === $dedup_hash
                 );
 
-                $dedup_key = Str::replace(':id', $game->id, $dedup_template);
+                if (! $modelDeveloper) {
+                    $modelDeveloper = Developer::firstOrCreate(
+                        ['dedup_hash' => $dedup_hash],
+                        [
+                            'provider' => $provider_name,
+                            'identity' => $game->developer->id,
+                            'username' => uniqid(),
+                            'nickname' => $game->developer->name,
+                        ],
+                    );
+
+                    $developerCache->add($modelDeveloper);
+                }
+
+                $dedup_key = Str::replace(':identity', $game->id, $dedup_game);
                 $dedup_hash = $hasher->hash($dedup_key, HashingFormat::BINARY);
 
                 $modelGame = Game::make([
@@ -111,16 +122,17 @@ class TestCommand extends Command
                 $modelGame->updateTimestamps();
 
                 $data->add($modelGame);
-                $gameCache->add($modelGame->only(['dedup_hash']));
+                $gameCache->add($modelGame);
             }
 
             if (! $data->isEmpty()) {
-                Game::insert(
-                    $data->map(fn(Game $item) => array_merge($item->toArray(), [
-                        'created_at' => $item->created_at->toDateTimeString(),
-                        'updated_at' => $item->updated_at->toDateTimeString(),
-                    ]))->toArray()
-                );
+                $data->transform(static fn(Game $item): array => [
+                    ...$item->toArray(),
+                    'created_at' => $item->created_at->toDateTimeString(),
+                    'updated_at' => $item->updated_at->toDateTimeString(),
+                ]);
+
+                Game::insert($data->toArray());
             }
         }
     }
