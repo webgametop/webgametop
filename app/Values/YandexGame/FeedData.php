@@ -12,11 +12,11 @@ class FeedData implements Arrayable
 {
     /**
      * @param Collection<FeedDataItem> $games
-     * @param FeedDataPageInfo $page_info
+     * @param FeedDataPageInfo $pageInfo
      */
     public function __construct(
         public readonly Collection $games,
-        public readonly FeedDataPageInfo $page_info,
+        public readonly FeedDataPageInfo $pageInfo,
     )
     {
     }

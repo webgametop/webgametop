@@ -56,20 +56,21 @@ class TestCommand extends Command
             /** @var Collection<GameDataItem> $games */
             $games = $feed->games;
 
+            $pageInfo = $feed->pageInfo;
+
+            $next_page_id = $pageInfo->next_page_id;
+
             /** @var GameDataItem $game */
             foreach ($games as $game) {
                 /** @var string $dedup_key */
                 $dedup_key = Str::replace(':id', $game->id, $dedup_template);
                 $dedup_hash = $hasher->hash($dedup_key, HashingFormat::BINARY);
+
                 if (! $gameCache->contains('dedup_hash', $dedup_hash)) {
-                    $feedGameIds->push($game->id);
+                    $feedGameIds->add($game->id);
                 }
             }
-
-            $page_info = $feed->page_info;
-
-            $next_page_id = $page_info->next_page_id;
-        } while ($page_info->has_next_page);
+        } while ($pageInfo->has_next_page);
 
         $chunk = $feedGameIds->unique()->chunk(20);
 
@@ -109,8 +110,8 @@ class TestCommand extends Command
 
                 $modelGame->updateTimestamps();
 
-                $data->push($modelGame);
-                $gameCache->push($modelGame->only(['dedup_hash']));
+                $data->add($modelGame);
+                $gameCache->add($modelGame->only(['dedup_hash']));
             }
 
             if (! $data->isEmpty()) {
