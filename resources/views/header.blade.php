@@ -13,6 +13,8 @@
                     <ul class="nav">
                         <li><a href="/">Главная</a></li>
                         <li><a href="{{ route('users') }}" class="{{ request()->routeIs('users') ? 'active' : '' }}">Пользователи</a></li>
+                        <li><a href="{{ route('developers') }}" class="{{ request()->routeIs('developers') ? 'active' : '' }}">Разработчики</a></li>
+                        <li><a href="{{ route('games') }}" class="{{ request()->routeIs('games') ? 'active' : '' }}">Игры</a></li>
                         <li class="pe-0">
                             @guest
                             <a

@@ -31,7 +31,7 @@
                 </div>
                 <div class="col-lg-12">
                     <div class="main-button">
-                        {{ $users->links('vendor.pagination.default') }}
+                        {{ $users->onEachSide(0)->links('vendor.pagination.default') }}
                     </div>
                 </div>
             </div>
