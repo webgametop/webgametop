@@ -7,10 +7,9 @@ Route::group([], function () {
 });
 
 Route::get('/', function (
-    \App\Services\PasswordHasherService $passwordHasher,
-    \App\Services\HasherService $hasher,
-    \App\Services\HmacHasherService $hmacHasher,
-    \App\Services\Geolocation\IpInfoService $ipInfoService,
+    \App\Services\Security\PasswordHasherService $passwordHasher,
+    \App\Services\Security\HasherService $hasher,
+    \App\Services\Security\HmacHasherService $hmacHasher,
 ) {
     $algo = \App\Enums\HashingAlgo::MD5;
     $format = \App\Enums\HashingFormat::BINARY;
@@ -27,10 +26,6 @@ Route::get('/', function (
 
         $hash = $hmacHasher->hash('test', $format),
         $hmacHasher->verify('test', $hash, $format),
-
-        $ipInfoService->getCountryCodeFromIp('84.17.46.76'),
-
-        request()->ip(),
     );
 
     return view('welcome');

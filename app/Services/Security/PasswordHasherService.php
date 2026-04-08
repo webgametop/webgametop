@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Services\Security;
 
-use App\Services\Contracts\PasswordHasherInterface;
+use App\Services\Security\Contracts\PasswordHasherInterface;
 use Illuminate\Support\Facades\Hash;
 
 class PasswordHasherService implements PasswordHasherInterface
