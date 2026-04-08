@@ -40,7 +40,7 @@ class TestCommand extends Command
     ) : void
     {
         $provider_name = GameProviderEnum::YANDEXGAMES->value;
-        $dedup_template = "dedup:$provider_name:original_id:{original_id}";
+        $dedup_template = "dedup,$provider_name,identity,:id";
 
         $gameCache = Game::all(['dedup_hash'])->collect();
         $developerCache = Developer::all(['id', 'dedup_hash'])->collect();
@@ -59,7 +59,7 @@ class TestCommand extends Command
             /** @var GameDataItem $game */
             foreach ($games as $game) {
                 /** @var string $dedup_key */
-                $dedup_key = Str::replace('{original_id}', $game->id, $dedup_template);
+                $dedup_key = Str::replace(':id', $game->id, $dedup_template);
                 $dedup_hash = $hasher->hash($dedup_key, HashingFormat::BINARY);
                 if (! $gameCache->contains('dedup_hash', $dedup_hash)) {
                     $feedGameIds->push($game->id);
@@ -82,12 +82,26 @@ class TestCommand extends Command
             $data = new Collection;
 
             foreach ($games as $game) {
-                $dedup_key = Str::replace('{original_id}', $game->id, $dedup_template);
+                /** @var string $dedup_key */
+                $dedup_key = Str::replace(':id', $game->developer->id, $dedup_template);
+                $dedup_hash = $hasher->hash($dedup_key, HashingFormat::BINARY);
+
+                $modelDeveloper = Developer::firstOrCreate(
+                    ['dedup_hash' => $dedup_hash],
+                    [
+                        'provider' => $provider_name,
+                        'identity' => $game->developer->id,
+                        'username' => uniqid(),
+                        'nickname' => $game->developer->name,
+                    ],
+                );
+
+                $dedup_key = Str::replace(':id', $game->id, $dedup_template);
                 $dedup_hash = $hasher->hash($dedup_key, HashingFormat::BINARY);
 
                 $modelGame = Game::make([
-                    'developer_id' => 1,
-                    'original_id' => $game->id,
+                    'developer_id' => $modelDeveloper->id,
+                    'identity' => $game->id,
                     'dedup_hash' => $dedup_hash,
                     'title' => $game->title,
                     'description' => $game->description,

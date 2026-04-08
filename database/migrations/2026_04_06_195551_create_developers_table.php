@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('developers', function (Blueprint $table) {
             $table->id();
             $table->string('provider')->index('idx_developers_on_provider');
-            $table->string('original_id');
+            $table->string('identity');
             $table->binary('dedup_hash', 32)->index('idx_developers_on_dedup_hash');
             $table->string('username',32)->unique('unq_developers_on_username');
             $table->string('nickname', 128);
@@ -24,13 +24,13 @@ return new class extends Migration
         });
 
         Schema::table('developers', function (Blueprint $table) {
-            $table->unique(['provider', 'original_id'], 'unq_developers_on_provider_original_id');
+            $table->unique(['provider', 'identity'], 'unq_developers_on_provider_identity');
         });
 
         Schema::table('games', function (Blueprint $table) {
             $table->bigInteger('developer_id', false, true)->after('id');
 
-            $table->unique(['developer_id', 'original_id'], 'unq_games_on_developer_id_and_original_id');
+            $table->unique(['developer_id', 'identity'], 'unq_games_on_developer_id_and_identity');
             $table->foreign('developer_id', 'fk_games_on_developer_id')->references('id')->on('developers');
         });
     }

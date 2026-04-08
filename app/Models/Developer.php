@@ -21,10 +21,8 @@ class Developer extends Model
      */
     protected $fillable = [
         'provider',
-        'original_id',
+        'identity',
         'dedup_hash',
-        'title',
-        'description',
         'username',
         'nickname',
     ];

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('games', function (Blueprint $table) {
             $table->id();
-            $table->string('original_id');
+            $table->string('identity');
             $table->binary('dedup_hash', 32)->index('idx_games_on_dedup_hash');
             $table->string('title');
             $table->text('description');

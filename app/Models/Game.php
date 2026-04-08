@@ -21,7 +21,7 @@ class Game extends Model
      */
     protected $fillable = [
         'developer_id',
-        'original_id',
+        'identity',
         'dedup_hash',
         'title',
         'description',

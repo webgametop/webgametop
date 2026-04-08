@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Models\Game;
 use App\Repositories\GameRepository;
 
 class GameService
@@ -15,13 +14,8 @@ class GameService
     {
     }
 
-    public function createGame(array $data): Game
+    public function createGame(array $data)
     {
-        $game = Game::make($data);
-
-        $game->save();
-
-        return $game;
     }
 
     public function updateGame(array $data)
