@@ -27,22 +27,12 @@
                         <label for="user_remember" class="form-label text-white">Запомнить меня</label>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-light rounded-5">Войти</button>
+                <button type="submit" class="btn btn-light rounded-5" data-loading-text="Вход...">Войти</button>
                 <a href="{{ route('register') }}" class="ms-3">Зарегистрировать новый аккаунт</a>
                 <a href="" class="ms-3">Забыли пароль?</a>
             </form>
         </div>
     </div>
     @push('body-script')
-    <script type="module">
-        $('form').on('submit', function () {
-            const $button = $(this).find('button');
-            $button.prop('disabled', true);
-            $button.html([
-                $('<span>', { 'class': 'spinner-border spinner-border-sm', 'aria-hidden': true}),
-                $('<span>', { 'class': 'ms-2', 'role': 'status', 'text': 'Выход...'}),
-            ]);
-        });
-    </script>
     @endpush
 </x-layouts::main>

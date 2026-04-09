@@ -30,22 +30,12 @@
                         <input type="password" name="user[password_confirmation]" id="user_password_confirmation" class="form-control" required>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-light rounded-5">Зарегистрироваться</button>
+                <button type="submit" class="btn btn-light rounded-5" data-loading-text="Регистрация...">Зарегистрироваться</button>
                 <a href="{{ route('login') }}" class="ms-3">Войти в уже существующий аккаунт</a>
                 <a href="" class="ms-3">Забыли пароль?</a>
             </form>
         </div>
     </div>
     @push('body-script')
-    <script type="module">
-        $('form').on('submit', function () {
-            const $button = $(this).find('button');
-            $button.prop('disabled', true);
-            $button.html([
-                $('<span>', { 'class': 'spinner-border spinner-border-sm', 'aria-hidden': true}),
-                $('<span>', { 'class': 'ms-2', 'role': 'status', 'text': 'Регистрация...'}),
-            ]);
-        });
-    </script>
     @endpush
 </x-layouts::main>

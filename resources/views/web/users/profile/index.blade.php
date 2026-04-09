@@ -15,9 +15,9 @@
                                 @if($user->equals(request()->user()))
                                 <form action="{{ route('logout') }}" method="post" class="mt-4">
                                     @csrf
-                                    <button type="submit" class="btn btn-light text-start rounded-5 w-100">
+                                    <button type="submit" class="btn btn-light text-start rounded-5 w-100" data-loading-text="Выход...">
                                         <i class="fas fa-sign-out-alt" style="font-size: 16px;"></i>
-                                        <span class="ms-1">Выход</span>
+                                        <span class="ms-1">Выйти</span>
                                     </button>
                                 </form>
                                 @endif
@@ -66,15 +66,5 @@
         </div>
     </div>
     @push('body-script')
-    <script type="module">
-        $('form').on('submit', function () {
-            const $button = $(this).find('button');
-            $button.prop('disabled', true);
-            $button.html([
-                $('<span>', { 'class': 'spinner-border spinner-border-sm', 'aria-hidden': true}),
-                $('<span>', { 'class': 'ms-2', 'role': 'status', 'text': 'Выход...'}),
-            ]);
-        });
-    </script>
     @endpush
 </x-layouts::main>
