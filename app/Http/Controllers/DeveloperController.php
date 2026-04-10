@@ -14,7 +14,7 @@ class DeveloperController extends Controller
      */
     public function index()
     {
-        $developers = Developer::orderBy('created_at', 'desc')->paginate(13);
+        $developers = Developer::orderBy('created_at', 'desc')->paginate(10);
 
         return view('web.developers.index', compact('developers'));
     }

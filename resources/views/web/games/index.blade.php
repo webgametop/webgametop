@@ -1,41 +1,49 @@
 @props(['games'])
 
-@section('title', 'Игры')
+@section('title', 'Игры &#8212; Яндекс.Игры')
 
 <x-layouts::main>
-    <div class="container">
-        <div class="page-content">
-            <div class="most-popular m-0">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="heading-section">
-                            <h4><em>Игры</em> Яднекс.Игры</h4>
-                        </div>
-                        <div class="row">
-                            @foreach($games as $game)
-                            <div class="col-12">
-                                <div class="item p-4">
-{{--                                    <img src="/build/assets/images/popular-01.jpg" alt="">--}}
-                                    <h4 class="m-0">
-                                        {{ $game->title }}
-                                        <span>{{ $game->developer->nickname }}</span>
-                                    </h4>
-                                    <ul class="m-0">
-                                        <li><i class="fa fa-star"></i> 5.0</li>
-                                        <li><i class="fa fa-download"></i> 2.3M</li>
-                                    </ul>
+    <div class="page-header">
+        <div class="container">
+            <h2 class="page-title">Игры</h2>
+            <div class="text-secondary">Яндекс.Игры</div>
+        </div>
+    </div>
+    <div class="page-body">
+        <div class="container">
+            <div class="row row-cards justify-content-around">
+                @foreach($games as $game)
+                    <div class="col-auto" style="max-width: 11rem;">
+                        <a href="#" class="d-flex flex-wrap">
+                            <div class="avatar" style="--tblr-avatar-size: 10rem; background-image: url('https://avatars.mds.yandex.net/get-games/3006389/2a0000019600512930ab49c4823becf0a215/pjpg128x128'); background-size: cover;"></div>
+                            <div class="mt-2" style="min-height: 2.5rem; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;"><strong>{{ $game->title }}</strong></div>
+                            <div class="mt-2 d-flex">
+                                <div class="text-muted">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-thumb-up">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                        <path d="M13 3a3 3 0 0 1 2.995 2.824l.005 .176v4h2a3 3 0 0 1 2.98 2.65l.015 .174l.005 .176l-.02 .196l-1.006 5.032c-.381 1.626 -1.502 2.796 -2.81 2.78l-.164 -.008h-8a1 1 0 0 1 -.993 -.883l-.007 -.117l.001 -9.536a1 1 0 0 1 .5 -.865a2.998 2.998 0 0 0 1.492 -2.397l.007 -.202v-1a3 3 0 0 1 3 -3z"/>
+                                        <path d="M5 10a1 1 0 0 1 .993 .883l.007 .117v9a1 1 0 0 1 -.883 .993l-.117 .007h-1a2 2 0 0 1 -1.995 -1.85l-.005 -.15v-7a2 2 0 0 1 1.85 -1.995l.15 -.005h1z"/>
+                                    </svg>
+                                    <span>96%</span>
+                                </div>
+                                <div class="text-muted ms-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-eye">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                        <path d="M12 4c4.29 0 7.863 2.429 10.665 7.154l.22 .379l.045 .1l.03 .083l.014 .055l.014 .082l.011 .1v.11l-.014 .111a.992 .992 0 0 1 -.026 .11l-.039 .108l-.036 .075l-.016 .03c-2.764 4.836 -6.3 7.38 -10.555 7.499l-.313 .004c-4.396 0 -8.037 -2.549 -10.868 -7.504a1 1 0 0 1 0 -.992c2.831 -4.955 6.472 -7.504 10.868 -7.504zm0 5a3 3 0 1 0 0 6a3 3 0 0 0 0 -6"/>
+                                    </svg>
+                                    <span>534к</span>
                                 </div>
                             </div>
-                            @endforeach
-                        </div>
+                        </a>
                     </div>
-                    <div class="col-lg-12">
-                        <div class="main-button">
-                            {{ $games->onEachSide(0)->links('vendor.pagination.default') }}
-                        </div>
+                @endforeach
+                <div class="col-lg-12">
+                    <div class="main-button">
+                        {{ $games->onEachSide(0)->links('vendor.pagination.bootstrap-5') }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </x-layouts::main>

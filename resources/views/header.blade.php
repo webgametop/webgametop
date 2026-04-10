@@ -100,7 +100,10 @@
             <ul class="navbar-nav">
                 {{-- BEGIN GAMES --}}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#navbar-games" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
+                    <a @class([
+                        'nav-link', 'dropdown-toggle',
+                        'bg-azure-lt' => request()->routeIs(['games'])
+                    ]) href="#navbar-games" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-device-gamepad-2">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -118,12 +121,17 @@
                         <a href="/games/crazygames" class="dropdown-item">CrazyGames</a>
                         <a href="/games/poki" class="dropdown-item">POKI</a>
                         <div class="dropdown-divider"></div>
-                        <a href="{{ route('games') }}" class="dropdown-item">Витрина</a>
+                        <a href="{{ route('games') }}" @class([
+                            'dropdown-item', 'active' => request()->routeIs('games')
+                        ])>Витрина</a>
                     </div>
                 </li>
                 {{-- BEGIN DEVELOPERS --}}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#navbar-developers" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
+                    <a @class([
+                        'nav-link', 'dropdown-toggle',
+                        'bg-azure-lt' => request()->routeIs(['developers'])
+                    ]) href="#navbar-developers" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-code">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 8l-4 4l4 4"/>
@@ -137,7 +145,9 @@
                         <a href="/developers/crazygames" class="dropdown-item">CrazyGames</a>
                         <a href="/developers/poki" class="dropdown-item">POKI</a>
                         <div class="dropdown-divider"></div>
-                        <a href="{{ route('developers') }}" class="dropdown-item">Витрина</a>
+                        <a href="{{ route('developers') }}" @class([
+                            'dropdown-item', 'active' => request()->routeIs('developers')
+                        ])>Витрина</a>
                     </div>
                 </li>
                 {{-- BEGIN USERS --}}
