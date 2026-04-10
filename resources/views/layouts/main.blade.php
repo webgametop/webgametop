@@ -5,9 +5,7 @@
 <div class="page">
     @include('header')
     <div class="page-wrapper">
-        <div class="page-body">
-            {{ $slot }}
-        </div>
+        {{ $slot }}
         @include('footer')
     </div>
 </div>

@@ -1,12 +1,10 @@
 @if ($paginator->hasPages())
     <nav>
-        <ul class="pagination justify-content-center align-items-center">
+        <ul class="pagination">
             {{-- Previous Page Link --}}
             @if ($paginator->onFirstPage())
                 <li class="disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
-                    <div class="main-border-button border-no-active">
-                        <a href="#" style="border-color: #666;color: white;background-color: rgba(128, 128, 128);pointer-events: none;">&lsaquo;</a>
-                    </div>
+                    <span aria-hidden="true">&lsaquo;</span>
                 </li>
             @else
                 <li>
@@ -25,11 +23,7 @@
                 @if (is_array($element))
                     @foreach ($element as $page => $url)
                         @if ($page == $paginator->currentPage())
-                            <li class="active" aria-current="page">
-                                <div class="main-border-button border-no-active">
-                                    <a href="#" style="border-color: #666;color: white;background-color: rgba(128, 128, 128);pointer-events: none;">{{ $page }}</a>
-                                </div>
-                            </li>
+                            <li class="active" aria-current="page"><span>{{ $page }}</span></li>
                         @else
                             <li><a href="{{ $url }}">{{ $page }}</a></li>
                         @endif
@@ -44,9 +38,7 @@
                 </li>
             @else
                 <li class="disabled" aria-disabled="true" aria-label="@lang('pagination.next')">
-                    <div class="main-border-button border-no-active">
-                        <a href="#" style="border-color: #666;color: white;background-color: rgba(128, 128, 128);pointer-events: none;">&rsaquo;</a>
-                    </div>
+                    <span aria-hidden="true">&rsaquo;</span>
                 </li>
             @endif
         </ul>

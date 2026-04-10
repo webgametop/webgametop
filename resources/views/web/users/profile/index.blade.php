@@ -3,23 +3,11 @@
 @section('title', "Профиль $user->nickname")
 
 <x-layouts::main>
-    <div class="page-header m-0">
+    <div class="page-body">
         <div class="container">
             <div class="row">
                 <div class="col-auto">
                     <span class="avatar avatar-2xl bg-azure-lt" style="background-image: url('{{ $user->gravatar(2048) }}')"></span>
-                    <br>
-                    @auth
-                        @if($user->equals(request()->user()))
-                            <form action="{{ route('logout') }}" method="post">
-                                @csrf
-                                <button type="submit" class="btn btn-danger w-100 mt-2" data-loading-text="Выход...">
-                                    <i class="fas fa-sign-out-alt" style="font-size: 16px;"></i>
-                                    <span class="ms-1">Выйти</span>
-                                </button>
-                            </form>
-                        @endif
-                    @endauth
                 </div>
                 <div class="col">
                     <h1 class="fw-bold m-0">{{ $user->nickname }}</h1>
@@ -47,7 +35,7 @@
                                 <path d="M3 14.803c.312 .135 .654 .204 1 .197a2.4 2.4 0 0 0 2 -1a2.4 2.4 0 0 1 2 -1a2.4 2.4 0 0 1 2 1a2.4 2.4 0 0 0 2 1a2.4 2.4 0 0 0 2 -1a2.4 2.4 0 0 1 2 -1a2.4 2.4 0 0 1 2 1a2.4 2.4 0 0 0 2 1c.35 .007 .692 -.062 1 -.197"></path>
                                 <path d="M12 4l1.465 1.638a2 2 0 1 1 -3.015 .099l1.55 -1.737z"></path>
                             </svg>
-                            15/10/1972
+                            01/01/1970
                         </div>
                     </div>
                 </div>
@@ -69,92 +57,116 @@
                                 </svg>
                                 Редактировать профиль
                             </a>
+                            <form action="{{ route('logout') }}" method="post">
+                                @csrf
+                                <button type="submit" class="btn btn-danger w-100 mb-2" data-loading-text="Выход...">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-logout">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                        <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"/>
+                                        <path d="M9 12h12l-3 -3"/>
+                                        <path d="M18 15l3 -3"/>
+                                    </svg>
+                                    Выйти
+                                </button>
+                            </form>
+                        @else
+                            <a href="#" class="btn btn-primary mb-2 w-100 disabled">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-user-plus">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/>
+                                    <path d="M16 19h6"/>
+                                    <path d="M19 16v6"/>
+                                    <path d="M6 21v-2a4 4 0 0 1 4 -4h4"/>
+                                </svg>
+                                Добавить в друзья
+                            </a>
+{{--                            <a href="#" class="btn btn-primary mb-2 w-100 disabled">--}}
+{{--                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-message">--}}
+{{--                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>--}}
+{{--                                    <path d="M18 3a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-4.724l-4.762 2.857a1 1 0 0 1 -1.508 -.743l-.006 -.114v-2h-1a4 4 0 0 1 -3.995 -3.8l-.005 -.2v-8a4 4 0 0 1 4 -4zm-4 9h-6a1 1 0 0 0 0 2h6a1 1 0 0 0 0 -2m2 -4h-8a1 1 0 1 0 0 2h8a1 1 0 0 0 0 -2"/>--}}
+{{--                                </svg>--}}
+{{--                                Написать--}}
+{{--                            </a>--}}
                         @endif
                     @endauth
                     <div class="btn-list">
-                        <a href="#" class="btn btn-2 btn-icon" aria-label="Button">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-2">
-                                <path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                                <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                                <path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                            </svg>
-                        </a>
-                        <a href="#" class="btn btn-2 btn-icon" aria-label="Button" title="Начать диалог">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-2">
-                                <path d="M8 9h8"></path>
-                                <path d="M8 13h6"></path>
-                                <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z"></path>
-                            </svg>
-                        </a>
-                        <a href="#" class="btn btn-primary btn-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-2">
-                                <path d="M5 12l5 5l10 -10"></path>
-                            </svg>
-                            Following
-                        </a>
+                        @auth
+                            @if(! $user->equals(request()->user()))
+                                <a href="#" class="btn btn-primary btn-3 disabled">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-heart-plus">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                        <path d="M12 20l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.96 6.053"/>
+                                        <path d="M16 19h6"/>
+                                        <path d="M19 16v6"/>
+                                    </svg>
+                                    Подписаться
+                                </a>
+                                <a href="#" class="dropdown btn btn-2 btn-icon ms-auto" aria-label="Button" data-bs-toggle="dropdown" title="Ещё...">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-2">
+                                        <path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                        <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                        <path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                    </svg>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow shadow-none my-2">
+                                    <a href="#" class="dropdown-item disabled">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-cancel">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                            <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/>
+                                            <path d="M18.364 5.636l-12.728 12.728"/>
+                                        </svg>
+                                        Заблокировать
+                                    </a>
+                                    <a href="#" class="dropdown-item disabled">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-flag">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                            <path d="M4 5a1 1 0 0 1 .3 -.714a6 6 0 0 1 8.213 -.176l.351 .328a4 4 0 0 0 5.272 0l.249 -.227c.61 -.483 1.527 -.097 1.61 .676l.005 .113v9a1 1 0 0 1 -.3 .714a6 6 0 0 1 -8.213 .176l-.351 -.328a4 4 0 0 0 -5.136 -.114v6.552a1 1 0 0 1 -1.993 .117l-.007 -.117v-16z"/>
+                                        </svg>
+                                        Пожаловаться
+                                    </a>
+                                    <a href="#" class="dropdown-item disabled">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-user-minus">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                            <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/>
+                                            <path d="M6 21v-2a4 4 0 0 1 4 -4h4c.348 0 .686 .045 1.009 .128"/>
+                                            <path d="M16 19h6"/>
+                                        </svg>
+                                        Удалить из друзей
+                                    </a>
+                                </div>
+                            @endif
+                        @endauth
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="container d-none">
-        <div class="page-content">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="main-profile ">
-                        <div class="row">
-                            <div class="col-lg-2">
-                                <img src="{{ $user->gravatar(2048) }}" alt="" class="bg-info rounded-5">
-                                @auth
-                                @if($user->equals(request()->user()))
-                                <form action="{{ route('logout') }}" method="post" class="mt-4">
-                                    @csrf
-                                    <button type="submit" class="btn btn-light text-start rounded-5 w-100" data-loading-text="Выход...">
-                                        <i class="fas fa-sign-out-alt" style="font-size: 16px;"></i>
-                                        <span class="ms-1">Выйти</span>
-                                    </button>
-                                </form>
-                                @endif
-                                @endauth
-                            </div>
-                            <div class="col-lg-6 align-self-start">
-                                <div class="main-info header-text">
-                                    <span @class(['text-bg-success' => $user->isOnline()])>{{ $user->isOnline() ? 'Online' : 'Offline' }}</span>
-                                    <h4>{{ $user->nickname }} <small class="text-muted">{{ '@' . $user->username }}</small></h4>
-                                    <p>Any details such as age, occupation or city. Example: 23 y.o. designer from San Francisco</p>
-                                    <div class="main-border-button">
-                                        {{-- buttons --}}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 align-self-start">
-                                @auth
-                                @if($user->equals(request()->user()))
-                                <div class="main-border-button mb-4">
-                                    <a
-                                        href="{{ route('users.edit.account', [$user, $user->username]) }}"
-                                        class="w-100" style="text-transform: unset;"
-                                    >Редактировать профиль</a>
-                                </div>
-                                @endif
-                                @endauth
-{{--                                <ul class="mb-4">--}}
-{{--                                    <li data-badges>Значки <span><a href="">0</a></span></li>--}}
-{{--                                    <li data-achievements>Достижения <span><a href="">0</a></span></li>--}}
-{{--                                </ul>--}}
-                                <ul class="mb-4">
-                                    <li data-games>Игры <span><a href="">0</a></span></li>
-{{--                                    <li data-reviews>Обзоры <span><a href="">1</a></span></li>--}}
-{{--                                    <li data-feedbacks>Отзывы <span><a href="">16</a></span></li>--}}
-{{--                                    <li data-comments>Комментарии <span><a href="">3</a></span></li>--}}
-                                </ul>
-{{--                                <ul class="mb-4">--}}
-{{--                                    <li data-friends>Друзья <span><a href="">32</a></span></li>--}}
-{{--                                </ul>--}}
-                            </div>
+            <div class="row mt-4">
+                <div class="col-9">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Комментарии</h3>
                         </div>
-                        {{-- contect --}}
+                        <div class="card-body">
+                            <code>@todo</code>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="card">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item" data-badges>Значки <span><a href="#">0</a></span></li>
+                            <li class="list-group-item" data-achievements>Достижения <span><a href="#">0</a></span></li>
+                        </ul>
+                    </div>
+                    <div class="card mt-3">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item" data-reviews>Обзоры <span><a href="#">0</a></span></li>
+                            <li class="list-group-item" data-comments>Комментарии <span><a href="#">0</a></span></li>
+                        </ul>
+                    </div>
+                    <div class="card mt-3">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item" data-friends>Друзья <span><a href="#">0</a></span></li>
+                        </ul>
                     </div>
                 </div>
             </div>
