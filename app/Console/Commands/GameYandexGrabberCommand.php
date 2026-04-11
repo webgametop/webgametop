@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use App\Enums\GameProviderEnum;
+use App\Enums\GameProvider;
 use App\Enums\HashingFormat;
 use App\Models\Developer;
 use App\Models\Game;
@@ -39,7 +39,7 @@ class GameYandexGrabberCommand extends Command
         HmacHasherService $hasher,
     ) : void
     {
-        $provider_name = GameProviderEnum::YANDEXGAMES->value;
+        $provider_name = GameProvider::YANDEXGAMES->value;
 
         $dedup_game = "dedup,$provider_name,game,:identity";
         $dedup_developer = "dedup,$provider_name,developer,:identity";

@@ -1,12 +1,12 @@
-@props(['user'])
+@props(['games'])
 
-@section('title', 'Редактировать аккаунт')
+@section('title', 'Игры &#8212; Витрина')
 
 <x-layouts::main>
     <div class="page-header">
         <div class="container">
-            <h2 class="page-title">{{ $user->nickname }}</h2>
-            <div class="text-secondary">Редактировать профиль</div>
+            <h2 class="page-title">Игры</h2>
+            <div class="text-secondary">Витрина</div>
         </div>
     </div>
     <div class="page-body">

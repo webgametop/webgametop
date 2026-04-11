@@ -1,18 +1,18 @@
-@props(['games'])
+@props(['games', 'provider'])
 
-@section('title', 'Игры &#8212; Яндекс.Игры')
+@section('title', 'Игры &#8212; ' . $provider_label = $provider->label())
 
 <x-layouts::main>
     <div class="page-header">
         <div class="container">
             <h2 class="page-title">Игры</h2>
-            <div class="text-secondary">Яндекс.Игры</div>
+            <div class="text-secondary">{{ $provider_label }}</div>
         </div>
     </div>
     <div class="page-body">
         <div class="container">
             <div class="row row-cards justify-content-around">
-                @foreach($games as $game)
+                @forelse($games as $game)
                     <div class="col-auto" style="max-width: 11rem;">
                         <a href="#" class="d-flex flex-column">
                             <div class="avatar" style="--tblr-avatar-size: 10rem; background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png'); background-size: cover;"></div>
@@ -36,7 +36,23 @@
                             </div>
                         </a>
                     </div>
-                @endforeach
+                @empty
+                    <div class="col">
+                        <div class="alert alert-info alert-dismissible" role="alert">
+                            <div class="alert-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon alert-icon icon-2">
+                                    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
+                                    <path d="M12 9h.01"></path>
+                                    <path d="M11 12h1v4h1"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="alert-heading"><strong>Ой! Похоже, здесь ничего нет.</strong></h4>
+                                <div class="alert-description">Возможно, разработчики ещё не добавили игры в данный раздел. Зайдите в "Витрину" — там точно есть во что поиграть!</div>
+                            </div>
+                        </div>
+                    </div>
+                @endforelse
                 <div class="col-lg-12 mt-5">
                     {{ $games->onEachSide(0)->links('vendor.pagination.bootstrap-5') }}
                 </div>

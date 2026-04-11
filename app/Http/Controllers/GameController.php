@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Enums\GameProvider as GameProviderEnum;
 use App\Models\Game;
 use Illuminate\Http\Request;
 
@@ -11,17 +12,20 @@ class GameController extends Controller
 {
     public function showcase()
     {
-        //
+        return view('web.games.showcase');
     }
 
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(GameProviderEnum $provider)
     {
-        $games = Game::with('developer')->orderBy('created_at', 'desc')->paginate(30);
+        $games = Game::with('developer')
+            ->whereRelation('developer', 'provider', $provider)
+            ->orderBy('created_at', 'desc')
+            ->paginate(30);
 
-        return view('web.games.index', compact('games'));
+        return view('web.games.index', compact('games', 'provider'));
     }
 
     /**
