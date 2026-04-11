@@ -26,7 +26,7 @@
                                         </h4>
                                         <div>
                                             <span @class(['badge bg-danger', 'bg-green' => $user->isOnline()])></span>
-                                            {{ $user->isOnline() ? 'сейчас на сайте' : 'в сети:' . $user->last_seen_at->ago() }}
+                                            {{ $user->isOnline() ? 'сейчас на сайте' : 'в сети: ' . $user->last_seen_at->ago() }}
                                         </div>
                                     </div>
                                     <div class="col-auto">

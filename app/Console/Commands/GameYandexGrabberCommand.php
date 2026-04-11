@@ -100,8 +100,8 @@ class GameYandexGrabberCommand extends Command
                         [
                             'provider' => $provider_name,
                             'identity' => $game->developer->id,
-                            'username' => uniqid(),
-                            'nickname' => $game->developer->name,
+                            'slug' => uniqid(),
+                            'name' => $game->developer->name,
                         ],
                     );
 
@@ -115,6 +115,7 @@ class GameYandexGrabberCommand extends Command
                     'developer_id' => $modelDeveloper->id,
                     'identity' => $game->id,
                     'dedup_hash' => $dedup_hash,
+                    'slug' => uniqid(),
                     'title' => $game->title,
                     'description' => $game->description,
                 ]);

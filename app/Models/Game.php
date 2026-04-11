@@ -23,6 +23,7 @@ class Game extends Model
         'developer_id',
         'identity',
         'dedup_hash',
+        'slug',
         'title',
         'description',
     ];

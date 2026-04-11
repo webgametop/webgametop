@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\GameProvider as GameProviderEnum;
 use App\Models\Game;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class GameController extends Controller
@@ -49,7 +50,7 @@ class GameController extends Controller
      */
     public function show(Game $game)
     {
-        //
+        dd($game);
     }
 
     /**
@@ -74,5 +75,14 @@ class GameController extends Controller
     public function destroy(Game $game)
     {
         //
+    }
+
+    public function redirect(?Game $game): RedirectResponse
+    {
+        if (! $game) {
+            abort(404, 'The requested user does not exist.');
+        }
+
+        return redirect()->route('games.show', [$game, $game->slug]);
     }
 }

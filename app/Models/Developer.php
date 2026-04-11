@@ -23,8 +23,8 @@ class Developer extends Model
         'provider',
         'identity',
         'dedup_hash',
-        'username',
-        'nickname',
+        'slug',
+        'name',
     ];
 
     public function games(): HasMany

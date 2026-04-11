@@ -34,9 +34,7 @@ Route::group(['prefix' => 'users', 'as' => 'users'], function () {
     Route::group(['prefix' => '{user}'], function () {
         Route::get('/', [UserProfileController::class, 'redirect'])->name('.redirect');
         Route::group(['prefix' => '{username}', 'middleware' => ['redirect.username']], function () {
-            Route::group(['as' => '.show'], function () {
-                Route::get('/', [UserProfileController::class, 'show']);
-            }); # show
+            Route::get('/', [UserProfileController::class, 'show'])->name('.show');
             Route::group(['prefix' => 'edit', 'as' => '.edit', 'middleware' => ['auth', 'access.edit']], function () {
                 Route::get('/', [UserEditController::class, 'redirect'])->name('.redirect');
                 Route::group(['prefix' => 'account', 'as' => '.account'], function () {
@@ -44,6 +42,6 @@ Route::group(['prefix' => 'users', 'as' => 'users'], function () {
                     Route::put('/', [UserEditAccountController::class, 'update'])->name('.update');
                 }); # account
             });
-        });
+        }); # user
     }); # profile
 }); # users

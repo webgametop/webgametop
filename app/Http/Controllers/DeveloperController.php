@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\GameProvider as GameProviderEnum;
 use App\Models\Developer;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class DeveloperController extends Controller
@@ -46,7 +47,7 @@ class DeveloperController extends Controller
      */
     public function show(Developer $developer)
     {
-        //
+        dd($developer);
     }
 
     /**
@@ -71,5 +72,14 @@ class DeveloperController extends Controller
     public function destroy(Developer $developer)
     {
         //
+    }
+
+    public function redirect(?Developer $developer): RedirectResponse
+    {
+        if (! $developer) {
+            abort(404, 'The requested user does not exist.');
+        }
+
+        return redirect()->route('developers.show', [$developer, $developer->slug]);
     }
 }

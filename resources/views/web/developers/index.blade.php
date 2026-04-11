@@ -14,9 +14,11 @@
             <div class="row row-cards justify-content-around">
                 @forelse($developers as $developer)
                     <div class="col-auto" style="max-width: 11rem;">
-                        <a href="#" class="d-flex flex-column">
+                        <a href="{{ route('developers.show', [$developer, $developer->slug]) }}" class="d-flex flex-column">
                             <div class="avatar" style="--tblr-avatar-size: 10rem; background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png'); background-size: cover;"></div>
-                            <div class="mt-2" style="min-height: 1rem; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;"><strong>{{ $developer->nickname }}</strong></div>
+                            <div class="mt-2" style="min-height: 1rem; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;">
+                                <strong>{{ $developer->name }}</strong>
+                            </div>
                             <div class="mt-2 d-flex">
                                 <div class="text-muted">
                                     <span>99 999 999 участников</span>
