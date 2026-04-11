@@ -6,8 +6,10 @@ namespace App\Http\Controllers;
 
 use App\Enums\GameProvider as GameProviderEnum;
 use App\Models\Developer;
+use App\Models\Game;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class DeveloperController extends Controller
 {
@@ -47,7 +49,12 @@ class DeveloperController extends Controller
      */
     public function show(Developer $developer)
     {
-        dd($developer);
+        /** @var Collection<Game> $games */
+        $games = $developer->games;
+        /** @var GameProviderEnum $provider */
+        $provider = $developer->provider;
+
+        return view('web.developers.card.index', compact('developer', 'games', 'provider'));
     }
 
     /**

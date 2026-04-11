@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Enums\GameProvider as GameProviderEnum;
+use App\Models\Developer;
 use App\Models\Game;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -50,7 +51,12 @@ class GameController extends Controller
      */
     public function show(Game $game)
     {
-        dd($game);
+        /** @var Developer $developer */
+        $developer = $game->developer;
+        /** @var GameProviderEnum $provider */
+        $provider = $developer->provider;
+
+        return view('web.games.card.index', compact('game', 'developer', 'provider'));
     }
 
     /**
