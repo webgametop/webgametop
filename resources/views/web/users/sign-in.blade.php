@@ -3,7 +3,7 @@
 <x-layouts::main>
     <div class="page-header">
         <div class="container">
-            <h2 class="page-title">Авторизация</h2>
+            <div class="page-title">Авторизация</div>
             <div class="text-secondary">На данной странице вы сможете авторизоваться на нашем сайте.</div>
         </div>
     </div>

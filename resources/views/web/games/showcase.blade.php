@@ -5,7 +5,7 @@
 <x-layouts::main>
     <div class="page-header">
         <div class="container">
-            <h2 class="page-title">Игры</h2>
+            <div class="page-title">Игры</div>
             <div class="text-secondary">Витрина</div>
         </div>
     </div>

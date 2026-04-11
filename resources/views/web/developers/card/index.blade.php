@@ -5,8 +5,8 @@
 <x-layouts::main>
     <div class="page-header">
         <div class="container">
-            <h1 class="page-title">{{ $developer->name }}</h1>
-            <span class="text-muted">{{ $provider->label() }}</span>
+            <div class="page-title">{{ $developer->name }}</div>
+            <div class="text-muted">{{ $provider->label() }}</div>
         </div>
     </div>
     <div class="page-body">

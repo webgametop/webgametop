@@ -5,7 +5,7 @@
 <x-layouts::main>
     <div class="page-header">
         <div class="container">
-            <h2 class="page-title">{{ $user->nickname }}</h2>
+            <div class="page-title">{{ $user->nickname }}</div>
             <div class="text-secondary">Редактировать профиль</div>
         </div>
     </div>
