@@ -70,7 +70,7 @@
                                 </button>
                             </form>
                         @else
-                            <a href="#" class="btn btn-primary mb-2 w-100 disabled">
+                            <a href="#" class="btn btn-primary mb-2 w-100 justify-content-start disabled">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-user-plus">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                     <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/>
@@ -92,7 +92,7 @@
                     <div class="btn-list">
                         @auth
                             @if(! $user->equals(request()->user()))
-                                <a href="#" class="btn btn-primary btn-3 disabled">
+                                <a href="#" class="btn btn-primary disabled">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-heart-plus">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                         <path d="M12 20l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.96 6.053"/>
@@ -101,7 +101,7 @@
                                     </svg>
                                     Подписаться
                                 </a>
-                                <a href="#" class="dropdown btn btn-2 btn-icon ms-auto" aria-label="Button" data-bs-toggle="dropdown" title="Ещё...">
+                                <a href="#" class="dropdown btn btn-2 btn-icon" aria-label="Button" data-bs-toggle="dropdown" title="Ещё...">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-2">
                                         <path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
                                         <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
