@@ -14,8 +14,8 @@
             <div class="row row-cards justify-content-around">
                 @foreach($games as $game)
                     <div class="col-auto" style="max-width: 11rem;">
-                        <a href="#" class="d-flex flex-wrap">
-                            <div class="avatar" style="--tblr-avatar-size: 10rem; background-image: url('https://avatars.mds.yandex.net/get-games/3006389/2a0000019600512930ab49c4823becf0a215/pjpg128x128'); background-size: cover;"></div>
+                        <a href="#" class="d-flex flex-column">
+                            <div class="avatar" style="--tblr-avatar-size: 10rem; background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png'); background-size: cover;"></div>
                             <div class="mt-2" style="min-height: 2.5rem; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;"><strong>{{ $game->title }}</strong></div>
                             <div class="mt-2 d-flex">
                                 <div class="text-muted">
@@ -37,13 +37,10 @@
                         </a>
                     </div>
                 @endforeach
-                <div class="col-lg-12">
-                    <div class="main-button">
-                        {{ $games->onEachSide(0)->links('vendor.pagination.bootstrap-5') }}
-                    </div>
+                <div class="col-lg-12 mt-5">
+                    {{ $games->onEachSide(0)->links('vendor.pagination.bootstrap-5') }}
                 </div>
             </div>
         </div>
     </div>
-
 </x-layouts::main>

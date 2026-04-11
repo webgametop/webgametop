@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class GameController extends Controller
 {
+    public function showcase()
+    {
+        //
+    }
+
     /**
      * Display a listing of the resource.
      */

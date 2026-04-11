@@ -3,37 +3,37 @@
 @section('title', 'Разработчики')
 
 <x-layouts::main>
-    <div class="container">
-        <div class="page-content">
-            <div class="most-popular m-0">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="heading-section">
-                            <h4><em>Разработчики</em> Яднекс.Игры</h4>
-                        </div>
-                        <div class="row">
-                            @foreach($developers as $developer)
-                            <div class="col-12">
-                                <div class="item p-4">
-{{--                                    <img src="/build/assets/images/popular-01.jpg" alt="">--}}
-                                    <h4 class="m-0">
-                                        {{ $developer->nickname }}
-                                        <span>Игр: {{ $developer->games->count() }}</span>
-                                    </h4>
-                                    <ul class="m-0">
-                                        <li><i class="fa fa-star"></i> 5.0</li>
-                                        <li><i class="fa fa-download"></i> 2.3M</li>
-                                    </ul>
+    <div class="page-header">
+        <div class="container">
+            <h2 class="page-title">Разработчики</h2>
+            <div class="text-secondary">Яндекс.Игры</div>
+        </div>
+    </div>
+    <div class="page-body">
+        <div class="container">
+            <div class="row row-cards justify-content-around">
+                @foreach($developers as $developer)
+                    <div class="col-auto" style="max-width: 11rem;">
+                        <a href="#" class="d-flex flex-column">
+                            <div class="avatar" style="--tblr-avatar-size: 10rem; background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png'); background-size: cover;"></div>
+                            <div class="mt-2" style="min-height: 1rem; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;"><strong>{{ $developer->nickname }}</strong></div>
+                            <div class="mt-2 d-flex">
+                                <div class="text-muted">
+                                    <span>99 999 999 участников</span>
+                                </div>
+                                <div class="text-muted ms-3 d-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-eye">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                        <path d="M12 4c4.29 0 7.863 2.429 10.665 7.154l.22 .379l.045 .1l.03 .083l.014 .055l.014 .082l.011 .1v.11l-.014 .111a.992 .992 0 0 1 -.026 .11l-.039 .108l-.036 .075l-.016 .03c-2.764 4.836 -6.3 7.38 -10.555 7.499l-.313 .004c-4.396 0 -8.037 -2.549 -10.868 -7.504a1 1 0 0 1 0 -.992c2.831 -4.955 6.472 -7.504 10.868 -7.504zm0 5a3 3 0 1 0 0 6a3 3 0 0 0 0 -6"/>
+                                    </svg>
+                                    <span>534к</span>
                                 </div>
                             </div>
-                            @endforeach
-                        </div>
+                        </a>
                     </div>
-                    <div class="col-lg-12">
-                        <div class="main-button">
-                            {{ $developers->onEachSide(0)->links('vendor.pagination.default') }}
-                        </div>
-                    </div>
+                @endforeach
+                <div class="col-lg-12  mt-5">
+                    {{ $developers->onEachSide(0)->links('vendor.pagination.bootstrap-5') }}
                 </div>
             </div>
         </div>

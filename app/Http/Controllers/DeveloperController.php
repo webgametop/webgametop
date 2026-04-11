@@ -9,12 +9,17 @@ use Illuminate\Http\Request;
 
 class DeveloperController extends Controller
 {
+    public function showcase()
+    {
+        //
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $developers = Developer::orderBy('created_at', 'desc')->paginate(10);
+        $developers = Developer::orderBy('created_at', 'desc')->paginate(30);
 
         return view('web.developers.index', compact('developers'));
     }

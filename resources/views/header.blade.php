@@ -118,8 +118,8 @@
                     </a>
                     <div class="dropdown-menu">
                         <a href="/games/yandexgames" class="dropdown-item">Яндекс.Игры</a>
-                        <a href="/games/crazygames" class="dropdown-item">CrazyGames</a>
-                        <a href="/games/poki" class="dropdown-item">POKI</a>
+                        <a href="/games/crazygames" class="dropdown-item disabled">CrazyGames</a>
+                        <a href="/games/poki" class="dropdown-item disabled">POKI</a>
                         <div class="dropdown-divider"></div>
                         <a href="{{ route('games') }}" @class([
                             'dropdown-item', 'active' => request()->routeIs('games')
@@ -142,8 +142,8 @@
                     </a>
                     <div class="dropdown-menu">
                         <a href="/developers/yandexgames" class="dropdown-item">Яндекс.Игры</a>
-                        <a href="/developers/crazygames" class="dropdown-item">CrazyGames</a>
-                        <a href="/developers/poki" class="dropdown-item">POKI</a>
+                        <a href="/developers/crazygames" class="dropdown-item disabled">CrazyGames</a>
+                        <a href="/developers/poki" class="dropdown-item disabled">POKI</a>
                         <div class="dropdown-divider"></div>
                         <a href="{{ route('developers') }}" @class([
                             'dropdown-item', 'active' => request()->routeIs('developers')
