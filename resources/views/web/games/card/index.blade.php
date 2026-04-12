@@ -31,10 +31,10 @@
                 </div>
                 <div class="col-12 col-lg-5 d-flex flex-column mt-4 mt-lg-0">
                     <div>
-                        <h1 class="m-0">{{ $game->title }} ({{ $game->created_at->format('Y') }})</h1>
+                        <h1 class="m-0">{{ $game->title }} ({{ $game->released_at->format('Y') }})</h1>
                         <div>Разработчик <a href="{{ route('developers.show', [$developer, $developer->slug]) }}" class="link-secondary">{{ $developer->name }}</a></div>
                         <hr class="my-3">
-                        <div>Дата публикации <span class="text-muted">{{ $game->created_at->format('d.m.Y') }}</span></div>
+                        <div>Дата выхода <span class="text-muted">{{ $game->released_at->format('d.m.Y') }}</span></div>
                     </div>
                     <div class="mt-auto">
                         <div class="d-flex">

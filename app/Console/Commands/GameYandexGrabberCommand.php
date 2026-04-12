@@ -118,6 +118,7 @@ class GameYandexGrabberCommand extends Command
                     'slug' => uniqid(),
                     'title' => $game->title,
                     'description' => $game->description,
+                    'released_at' => $game->first_published
                 ]);
 
                 $modelGame->updateTimestamps();

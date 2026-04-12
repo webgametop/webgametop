@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('slug',128)->unique('unq_games_on_slug');
             $table->string('title');
             $table->text('description');
+            $table->dateTime('released_at');
             $table->timestamps();
         });
     }

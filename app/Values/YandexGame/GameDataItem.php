@@ -17,6 +17,7 @@ class GameDataItem
         public readonly int $id,
         public readonly string $title,
         public readonly string $description,
+        public readonly int $first_published,
         public readonly GameDeveloper $developer,
         public readonly GameMedia $media,
     )
@@ -181,6 +182,7 @@ class GameDataItem
             $game['appID'],
             $game['title'],
             $game['description'],
+            $game['firstPublished'],
             $developer,
             $media,
         );

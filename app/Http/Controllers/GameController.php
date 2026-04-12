@@ -24,7 +24,7 @@ class GameController extends Controller
     {
         $games = Game::with('developer')
             ->whereRelation('developer', 'provider', $provider)
-            ->orderBy('created_at', 'desc')
+            ->orderBy('released_at', 'desc')
             ->paginate(30);
 
         return view('web.games.index', compact('games', 'provider'));
