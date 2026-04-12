@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('provider')->index('idx_developers_on_provider');
             $table->string('identity');
             $table->binary('dedup_hash', 32)->index('idx_developers_on_dedup_hash');
-            $table->string('username',32)->unique('unq_developers_on_username');
-            $table->string('nickname', 128);
+            $table->string('slug', 128)->unique('unq_developers_on_slug');
+            $table->string('name');
             $table->timestamps();
         });
 

@@ -1,3 +1,4 @@
+@php use App\Enums\GameProvider as GameProviderEnum; @endphp
 <header class="navbar navbar-expand-md py-2 d-print-none">
     <div class="container">
         {{-- BEGIN NAVBAR TOGGLER --}}
@@ -100,7 +101,10 @@
             <ul class="navbar-nav">
                 {{-- BEGIN GAMES --}}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#navbar-games" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
+                    <a @class([
+                        'nav-link', 'dropdown-toggle',
+                        'bg-azure-lt' => request()->routeIs(['games'])
+                    ]) href="#navbar-games" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-device-gamepad-2">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -114,16 +118,30 @@
                         <span class="nav-link-title"> Игры</span>
                     </a>
                     <div class="dropdown-menu">
-                        <a href="/games/yandexgames" class="dropdown-item">Яндекс.Игры</a>
-                        <a href="/games/crazygames" class="dropdown-item">CrazyGames</a>
-                        <a href="/games/poki" class="dropdown-item">POKI</a>
+                        <a href="{{ route('games', 'yandexgames') }}" @class([
+                            'dropdown-item',
+                            'active' => request()->routeIs('games') && request()->route('provider') === GameProviderEnum::YANDEXGAMES
+                        ])>Яндекс.Игры</a>
+                        <a href="{{ route('games', 'crazygames') }}" @class([
+                            'dropdown-item',
+                            'active' => request()->routeIs('games') && request()->route('provider') === GameProviderEnum::CRAZYGAMES
+                        ])>CrazyGames</a>
+                        <a href="{{ route('games', 'poki') }}" @class([
+                            'dropdown-item',
+                            'active' => request()->routeIs('games') && request()->route('provider') === GameProviderEnum::POKI
+                        ])>Poki</a>
                         <div class="dropdown-divider"></div>
-                        <a href="/games" class="dropdown-item">Витрина</a>
+                        <a href="{{ route('games.showcase') }}" @class([
+                            'dropdown-item', 'active' => request()->routeIs('games.showcase')
+                        ])>Витрина</a>
                     </div>
                 </li>
                 {{-- BEGIN DEVELOPERS --}}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#navbar-developers" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
+                    <a @class([
+                        'nav-link', 'dropdown-toggle',
+                        'bg-azure-lt' => request()->routeIs(['developers'])
+                    ]) href="#navbar-developers" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-code">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 8l-4 4l4 4"/>
@@ -133,11 +151,22 @@
                         <span class="nav-link-title"> Разработчики</span>
                     </a>
                     <div class="dropdown-menu">
-                        <a href="/developers/yandexgames" class="dropdown-item">Яндекс.Игры</a>
-                        <a href="/developers/crazygames" class="dropdown-item">CrazyGames</a>
-                        <a href="/developers/poki" class="dropdown-item">POKI</a>
+                        <a href="{{ route('developers', 'yandexgames') }}" @class([
+                            'dropdown-item',
+                            'active' => request()->routeIs('developers') && request()->route('provider') === GameProviderEnum::YANDEXGAMES
+                        ])>Яндекс.Игры</a>
+                        <a href="{{ route('developers', 'crazygames') }}" @class([
+                            'dropdown-item',
+                            'active' => request()->routeIs('developers') && request()->route('provider') === GameProviderEnum::CRAZYGAMES
+                        ])>CrazyGames</a>
+                        <a href="{{ route('developers', 'poki') }}" @class([
+                            'dropdown-item',
+                            'active' => request()->routeIs('developers') && request()->route('provider') === GameProviderEnum::POKI
+                        ])>Poki</a>
                         <div class="dropdown-divider"></div>
-                        <a href="/developers" class="dropdown-item">Витрина</a>
+                        <a href="{{ route('developers.showcase') }}" @class([
+                            'dropdown-item', 'active' => request()->routeIs('developers.showcase')
+                        ])>Витрина</a>
                     </div>
                 </li>
                 {{-- BEGIN USERS --}}
@@ -145,8 +174,10 @@
                     <a href="{{ route('users') }}" @class(['nav-link', 'bg-azure-lt' => request()->routeIs('users')])>
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-users">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 7a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"/>
-                                <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M5 7a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"/>
+                                <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                                 <path d="M21 21v-2a4 4 0 0 0 -3 -3.85"/>
                             </svg>
                         </span>

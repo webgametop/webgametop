@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\DeveloperEnsureCorrectRedirect;
+use App\Http\Middleware\GameEnsureCorrectRedirect;
 use App\Http\Middleware\UserEnsureCorrectRedirect;
 use App\Http\Middleware\UserEnsureEditOnlySelfAccount;
 use App\Http\Middleware\UserHeartbeat;
@@ -17,6 +19,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->appendToGroup('web', UserHeartbeat::class);
         $middleware->alias([
+            'redirect.developerslug' => DeveloperEnsureCorrectRedirect::class,
+            'redirect.gameslug' => GameEnsureCorrectRedirect::class,
             'redirect.username' => UserEnsureCorrectRedirect::class,
             'access.edit' => UserEnsureEditOnlySelfAccount::class,
         ]);

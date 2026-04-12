@@ -5,7 +5,7 @@
 <x-layouts::main>
     <div class="page-header">
         <div class="container">
-            <h2 class="page-title">Пользователи</h2>
+            <div class="page-title">Пользователи</div>
             <div class="text-secondary">В данном разделе представлены все пользователи сайта, отсортированные по дате последнего посещения.</div>
         </div>
     </div>
@@ -26,7 +26,7 @@
                                         </h4>
                                         <div>
                                             <span @class(['badge bg-danger', 'bg-green' => $user->isOnline()])></span>
-                                            {{ $user->isOnline() ? 'сейчас на сайте' : 'в сети:' . $user->last_seen_at->ago() }}
+                                            {{ $user->isOnline() ? 'сейчас на сайте' : 'в сети: ' . $user->last_seen_at->ago() }}
                                         </div>
                                     </div>
                                     <div class="col-auto">

@@ -17,8 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('identity');
             $table->binary('dedup_hash', 32)->index('idx_games_on_dedup_hash');
+            $table->string('slug',128)->unique('unq_games_on_slug');
             $table->string('title');
             $table->text('description');
+            $table->dateTime('released_at');
             $table->timestamps();
         });
     }
