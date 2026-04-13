@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Exceptions\GameVoteLimitExceededException;
+use App\Exceptions\GameVoteNotFoundException;
 use App\Models\Game;
+use App\Models\GameVote as Vote;
 use App\Models\User;
 use App\Repositories\GameRepository;
+use App\Values\Game\VoteCreateData;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
@@ -14,13 +18,28 @@ use Illuminate\Support\Facades\Cache;
 class GameVoteService
 {
     public function __construct(
-        readonly private GameRepository $repository,
+        private readonly GameRepository $gameRepository,
+        private readonly UserService $userService,
     )
     {
     }
 
-    public function createVote(Game $game)
+    public function createVote(VoteCreateData $dto): Vote
     {
+        $vote = Vote::make($dto->toArray());
+
+        /** @var ?Game $game */
+        $game = $this->gameRepository->findOne($vote->game_id);
+        throw_if(! $game, new GameVoteNotFoundException);
+
+        $check = $this->userService->hasVotedToday($vote->user_id);
+        throw_if($check, new GameVoteLimitExceededException);
+
+        /** @var false|Vote $saved */
+        $saved = $game->votes()->save($vote);
+        throw_if(! $saved, new \Exception('test'));
+
+        return $saved;
     }
 
     public function updateVote(array $data)
@@ -31,10 +50,14 @@ class GameVoteService
     {
     }
 
-    public function payloadVote(Game $game, User $user): array
+    public function generatePayload(Game $game, ?User $user): ?array
     {
+        if (! $user instanceof User) {
+            return null;
+        }
+
         $payload = $this->cachePayload(
-            $this->generatePayload($game, ['user' => ['id' => $user->id]])
+            $this->buildPayload($game, ['user' => ['id' => $user->id]])
         );
 
         return json_decode($payload, true);
@@ -49,7 +72,7 @@ class GameVoteService
         );
     }
 
-    private function generatePayload(Game $game, array $data): array
+    private function buildPayload(Game $game, array $data): array
     {
         return Arr::collapse([$this->basePayload($game), $data]);
     }

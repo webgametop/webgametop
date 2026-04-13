@@ -7,19 +7,11 @@ namespace App\Http\Controllers;
 use App\Enums\GameProvider as GameProviderEnum;
 use App\Models\Developer;
 use App\Models\Game;
-use App\Models\User;
-use App\Services\GameVoteService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class GameController extends Controller
 {
-    public function __construct(
-        private readonly GameVoteService $voteService,
-    )
-    {
-    }
-
     public function showcase()
     {
         return view('web.games.showcase');
@@ -64,11 +56,6 @@ class GameController extends Controller
         /** @var GameProviderEnum $provider */
         $provider = $developer->provider;
 
-        /** @var User $user */
-        $user = \Auth::user();
-
-        $this->voteService->payloadVote($game, $user); // regeneratePayload
-
         return view('web.games.card.index', compact('game', 'developer', 'provider'));
     }
 
@@ -102,6 +89,6 @@ class GameController extends Controller
             abort(404, 'The requested user does not exist.');
         }
 
-        return redirect()->route('games.show', [$game, $game->slug]);
+        return redirect()->route('games.show', [$game, $game->slug])->with('flash', session('flash'));
     }
 }

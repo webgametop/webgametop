@@ -8,6 +8,7 @@ use Database\Factories\GameFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Game extends Model
 {
@@ -46,7 +47,12 @@ class Game extends Model
         return $this->belongsTo(Developer::class);
     }
 
-    public function votePayload(): string
+    public function votes(): HasMany
+    {
+        return $this->hasMany(GameVote::class);
+    }
+
+    public function payload(): string
     {
         $payload = ['key' => $this->getCacheKeyVote(), 'popup' => true];
 

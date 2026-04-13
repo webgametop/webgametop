@@ -189,3 +189,12 @@
         </div>
     </div>
 </header>
+@if (session()->has('flash'))
+    {{-- @todo move to componet --}}
+    <div class="container">
+        <div class="alert alert-{{ session('flash.type') }} alert-dismissible fade show m-0 mt-4" role="alert">
+            <span>{!! session('flash.message') !!}</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+@endif

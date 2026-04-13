@@ -11,16 +11,20 @@ function gravatar(string $email, int $size = 192): string
     return GravatarService::url($email, $size);
 }
 
+function user_vote_key(int $user_id): string
+{
+    $template_key = 'user,:id,vote,:date';
+    $date = Carbon::now()->format('Y/m/d');
+
+    return cache_key(Str::replace(':id', $user_id, $template_key, $date));
+}
+
 function game_vote_key(int $game_id): string
 {
     $template_key = 'game,:id,vote,:date';
     $date = Carbon::now()->format('Y/m/d');
 
-    return cache_key(Str::replace(
-        [':id', ':date'],
-        [$game_id, $date],
-        $template_key,
-    ));
+    return cache_key(Str::replace([':id', ':date'], [$game_id, $date], $template_key));
 }
 
 function user_online_key(int $user_id): string

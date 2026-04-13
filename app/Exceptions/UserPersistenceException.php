@@ -10,6 +10,6 @@ class UserPersistenceException extends Exception
 {
     public function __construct(string $action = 'saved')
     {
-        parent::__construct("User not $action, please try again later");
+        parent::__construct("User not $action, please try again later.");
     }
 }

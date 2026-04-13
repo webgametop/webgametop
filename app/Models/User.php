@@ -67,13 +67,13 @@ class User extends Authenticatable
         return gravatar($this->email, $size);
     }
 
-    public function isOnline(): bool
-    {
-        return Cache::has($this->getCacheKeyOnline());
-    }
-
     public function getCacheKeyOnline(): string
     {
         return user_online_key($this->id);
+    }
+
+    public function isOnline(): bool
+    {
+        return Cache::has($this->getCacheKeyOnline());
     }
 }
