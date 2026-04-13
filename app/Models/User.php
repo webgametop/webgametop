@@ -8,8 +8,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades;
-use Illuminate\Support;
+use Illuminate\Support\Facades\Cache;
 
 class User extends Authenticatable
 {
@@ -63,17 +62,18 @@ class User extends Authenticatable
         return $this->is($other);
     }
 
-    public function isOnline(): bool
-    {
-        $keyCache = 'users:{id}:online';
-
-        $key = cache_key(Support\Str::replace('{id}', $this->id, $keyCache));
-
-        return Facades\Cache::has($key);
-    }
-
     public function gravatar(int $size = 192): string
     {
-        return url_gravatar($this->email, $size);
+        return gravatar($this->email, $size);
+    }
+
+    public function isOnline(): bool
+    {
+        return Cache::has($this->getCacheKeyOnline());
+    }
+
+    public function getCacheKeyOnline(): string
+    {
+        return user_online_key($this->id);
     }
 }

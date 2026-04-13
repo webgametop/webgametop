@@ -118,7 +118,7 @@ class GameYandexGrabberCommand extends Command
                     'slug' => uniqid(),
                     'title' => $game->title,
                     'description' => $game->description,
-                    'released_at' => $game->first_published
+                    'released_at' => $game->first_published,
                 ]);
 
                 $modelGame->updateTimestamps();
@@ -132,6 +132,7 @@ class GameYandexGrabberCommand extends Command
                     ...$item->toArray(),
                     'created_at' => $item->created_at->toDateTimeString(),
                     'updated_at' => $item->updated_at->toDateTimeString(),
+                    'released_at'=> $item->released_at->toDateTimeString(),
                 ]);
 
                 Game::insert($data->toArray());

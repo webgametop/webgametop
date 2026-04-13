@@ -9,12 +9,11 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades;
-use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserHeartbeat
 {
-    private const OFFLINE_THRESHOLD_MINUTES = 3;
+    private const OFFLINE_THRESHOLD_MINUTES = 15;
 
     /**
      * Handle an incoming request.
@@ -32,15 +31,12 @@ class UserHeartbeat
 
         $now = Carbon::now();
         $expiresAt = $now->copy()->subMinutes(self::OFFLINE_THRESHOLD_MINUTES);
-        $lastSeenAt = Carbon::parse($user->last_seen_at);
 
-        $keyCache = 'users:{id}:online';
-        $ttlCache = $expiresAt->diffInSeconds($now);
+        $cache_ttl = $expiresAt->diffInSeconds($now);
+        $cache_key = $user->getCacheKeyOnline();
 
-        $key = cache_key(Str::replace('{id}', $user->id, $keyCache));
-
-        if (! Facades\Cache::has($key)) {
-            Facades\Cache::put($key, 'heartbeat', $ttlCache);
+        if (! Facades\Cache::has($cache_key)) {
+            Facades\Cache::put($cache_key, 'heartbeat', $cache_ttl);
 
             $user->timestamps = false;
             $user->updateQuietly(['last_seen_at' => $now]);

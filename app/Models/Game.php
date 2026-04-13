@@ -45,4 +45,16 @@ class Game extends Model
     {
         return $this->belongsTo(Developer::class);
     }
+
+    public function votePayload(): string
+    {
+        $payload = ['key' => $this->getCacheKeyVote(), 'popup' => true];
+
+        return base64_encode(json_encode($payload));
+    }
+
+    public function getCacheKeyVote(): string
+    {
+        return game_vote_key($this->id);
+    }
 }
