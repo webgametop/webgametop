@@ -58,6 +58,11 @@ class UserService
         return $this->repository->countIpHashes($ip_hash) < self::MAX_REGISTER_PER_FROM_IP;
     }
 
+    public function canVotedToday(int $user_id): bool
+    {
+        return !$this->hasVotedToday($user_id);
+    }
+
     public function hasVotedToday(int $user_id): bool
     {
         return !empty($this->gameVoteRepository->findOneBy([

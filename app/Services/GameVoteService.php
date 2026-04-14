@@ -61,7 +61,7 @@ class GameVoteService
      */
     public function processVote(Game $game, ?User $user): array
     {
-        if ($has_voted_today = $this->userService->hasVotedToday($user?->id)) {
+        if ($can_voted_today = $this->userService->canVotedToday($user?->id)) {
             $this->generatePayload($game, $user);
         }
 
@@ -70,7 +70,7 @@ class GameVoteService
         $diff = $now->diff($nextVoteAt);
 
         return [
-            'allowed' => !$has_voted_today,
+            'allowed' => $can_voted_today,
             'next_in' => $diff->format('%H:%I:%S'),
             'next_at' => $nextVoteAt->timestamp,
         ];

@@ -3,6 +3,12 @@
 @section('title', 'Игры &#8212; Витрина')
 
 <x-layouts::main>
+    <div class="container mt-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Главная</a></li>
+            <li class="breadcrumb-item active"><a href="{{ route('games.showcase') }}">Игры</a></li>
+        </ol>
+    </div>
     <div class="page-header">
         <div class="container">
             <div class="page-title">Игры</div>

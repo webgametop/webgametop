@@ -3,6 +3,14 @@
 @section('title', 'Игра')
 
 <x-layouts::main>
+    <div class="container mt-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Главная</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('games.showcase') }}">Игры</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('games', $provider) }}">{{ $provider->label() }}</a></li>
+            <li class="breadcrumb-item active"><a href="{{ route('games.show', [$game, $game->slug]) }}">{{ $game->title }}</a></li>
+        </ol>
+    </div>
     <div class="page-header">
         <div class="container">
             <div class="page-title">Игры</div>
@@ -31,7 +39,7 @@
                 </div>
                 <div class="col-12 col-lg-5 d-flex flex-column mt-4 mt-lg-0">
                     <div>
-                        <h1 class="m-0">{{ $game->title }} ({{ $game->released_at->format('Y') }})</h1>
+                        <h1 class="m-0">{{ $game->title }}</h1>
                         <div>Разработчик <a href="{{ route('developers.show', [$developer, $developer->slug]) }}" class="link-secondary">{{ $developer->name }}</a></div>
                         <hr class="my-3">
                         <div>Дата выхода <span class="text-muted">{{ $game->released_at->format('d.m.Y') }}</span></div>

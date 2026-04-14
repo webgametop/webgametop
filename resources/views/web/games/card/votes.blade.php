@@ -3,10 +3,19 @@
 @section('title', 'Игра')
 
 <x-layouts::main>
+    <div class="container mt-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Главная</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('games.showcase') }}">Игры</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('games', $provider) }}">{{ $provider->label() }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('games.show', [$game, $game->slug]) }}">{{ $game->title }}</a></li>
+            <li class="breadcrumb-item active"><a href="{{ route('games.votes', [$game, $game->slug]) }}">Голосование</a></li>
+        </ol>
+    </div>
     <div class="page-header">
         <div class="container">
-            <div class="page-title">page-title</div>
-            <div class="text-muted">text-muted</div>
+            <div class="page-title">Игры</div>
+            <div class="text-muted">{{ $provider->label() }}</div>
         </div>
     </div>
     <div class="page-body">
@@ -82,7 +91,7 @@
                                 <div class="h1">Спасибо за участие! Сегодня вы уже голосовали.</div>
                                 <div class="text-muted">Отдохните, подумайте, а завтра возвращайтесь с новыми силами.</div>
                                 <hr>
-                                <div class="display-5"><b id="usage">{{ $process['next_in'] }}</b></div>
+                                <div class="display-4"><b id="usage">{{ $process['next_in'] }}</b></div>
                             </div>
                         </div>
                     </div>
@@ -132,7 +141,7 @@
     </div>
     @push('body-script')
         <script type="module">
-            let countdown = new easytimer({ countdown: true} );
+            const countdown = new easytimer({ countdown: true} );
 
             const target_timestamp = {{ $process['next_at'] }};
             const target_ms = target_timestamp * 1000;
