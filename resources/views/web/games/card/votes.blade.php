@@ -1,4 +1,4 @@
-@props(['game', 'provider', 'is_voted_today'])
+@props(['game', 'provider', 'process'])
 
 @section('title', 'Игра')
 
@@ -12,13 +12,7 @@
     <div class="page-body">
         <div class="container">
             <div class="row row-cards">
-                @if($is_voted_today)
-                    <div class="col-8">
-                        <div class="card card-md">
-                            <div class="card-body text-center">Вы уже проголосовали сегодня. Приходите завтра.</div>
-                        </div>
-                    </div>
-                @else
+                @if($process['allowed'])
                     <div class="col">
                         <div class="card card-md">
                             <div class="card-body text-center">
@@ -81,6 +75,17 @@
                             </div>
                         </div>
                     </div>
+                @else
+                    <div class="col-8">
+                        <div class="card card-md h-100">
+                            <div class="card-body text-center">
+                                <div class="h1">Спасибо за участие! Сегодня вы уже голосовали.</div>
+                                <div class="text-muted">Отдохните, подумайте, а завтра возвращайтесь с новыми силами.</div>
+                                <hr>
+                                <div class="display-5"><b id="usage">{{ $process['next_in'] }}</b></div>
+                            </div>
+                        </div>
+                    </div>
                 @endif
                 <div class="col">
                     <div class="card card-md">
@@ -125,4 +130,19 @@
             </div>
         </div>
     </div>
+    @push('body-script')
+        <script type="module">
+            let countdown = new easytimer({ countdown: true} );
+
+            const target_timestamp = {{ $process['next_at'] }};
+            const target_ms = target_timestamp * 1000;
+            const remaining_ms = target_ms - Date.now();
+
+            countdown.start({ startValues: { seconds: remaining_ms / 1000 } });
+
+            countdown.addEventListener('secondsUpdated', function (e) {
+                $('#usage').html(countdown.getTimeValues().toString());
+            });
+        </script>
+    @endpush
 </x-layouts::main>

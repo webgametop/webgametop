@@ -35,11 +35,9 @@ class GameVoteController extends Controller
         /** @var ?User $user */
         $user = \Auth::user();
 
-        if ($is_voted_today = $this->userService->hasVotedToday($user?->id)) {
-            $this->service->generatePayload($game, $user);
-        }
+        $process = $this->service->processVote($game, $user);
 
-        return view('web.games.card.votes', compact('game', 'provider', 'is_voted_today'));
+        return view('web.games.card.votes', compact('game', 'provider', 'process'));
     }
 
     /**
@@ -67,7 +65,7 @@ class GameVoteController extends Controller
             $flash_data['type'] = 'info';
         }
 
-        return redirect()->route('games.show', $route_data)->with('flash', $flash_data);
+        return redirect()->route('games.votes', $route_data)->with('flash', $flash_data);
     }
 
     /**

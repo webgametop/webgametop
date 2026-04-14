@@ -50,6 +50,32 @@ class GameVoteService
     {
     }
 
+    /**
+     * @param Game $game
+     * @param ?User $user
+     * @return array{
+     *     allowed: bool,
+     *     next_in: string,
+     *     next_at: int,
+     * }
+     */
+    public function processVote(Game $game, ?User $user): array
+    {
+        if ($has_voted_today = $this->userService->hasVotedToday($user?->id)) {
+            $this->generatePayload($game, $user);
+        }
+
+        $now = Carbon::now();
+        $nextVoteAt = $now->copy()->addDay()->startOfDay();
+        $diff = $now->diff($nextVoteAt);
+
+        return [
+            'allowed' => !$has_voted_today,
+            'next_in' => $diff->format('%H:%I:%S'),
+            'next_at' => $nextVoteAt->timestamp,
+        ];
+    }
+
     public function generatePayload(Game $game, ?User $user): ?array
     {
         if (! $user instanceof User) {
