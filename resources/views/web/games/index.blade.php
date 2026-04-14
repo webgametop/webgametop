@@ -4,11 +4,7 @@
 
 <x-layouts::main>
     <div class="container mt-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">Главная</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('games.showcase') }}">Игры</a></li>
-            <li class="breadcrumb-item active"><a href="{{ route('games', $provider) }}">{{ $provider->label() }}</a></li>
-        </ol>
+        {{ Breadcrumbs::render('games', $provider) }}
     </div>
     <div class="page-header">
         <div class="container">
