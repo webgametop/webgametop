@@ -52,15 +52,10 @@ class Game extends Model
         return $this->hasMany(GameVote::class);
     }
 
-    public function payload(): string
+    public function payload(User $user): string
     {
-        $payload = ['key' => $this->getCacheKeyVote(), 'popup' => true];
+        $payload = ['key' => game_vote_key($user->id), 'popup' => true];
 
         return base64_encode(json_encode($payload));
-    }
-
-    public function getCacheKeyVote(): string
-    {
-        return game_vote_key($this->id);
     }
 }

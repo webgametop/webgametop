@@ -9,15 +9,12 @@ use App\Models\Developer;
 use App\Models\Game;
 use App\Models\User;
 use App\Services\GameVoteService;
-use App\Services\UserService;
-use App\Values\Game\VoteCreateData;
 use Illuminate\Http\Request;
 
 class GameVoteController extends Controller
 {
     public function __construct(
         private readonly GameVoteService $service,
-        private readonly UserService $userService,
     )
     {
     }
@@ -53,13 +50,14 @@ class GameVoteController extends Controller
      */
     public function store(Request $request, Game $game)
     {
-        $dto = new VoteCreateData($game->id, auth()->id());
+        /** @var User $user */
+        $user = \Auth::user();
 
         $route_data = [$game, $game->slug];
         $flash_data = ['message' => 'Thank you! Your vote has been counted. Come back tomorrow to vote again.', 'type' => 'success'];
 
         try {
-            $this->service->createVote($dto);
+            $this->service->registerVote($user->id);
         } catch (\Exception $e) {
             $flash_data['message'] = $e->getMessage();
             $flash_data['type'] = 'info';

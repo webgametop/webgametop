@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Exceptions\GameVoteExpiredException;
 use App\Exceptions\GameVoteLimitExceededException;
 use App\Exceptions\GameVoteNotFoundException;
 use App\Models\Game;
@@ -40,6 +41,22 @@ class GameVoteService
         throw_if(! $saved, new \Exception('test'));
 
         return $saved;
+    }
+
+    public function registerVote(int $user_id, string $created_via = 'site'): ?Vote
+    {
+        $key = game_vote_key($user_id);
+
+        /** @var $data ?string */
+        $data = Cache::pull($key);
+        throw_if(! $data, new GameVoteExpiredException);
+
+        /** @var array $payload */
+        $payload = json_decode($data, true);
+
+        $dto = VoteCreateData::make($payload['sub'], $payload['user']['id']);
+
+        return $this->createVote($dto);
     }
 
     public function updateVote(array $data)
@@ -89,10 +106,21 @@ class GameVoteService
         return json_decode($payload, true);
     }
 
+    /**
+     * @param array{
+     *     sub: int,
+     *     iat: int,
+     *     exp: int,
+     *     user: array{
+     *         id: int,
+     *     }
+     * } $payload
+     * @return string
+     */
     private function cachePayload(array $payload): string
     {
         return Cache::remember(
-            game_vote_key($payload['sub']),
+            game_vote_key($payload['user']['id']),
             Carbon::createFromTimestamp($payload['exp']),
             static fn() => json_encode($payload),
         );
@@ -103,6 +131,14 @@ class GameVoteService
         return Arr::collapse([$this->basePayload($game), $data]);
     }
 
+    /**
+     * @param Game $game
+     * @return array{
+     *     sub: int,
+     *     iat: int,
+     *     exp: int,
+     * }
+     */
     private function basePayload(Game $game): array
     {
         $now = Carbon::now();
@@ -115,8 +151,8 @@ class GameVoteService
         ];
     }
 
-    public function hasPayload(Game $game): bool
+    public function hasPayload(int $user_id): bool
     {
-        return Cache::has(game_vote_key($game->id));
+        return Cache::has(game_vote_key($user_id));
     }
 }
