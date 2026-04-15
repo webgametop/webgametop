@@ -20,13 +20,13 @@ class UserEnsureEditOnlySelfAccount
     public function handle(Request $request, Closure $next): Response
     {
         if (! Facades\Auth::check()) {
-            abort(403, 'You must be logged in to access this page');
+            abort(403, 'You must be logged in to access this page.');
         }
 
         /** @var ?User $user */
         $user = $request->route('user');
         if ($user && Facades\Auth::user()?->id !== $user->id) {
-            abort(403, 'You are not authorized to edit this user');
+            abort(403, 'You are not authorized to edit this user.');
         }
 
         return $next($request);

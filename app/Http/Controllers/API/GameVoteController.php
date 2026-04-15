@@ -48,14 +48,16 @@ class GameVoteController extends Controller
                 throw new GameVoteExpiredException;
             }
 
-            /** @var array{
+            /**
+             * @var array{
              *     sub: int,
              *     iat: int,
              *     exp: int,
              *     user: array{
              *         id: int,
              *     }
-             * } $payload */
+             * } $payload
+             */
             $payload = json_decode($data, true);
 
             $this->service->registerVote($payload['user']['id'], 'api');

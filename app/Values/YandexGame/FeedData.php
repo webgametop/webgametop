@@ -42,17 +42,6 @@ class FeedData implements Arrayable
 
         /**
          * @var array{
-         *     type: string,
-         *     size: string,
-         *     items: array<array>,
-         *     isFromFirstPage: bool,
-         *     requestId: string
-         * } $suggested
-         */
-        $suggested = current(array_filter($json['feed'], fn($item) => $item['type'] === 'suggested'));
-
-        /**
-         * @var array{
          *     nextPageId: string,
          *     rtxReqId: string,
          *     isFirstPage: bool,
@@ -60,6 +49,28 @@ class FeedData implements Arrayable
          * } $page_info
          */
         $page_info = $json['pageInfo'];
+
+        /**
+         * @var array<array{
+         *     type: string,
+         *     size: string,
+         *     items: array<array>,
+         *     isFromFirstPage: bool,
+         *     requestId: string,
+         * }> $feed
+         */
+        $feed = $json['feed'];
+
+        /**
+         * @var array{
+         *     type: string,
+         *     size: string,
+         *     items: array<array>,
+         *     isFromFirstPage: bool,
+         *     requestId: string
+         * } $suggested
+         */
+        $suggested = current(array_filter($feed, fn($item) => $item['type'] === 'suggested'));
 
         /**
          * @var array<array> $items

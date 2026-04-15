@@ -53,14 +53,16 @@ class GameVoteController extends Controller
         /** @var User $user */
         $user = \Auth::user();
 
+        $message = 'Thank you! Your vote has been counted. Come back tomorrow to vote again.';
+
         $route_data = [$game, $game->slug];
-        $flash_data = ['message' => 'Thank you! Your vote has been counted. Come back tomorrow to vote again.', 'type' => 'success'];
+        $flash_data = ['type' => 'success', 'message' => $message];
 
         try {
             $this->service->registerVote($user->id);
         } catch (\Exception $e) {
-            $flash_data['message'] = $e->getMessage();
             $flash_data['type'] = 'info';
+            $flash_data['message'] = $e->getMessage();
         }
 
         return redirect()->route('games.votes', $route_data)->with('flash', $flash_data);
