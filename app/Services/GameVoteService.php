@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Exceptions\GameVoteExpiredException;
 use App\Exceptions\GameVoteLimitExceededException;
 use App\Exceptions\GameVoteNotFoundException;
+use App\Exceptions\GameVotePersistenceException;
 use App\Models\Game;
 use App\Models\GameVote as Vote;
 use App\Models\User;
@@ -38,7 +39,7 @@ class GameVoteService
 
         /** @var false|Vote $saved */
         $saved = $game->votes()->save($vote);
-        throw_if(! $saved, new \Exception('test'));
+        throw_if(! $saved, new GameVotePersistenceException);
 
         return $saved;
     }

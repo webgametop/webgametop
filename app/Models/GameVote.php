@@ -13,6 +13,11 @@ class GameVote extends Model
     /** @use HasFactory<VoteFactory> */
     use HasFactory;
 
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
     public $timestamps = false;
 
     /**
