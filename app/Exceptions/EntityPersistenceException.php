@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Exceptions;
 
-class EntityPersistenceException extends \RuntimeException
+abstract class EntityPersistenceException extends \RuntimeException
 {
     protected static string $entityName = 'entity';
 

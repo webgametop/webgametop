@@ -43,8 +43,8 @@ class GameVoteController extends Controller
         $key = $request->key;
 
         try {
-            /** @var ?string $data */
-            if (! $data = Cache::get($key)) {
+            /** @var ?string $cached */
+            if (! $cached = Cache::get($key)) {
                 throw new GameVoteExpiredException;
             }
 
@@ -58,7 +58,7 @@ class GameVoteController extends Controller
              *     }
              * } $payload
              */
-            $payload = json_decode($data, true);
+            $payload = json_decode($cached, true);
 
             $this->service->registerVote($payload['user']['id'], 'api');
         } catch (\Exception $e) {

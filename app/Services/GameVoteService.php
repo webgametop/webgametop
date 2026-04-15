@@ -104,11 +104,9 @@ class GameVoteService
             return null;
         }
 
-        $payload = $this->cachePayload(
+        return $this->cachePayload(
             $this->buildPayload($game, ['user' => ['id' => $user->id]])
         );
-
-        return json_decode($payload, true);
     }
 
     /**
@@ -120,15 +118,24 @@ class GameVoteService
      *         id: int,
      *     }
      * } $payload
-     * @return string
+     * @return array
      */
-    private function cachePayload(array $payload): string
+    private function cachePayload(array $payload): array
     {
-        return Cache::remember(
-            game_vote_key($payload['user']['id']),
-            Carbon::createFromTimestamp($payload['exp']),
-            static fn() => json_encode($payload),
-        );
+        $key = game_vote_key($payload['user']['id']);
+
+        /** @var ?string $cached */
+        if ($cached = Cache::get($key)) {
+            /** @var array $old */
+            $old = json_decode($cached, true);
+            if ($old['sub'] === $payload['sub']) {
+                return $old;
+            }
+        }
+
+        Cache::put($key, json_encode($payload), Carbon::createFromTimestamp($payload['exp']));
+
+        return $payload;
     }
 
     private function buildPayload(Game $game, array $data): array
