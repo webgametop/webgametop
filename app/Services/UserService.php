@@ -67,7 +67,7 @@ class UserService
     {
         return !empty($this->gameVoteRepository->findOneBy([
             'user_id' => $user_id,
-            'vote_dt' => Carbon::now()->format('Y-m-d'),
+            'voted_at' => Carbon::now()->format('Y-m-d'),
         ]));
     }
 

@@ -23,8 +23,8 @@ class GameVote extends Model
     protected $fillable = [
         'user_id',
         'game_id',
-        'vote_dt',
-        'name_ca',
+        'voted_at',
+        'created_via',
     ];
 
     /**
@@ -35,7 +35,7 @@ class GameVote extends Model
     protected function casts(): array
     {
         return [
-            'vote_dt' => 'date',
+            'voted_at' => 'date',
         ];
     }
 }

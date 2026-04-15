@@ -43,7 +43,7 @@ class GameVoteService
         return $saved;
     }
 
-    public function registerVote(int $user_id, string $created_via = 'site'): ?Vote
+    public function registerVote(int $user_id, string $created_via = 'web'): ?Vote
     {
         $key = game_vote_key($user_id);
 
@@ -54,7 +54,11 @@ class GameVoteService
         /** @var array $payload */
         $payload = json_decode($data, true);
 
-        $dto = VoteCreateData::make($payload['sub'], $payload['user']['id']);
+        $dto = VoteCreateData::make(
+            $payload['sub'],
+            $payload['user']['id'],
+            $created_via,
+        );
 
         return $this->createVote($dto);
     }

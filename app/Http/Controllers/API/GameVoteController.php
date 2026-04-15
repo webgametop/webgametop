@@ -58,7 +58,7 @@ class GameVoteController extends Controller
              * } $payload */
             $payload = json_decode($data, true);
 
-            $this->service->registerVote($payload['user']['id']);
+            $this->service->registerVote($payload['user']['id'], 'api');
         } catch (\Exception $e) {
             return ['ok' => false, 'message' => $e->getMessage()];
         }
