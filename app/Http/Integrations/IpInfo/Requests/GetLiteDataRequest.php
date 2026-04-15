@@ -21,7 +21,7 @@ class GetLiteDataRequest extends Request
 
     public function resolveEndpoint(): string
     {
-        return "lite/{$this->ip}";
+        return "/lite/{$this->ip}";
     }
 
     public function createDtoFromResponse(Response $response): IpInfoLiteData

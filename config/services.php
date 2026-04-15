@@ -41,7 +41,7 @@ return [
     ],
 
     'iplocate' => [
-        'endpoint' => env('IPLOCATE_ENDPOINT', 'https://iplocate.io/api/lookup/'),
+        'endpoint' => env('IPLOCATE_ENDPOINT', 'https://iplocate.io/api/lookup'),
     ],
 
 ];
