@@ -6,12 +6,12 @@
     <div class="container mt-4">
         {{ Breadcrumbs::render('games.show', $provider, $game) }}
     </div>
-    <div class="page-header">
+    {{--<div class="page-header">
         <div class="container">
             <div class="page-title">Игры</div>
             <div class="text-muted">{{ $provider->label() }}</div>
         </div>
-    </div>
+    </div>--}}
     <div class="page-body">
         <div class="container">
             <div class="row">
@@ -130,11 +130,13 @@
                 <div class="card-body">
                     <div class="tab-content">
                         <div class="tab-pane active" id="tabs-index" role="tabpanel">
-                            <div>
-                                <h2>Описание</h2>
-                                <div>{{ $game->description }}</div>
-                            </div>
-                            <div class="row row-cards mt-2">
+                            <div class="row row-cards">
+                                <div class="col-12">
+                                    <h2>Описание</h2>
+                                    <div class="card" style="white-space: pre-wrap;">
+                                        <div class="card-body">{{ $game->description }}</div>
+                                    </div>
+                                </div>
                                 <div class="col-md-3">
                                     <div class="card">
                                         <div class="card-body">

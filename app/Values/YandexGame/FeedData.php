@@ -75,7 +75,7 @@ class FeedData implements Arrayable
         /**
          * @var array<array> $items
          */
-        $items = $suggested['items'];
+        $items = $suggested['items'] ?? [];
 
         /**
          * @var array{

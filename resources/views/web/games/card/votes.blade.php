@@ -6,12 +6,12 @@
     <div class="container mt-4">
         {{ Breadcrumbs::render('games.votes', $provider, $game) }}
     </div>
-    <div class="page-header">
+    {{--<div class="page-header">
         <div class="container">
             <div class="page-title">Игры</div>
             <div class="text-muted">{{ $provider->label() }}</div>
         </div>
-    </div>
+    </div>--}}
     <div class="page-body">
         <div class="container">
             <div class="row row-cards">
