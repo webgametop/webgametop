@@ -16,7 +16,7 @@ function game_vote_key(int $user_id): string
     $template_key = 'game,vote,:date,user,:id';
     $date = Carbon::now()->format('Y/m/d');
 
-    return cache_key(Str::replace([':id', ':date'], [$user_id, $date], $template_key));
+    return cache_key(Str::replace([':id', ':date'], [$user_id, $date], $template_key), config('app.key'));
 }
 
 function user_online_key(int $user_id): string

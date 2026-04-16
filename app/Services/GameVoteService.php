@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Exceptions\GameVoteExpiredException;
 use App\Exceptions\GameVoteLimitExceededException;
+use App\Exceptions\GameVoteMismatchException;
 use App\Exceptions\GameVoteNotFoundException;
 use App\Exceptions\GameVotePersistenceException;
 use App\Models\Game;
@@ -13,6 +14,7 @@ use App\Models\GameVote as Vote;
 use App\Models\User;
 use App\Repositories\GameRepository;
 use App\Values\Game\VoteCreateData;
+use App\Values\Game\VoteRegisterData;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
@@ -44,21 +46,31 @@ class GameVoteService
         return $saved;
     }
 
-    public function registerVote(int $user_id, string $created_via = 'web'): ?Vote
+    public function registerVote(VoteRegisterData $dto): ?Vote
     {
-        $key = game_vote_key($user_id);
+        /** @var $cached ?string */
+        $cached = Cache::pull($dto->key());
+        throw_if(! $cached, new GameVoteExpiredException);
 
-        /** @var $data ?string */
-        $data = Cache::pull($key);
-        throw_if(! $data, new GameVoteExpiredException);
+        /**
+         * @var array{
+         *     sub: int,
+         *     iat: int,
+         *     exp: int,
+         *     user: array{
+         *         id: int,
+         *     }
+         * } $payload
+         */
+        $payload = json_decode($cached, true);
 
-        /** @var array $payload */
-        $payload = json_decode($data, true);
+        $checked = $payload['sub'] === $dto->sub();
+        throw_if(! $checked, new GameVoteMismatchException);
 
         $dto = VoteCreateData::make(
             $payload['sub'],
             $payload['user']['id'],
-            $created_via,
+            $dto->via(),
         );
 
         return $this->createVote($dto);

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\API;
 
-use App\Exceptions\GameVoteExpiredException;
 use App\Http\Controllers\Controller;
+use App\Models\Game;
 use App\Services\GameVoteService;
+use App\Values\Game\VoteRegisterData;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class GameVoteController extends Controller
 {
@@ -37,30 +37,16 @@ class GameVoteController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Game $game)
     {
-        /** @var string $key */
-        $key = $request->key;
+        $dto = new VoteRegisterData(
+            $game->id,
+            $request->input('key'),
+            'api'
+        );
 
         try {
-            /** @var ?string $cached */
-            if (! $cached = Cache::get($key)) {
-                throw new GameVoteExpiredException;
-            }
-
-            /**
-             * @var array{
-             *     sub: int,
-             *     iat: int,
-             *     exp: int,
-             *     user: array{
-             *         id: int,
-             *     }
-             * } $payload
-             */
-            $payload = json_decode($cached, true);
-
-            $this->service->registerVote($payload['user']['id'], 'api');
+            $this->service->registerVote($dto);
         } catch (\Exception $e) {
             return ['ok' => false, 'message' => $e->getMessage()];
         }

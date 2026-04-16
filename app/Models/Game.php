@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property-read int $id
+ */
 class Game extends Model
 {
     /** @use HasFactory<GameFactory> */
@@ -52,10 +55,19 @@ class Game extends Model
         return $this->hasMany(GameVote::class);
     }
 
-    public function payload(User $user): string
+    public function payload(): string
     {
-        $payload = ['key' => game_vote_key($user->id), 'popup' => true];
+        /** @var User $user */
+        $user = \Auth::user();
 
-        return base64_encode(json_encode($payload));
+        /**
+         * @var array{
+         *     sub: int,
+         *     key: string,
+         * } $payload
+         */
+        $payload = ['sub' => $this->id, 'key' => game_vote_key($user->id)];
+
+        return rtrim(strtr(base64_encode(json_encode($payload)), '+/', '-_'), '=');
     }
 }

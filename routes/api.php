@@ -5,6 +5,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['as' => 'api'], function () {
     Route::group(['prefix' => 'games', 'as' => '.games'], function () {
-        Route::post('/{key}/votes', [GameVoteController::class, 'store'])->name('.votes.store');
+        Route::post('/{game}/votes', [GameVoteController::class, 'store'])->name('.votes.store');
     }); # games
 }); # V1

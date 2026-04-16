@@ -9,6 +9,7 @@ use App\Models\Developer;
 use App\Models\Game;
 use App\Models\User;
 use App\Services\GameVoteService;
+use App\Values\Game\VoteRegisterData;
 use Illuminate\Http\Request;
 
 class GameVoteController extends Controller
@@ -58,8 +59,10 @@ class GameVoteController extends Controller
         $route_data = [$game, $game->slug];
         $flash_data = ['type' => 'success', 'message' => $message];
 
+        $dto = new VoteRegisterData($game->id, game_vote_key($user->id));
+
         try {
-            $this->service->registerVote($user->id);
+            $this->service->registerVote($dto);
         } catch (\Exception $e) {
             $flash_data['type'] = 'info';
             $flash_data['message'] = $e->getMessage();

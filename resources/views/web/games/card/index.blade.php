@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-5 d-flex flex-column mt-4 mt-lg-0">
-                    <div>
+                    <div class="mb-3">
                         <h1 class="m-0">{{ $game->title }}</h1>
                         <div>Разработчик <a href="{{ route('developers.show', [$developer, $developer->slug]) }}" class="link-secondary">{{ $developer->name }}</a></div>
                         <hr class="my-3">
