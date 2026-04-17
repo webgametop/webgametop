@@ -69,7 +69,7 @@ class GameVoteService
 
         $dto = VoteCreateData::make(
             $payload['sub'],
-            $payload['user']['id'],
+            $payload['uid'],
             $dto->via(),
         );
 
@@ -113,7 +113,7 @@ class GameVoteService
     public function generatePayload(Game $game, User $user): array
     {
         return $this->cachePayload(
-            $this->buildPayload($game, ['user' => ['id' => $user->id]])
+            $this->buildPayload($game, ['uid' => $user->id])
         );
     }
 
@@ -122,15 +122,13 @@ class GameVoteService
      *     sub: int,
      *     iat: int,
      *     exp: int,
-     *     user: array{
-     *         id: int,
-     *     }
+     *     uid: int,
      * } $payload
      * @return array
      */
     private function cachePayload(array $payload): array
     {
-        $key = game_vote_key($payload['user']['id']);
+        $key = game_vote_key($payload['uid']);
 
         /** @var ?string $cached */
         if ($cached = Cache::get($key)) {

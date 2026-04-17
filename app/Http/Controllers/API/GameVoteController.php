@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\GameVoteStoreRequest;
 use App\Models\Game;
 use App\Services\GameVoteService;
 use App\Values\Game\VoteRegisterData;
@@ -37,7 +38,7 @@ class GameVoteController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Game $game)
+    public function store(GameVoteStoreRequest $request, Game $game)
     {
         $dto = new VoteRegisterData(
             $game->id,
@@ -48,10 +49,10 @@ class GameVoteController extends Controller
         try {
             $this->service->registerVote($dto);
         } catch (\Exception $e) {
-            return ['ok' => false, 'message' => $e->getMessage()];
+            return response()->json(['ok' => false, 'message' => $e->getMessage()]);
         }
 
-        return ['ok' => true];
+        return response()->json(['ok' => true]);
     }
 
     /**
