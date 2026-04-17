@@ -4,17 +4,21 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-use App\Attributes\HashingAlgoMetadata as Metadata;
+use App\Attributes\Contracts\HasMetadata as Contract;
+use App\Attributes\HashingAlgoMetadata as Attribute;
+use App\Traits\HasMetadataTrait;
 
-enum HashingAlgo: string
+enum HashingAlgo: string implements Contract
 {
-    #[Metadata('secure', 256)]
+    use HasMetadataTrait;
+
+    #[Attribute('secure', 256)]
     case SHA256 = 'sha256';
-    #[Metadata('secure', 512)]
+    #[Attribute('secure', 512)]
     case SHA512 = 'sha512';
-    #[Metadata('legacy', 128)]
+    #[Attribute('legacy', 128)]
     case MD5 = 'md5';
-    #[Metadata('legacy', 160)]
+    #[Attribute('legacy', 160)]
     case SHA1 = 'sha1';
 
     public function isSecure(): bool
@@ -37,16 +41,8 @@ enum HashingAlgo: string
         return $this->getMetadata()->bits;
     }
 
-    private function getMetadata(): Metadata
+    public function getMetadata(): object
     {
-        $reflection = new \ReflectionEnumUnitCase(self::class, $this->name);
-        $attributes = $reflection->getAttributes(Metadata::class);
-
-        throw_if(empty($attributes), new \RuntimeException("no metadata found for $this->name"));
-
-        /** @var Metadata $instance */
-        $instance = $attributes[0]->newInstance();
-
-        return $instance;
+        return $this->getInstance(Attribute::class);
     }
 }
