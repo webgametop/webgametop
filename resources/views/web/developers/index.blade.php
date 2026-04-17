@@ -1,6 +1,6 @@
 @props(['developers', 'provider'])
 
-@section('title', 'Разработчики &#8212; ' . $provider_label = $provider->label())
+@section('title', 'Разработчики &#8212; ' . $provider->label())
 
 <x-layouts::main>
     <div class="container mt-4">
@@ -9,7 +9,7 @@
     {{--<div class="page-header">
         <div class="container">
             <div class="page-title">Разработчики</div>
-            <div class="text-secondary">{{ $provider_label }}</div>
+            <div class="text-secondary">{{ $provider->label() }}</div>
         </div>
     </div>--}}
     <div class="page-body">
