@@ -3,12 +3,15 @@
 @section('title', 'Пользователи')
 
 <x-layouts::main>
-    <div class="page-header">
+    <div class="container mt-4">
+        {{ Breadcrumbs::render('users') }}
+    </div>
+    {{--<div class="page-header">
         <div class="container">
             <div class="page-title">Пользователи</div>
             <div class="text-secondary">В данном разделе представлены все пользователи сайта, отсортированные по дате последнего посещения.</div>
         </div>
-    </div>
+    </div>--}}
     <div class="page-body">
         <div class="container">
             <div class="row row-cards">

@@ -89,6 +89,6 @@ class GameController extends Controller
             abort(404, 'The requested user does not exist.');
         }
 
-        return redirect()->route('games.show', [$game, $game->slug]);
+        return redirect()->route('games.show', [$game, $game->slug])->with('flash', session('flash'));
     }
 }

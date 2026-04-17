@@ -10,6 +10,6 @@ class UserRegisterLimitWithOneIpException extends Exception
 {
     public function __construct()
     {
-        parent::__construct('Maximum number of registrations from this IP address has been reached');
+        parent::__construct('Maximum number of registrations from this IP address has been reached.');
     }
 }

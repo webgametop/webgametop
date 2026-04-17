@@ -77,7 +77,7 @@ class UserLoginRequest extends Request
     private function normalizeIp(string $ip): string
     {
         if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
-            return inet_ntop(substr(inet_pton($ip), 0, 8));
+            return inet_ntop(substr(inet_pton($ip), 0, 8) . str_repeat("\0", 8));
         }
 
         return $ip;

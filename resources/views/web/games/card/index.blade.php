@@ -3,12 +3,15 @@
 @section('title', 'Игра')
 
 <x-layouts::main>
-    <div class="page-header">
+    <div class="container mt-4">
+        {{ Breadcrumbs::render('games.show', $provider, $game) }}
+    </div>
+    {{--<div class="page-header">
         <div class="container">
             <div class="page-title">Игры</div>
             <div class="text-muted">{{ $provider->label() }}</div>
         </div>
-    </div>
+    </div>--}}
     <div class="page-body">
         <div class="container">
             <div class="row">
@@ -30,8 +33,8 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-5 d-flex flex-column mt-4 mt-lg-0">
-                    <div>
-                        <h1 class="m-0">{{ $game->title }} ({{ $game->released_at->format('Y') }})</h1>
+                    <div class="mb-3">
+                        <h1 class="m-0">{{ $game->title }}</h1>
                         <div>Разработчик <a href="{{ route('developers.show', [$developer, $developer->slug]) }}" class="link-secondary">{{ $developer->name }}</a></div>
                         <hr class="my-3">
                         <div>Дата выхода <span class="text-muted">{{ $game->released_at->format('d.m.Y') }}</span></div>
@@ -44,15 +47,13 @@
                                     <path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z"/>
                                 </svg>
                             </a>
-                            @auth
-                                <button type="button" class="btn btn-danger ms-3" title="Голосовать">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-thumb-up m-0">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                        <path d="M13 3a3 3 0 0 1 2.995 2.824l.005 .176v4h2a3 3 0 0 1 2.98 2.65l.015 .174l.005 .176l-.02 .196l-1.006 5.032c-.381 1.626 -1.502 2.796 -2.81 2.78l-.164 -.008h-8a1 1 0 0 1 -.993 -.883l-.007 -.117l.001 -9.536a1 1 0 0 1 .5 -.865a2.998 2.998 0 0 0 1.492 -2.397l.007 -.202v-1a3 3 0 0 1 3 -3z"/>
-                                        <path d="M5 10a1 1 0 0 1 .993 .883l.007 .117v9a1 1 0 0 1 -.883 .993l-.117 .007h-1a2 2 0 0 1 -1.995 -1.85l-.005 -.15v-7a2 2 0 0 1 1.85 -1.995l.15 -.005h1z"/>
-                                    </svg>
-                                </button>
-                            @endauth
+                            <a href="{{ route('games.votes', [$game, $game->slug]) }}" class="btn btn-danger ms-3" style="padding: 16px 18px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-thumb-up m-0">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M13 3a3 3 0 0 1 2.995 2.824l.005 .176v4h2a3 3 0 0 1 2.98 2.65l.015 .174l.005 .176l-.02 .196l-1.006 5.032c-.381 1.626 -1.502 2.796 -2.81 2.78l-.164 -.008h-8a1 1 0 0 1 -.993 -.883l-.007 -.117l.001 -9.536a1 1 0 0 1 .5 -.865a2.998 2.998 0 0 0 1.492 -2.397l.007 -.202v-1a3 3 0 0 1 3 -3z"/>
+                                    <path d="M5 10a1 1 0 0 1 .993 .883l.007 .117v9a1 1 0 0 1 -.883 .993l-.117 .007h-1a2 2 0 0 1 -1.995 -1.85l-.005 -.15v-7a2 2 0 0 1 1.85 -1.995l.15 -.005h1z"/>
+                                </svg>
+                            </a>
                         </div>
                         <div class="d-flex mt-3" style="height: 54px;">
                             @auth
@@ -129,11 +130,13 @@
                 <div class="card-body">
                     <div class="tab-content">
                         <div class="tab-pane active" id="tabs-index" role="tabpanel">
-                            <div>
-                                <h2>Описание</h2>
-                                <div>{{ $game->description }}</div>
-                            </div>
-                            <div class="row row-cards mt-2">
+                            <div class="row row-cards">
+                                <div class="col-12">
+                                    <h2>Описание</h2>
+                                    <div class="card" style="white-space: pre-wrap;">
+                                        <div class="card-body">{{ $game->description }}</div>
+                                    </div>
+                                </div>
                                 <div class="col-md-3">
                                     <div class="card">
                                         <div class="card-body">

@@ -3,12 +3,15 @@
 @section('title', 'Разработчик')
 
 <x-layouts::main>
-    <div class="page-header">
+    <div class="container mt-4">
+        {{ Breadcrumbs::render('developers.show', $provider, $developer) }}
+    </div>
+    {{--<div class="page-header">
         <div class="container">
             <div class="page-title">Разработчики</div>
             <div class="text-muted">{{ $provider->label() }}</div>
         </div>
-    </div>
+    </div>--}}
     <div class="page-body">
         <div class="container">
             <div class="d-flex">

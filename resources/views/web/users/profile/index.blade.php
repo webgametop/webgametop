@@ -3,6 +3,9 @@
 @section('title', "Профиль $user->nickname")
 
 <x-layouts::main>
+    <div class="container mt-4">
+        {{ Breadcrumbs::render('users.show', $user) }}
+    </div>
     <div class="page-body">
         <div class="container">
             <div class="row">

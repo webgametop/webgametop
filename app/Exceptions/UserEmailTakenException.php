@@ -10,6 +10,6 @@ class UserEmailTakenException extends Exception
 {
     public function __construct()
     {
-        parent::__construct('Oops! This email address is already taken and cannot be used for registration');
+        parent::__construct('Oops! This email address is already taken and cannot be used for registration.');
     }
 }
