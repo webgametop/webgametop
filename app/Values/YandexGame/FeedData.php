@@ -70,7 +70,7 @@ class FeedData implements Arrayable
          *     requestId: string
          * } $suggested
          */
-        $suggested = current(array_filter($feed, fn($item) => $item['type'] === 'suggested'));
+        $suggested = current(array_filter($feed ?? [], fn($item) => $item['type'] === 'suggested'));
 
         /**
          * @var array<array> $items

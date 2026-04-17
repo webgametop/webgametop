@@ -30,9 +30,16 @@ class GameVoteController extends Controller
         /** @var GameProviderEnum $provider */
         $provider = $developer->provider;
 
-        /** @var ?User $user */
+        /** @var User $user */
         $user = \Auth::user();
 
+        /**
+         * @var array{
+         *     allowed: bool,
+         *     next_in: string,
+         *     next_at: int,
+         * } $process
+         */
         $process = $this->service->processVote($game, $user);
 
         return view('web.games.card.votes', compact('game', 'provider', 'process'));

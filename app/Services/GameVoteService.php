@@ -36,8 +36,8 @@ class GameVoteService
         $game = $this->gameRepository->findOne($vote->game_id);
         throw_if(! $game, new GameVoteNotFoundException);
 
-        $check = $this->userService->hasVotedToday($vote->user_id);
-        throw_if($check, new GameVoteLimitExceededException);
+        $checked = $this->userService->hasVotedToday($vote->user_id);
+        throw_if($checked, new GameVoteLimitExceededException);
 
         /** @var false|Vote $saved */
         $saved = $game->votes()->save($vote);
@@ -86,16 +86,16 @@ class GameVoteService
 
     /**
      * @param Game $game
-     * @param ?User $user
+     * @param User $user
      * @return array{
      *     allowed: bool,
      *     next_in: string,
      *     next_at: int,
      * }
      */
-    public function processVote(Game $game, ?User $user): array
+    public function processVote(Game $game, User $user): array
     {
-        if ($can_voted_today = $this->userService->canVotedToday($user?->id)) {
+        if ($can_voted_today = $this->userService->canVotedToday($user->id)) {
             $this->generatePayload($game, $user);
         }
 
@@ -110,12 +110,8 @@ class GameVoteService
         ];
     }
 
-    public function generatePayload(Game $game, ?User $user): ?array
+    public function generatePayload(Game $game, User $user): array
     {
-        if (! $user instanceof User) {
-            return null;
-        }
-
         return $this->cachePayload(
             $this->buildPayload($game, ['user' => ['id' => $user->id]])
         );
