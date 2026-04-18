@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Builders\GameBuilder;
 use Database\Factories\GameFactory;
+use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * @property-read int $id
  */
+#[UseEloquentBuilder(GameBuilder::class)]
 class Game extends Model
 {
     /** @use HasFactory<GameFactory> */
@@ -43,6 +46,12 @@ class Game extends Model
         return [
             'released_at' => 'datetime',
         ];
+    }
+
+    public static function query(): GameBuilder
+    {
+        /** @var GameBuilder */
+        return parent::query();
     }
 
     public function developer(): BelongsTo
