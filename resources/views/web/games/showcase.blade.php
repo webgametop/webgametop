@@ -17,7 +17,8 @@
     <div class="page-body">
         <div class="container">
             <div class="row row-cards">
-                @foreach(GameProviderEnum::cases() as $provider)
+                @foreach($stats as $provider_name => $count)
+                    @php($provider = GameProviderEnum::from($provider_name))
                     <div class="col-sm-6 col-lg-4">
                         <div class="card card-sm">
                             <div class="card-body">
@@ -29,7 +30,7 @@
                                     </div>
                                     <div class="col">
                                         <div class="h1">
-                                            <div>{{ $provider->count() }} игр</div>
+                                            <div>{{ $count }} игр</div>
                                             <small class="text-muted">в каталоге</small>
                                         </div>
                                         <div class="font-weight-medium">{{ $provider->label() }}</div>

@@ -8,14 +8,23 @@ use App\Builders\GameBuilder;
 use App\Enums\GameProvider as GameProviderEnum;
 use App\Models\Developer;
 use App\Models\Game;
+use App\Services\GameStats\ProviderStat as GameProviderStat;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class GameController extends Controller
 {
+    public function __construct(
+        private readonly GameProviderStat $providerStat,
+    )
+    {
+    }
+
     public function showcase()
     {
-        return view('web.games.showcase');
+        $stats = $this->providerStat->generateCount();
+
+        return view('web.games.showcase', compact('stats'));
     }
 
     /**

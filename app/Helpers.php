@@ -11,6 +11,13 @@ function gravatar(string $email, int $size = 192): string
     return GravatarService::url($email, $size);
 }
 
+function provider_game_key(): string
+{
+    $template_key = 'provider,game,count';
+
+    return cache_key($template_key);
+}
+
 function game_vote_key(int $user_id): string
 {
     $template_key = 'game,vote,:date,user,:id';

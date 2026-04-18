@@ -6,7 +6,6 @@ namespace App\Enums;
 
 use App\Attributes\Contracts\HasMetadata as Contract;
 use App\Attributes\GameProviderMetadata as Attribute;
-use App\Models\Game;
 use App\Traits\HasMetadataTrait;
 
 enum GameProvider: string implements Contract
@@ -32,11 +31,6 @@ enum GameProvider: string implements Contract
     public function logo(): string
     {
         return asset($this->getMetadata()->logo);
-    }
-
-    public function count(): int
-    {
-        return Game::with('developer')->whereRelation('developer', 'provider', $this->value)->count();
     }
 
     public function getMetadata(): object
