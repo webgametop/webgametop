@@ -17,7 +17,7 @@
         <div class="container mb-5">
             <div><code>component::swiper::content</code></div>
         </div>
-        <div id="discussion" class="bg-blue-lt">
+        <div id="discussion" class="bg-blue-lt d-none d-md-block">
             <div class="container">
                 <div class="wrap">
                     <div class="icon">
@@ -50,7 +50,7 @@
             <div class="row">
                 @foreach(GameProviderEnum::cases() as $provider)
                     @php($label = "Новинки от <span class=\"text-muted\">:name</span>")
-                    <div class="col">
+                    <div class="col-12 col-lg-4">
                         <x-ui.subheadline :label="Str::replace(':name', $provider->label(), $label)">
                             <code>component::games::{{ $provider->value }}::latest</code>
                         </x-ui.subheadline>
@@ -58,12 +58,12 @@
                 @endforeach
             </div>
             <div class="row">
-                <div class="col">
+                <div class="col-12 col-md-6">
                     <x-ui.subheadline label="Самые популярные игры">
                         <code>component::games::popular</code>
                     </x-ui.subheadline>
                 </div>
-                <div class="col">
+                <div class="col-12 col-md-6">
                     <x-ui.subheadline label="Самые любимые игры">
                         <code>component::games::favorite</code>
                     </x-ui.subheadline>
