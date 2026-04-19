@@ -34,6 +34,16 @@ Breadcrumbs::for('games.votes', function (BreadcrumbTrail $trail, GameProviderEn
     $trail->push('Голосование', route('games.votes', [$game, $game->slug]));
 });
 
+Breadcrumbs::for('games.reviews', function (BreadcrumbTrail $trail, GameProviderEnum $provider, GameModel $game) {
+    $trail->parent('games.show', $provider, $game);
+    $trail->push('Обзоры', route('games.reviews', [$game, $game->slug]));
+});
+
+Breadcrumbs::for('games.comments', function (BreadcrumbTrail $trail, GameProviderEnum $provider, GameModel $game) {
+    $trail->parent('games.show', $provider, $game);
+    $trail->push('Комментарии', route('games.comments', [$game, $game->slug]));
+});
+
 Breadcrumbs::for('developers.showcase', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
     $trail->push('Разработчики', route('developers.showcase'));
