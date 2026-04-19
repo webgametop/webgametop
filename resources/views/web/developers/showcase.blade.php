@@ -47,7 +47,7 @@
                 </div>
                 <div class="col-12 col-lg-4">
                     <div class="card card-md h-100 mt-4 m-lg-0">
-                        <div class="card-body text-center"><code>component::booster</code></div>
+                        <div class="card-body text-center"><code>component::booster::developer</code></div>
                     </div>
                 </div>
             </div>

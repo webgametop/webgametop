@@ -15,3 +15,44 @@
 .container {
     max-width: 1080px !important;
 }
+
+/* discussion */
+#discussion {
+    margin-bottom: 2rem;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, .05)
+}
+
+#discussion .dis-wrap {
+    padding: 3rem 0 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+#discussion .d_w-icon {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    flex-shrink: 0;
+}
+
+#discussion .d_w-icon img {
+    position: absolute;
+    height: 100%;
+    left: 0;
+    bottom: 0;
+}
+
+#discussion .d_w-list {
+    flex-grow: 1;
+    width: calc(100% - 320px);
+    position: relative;
+}
+
+#discussion .d_w-list .d_w_l-title {
+    font-weight: 600;
+    font-size: 1.2em;
+    margin-bottom: 1.5rem;
+}
