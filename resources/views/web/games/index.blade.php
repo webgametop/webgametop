@@ -18,7 +18,7 @@
                 @forelse($games as $game)
                     <div class="col-auto" style="max-width: 11rem;">
                         <a href="{{ route('games.show', [$game, $game->slug]) }}" class="d-flex flex-column">
-                            <div class="avatar" style="--tblr-avatar-size: 10rem; background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png'); background-size: cover;"></div>
+                            <div class="avatar" style="--tblr-avatar-size: 10rem; background-image: url('{{ asset('static/media/avatar/not-found.png') }}'); background-size: cover;"></div>
                             <div class="mt-2" style="min-height: 2.5rem; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;"><strong>{{ $game->title }}</strong></div>
                             <div class="mt-2 d-flex">
                                 <div class="text-muted">
@@ -41,19 +41,8 @@
                     </div>
                 @empty
                     <div class="col">
-                        <div class="alert alert-info alert-dismissible" role="alert">
-                            <div class="alert-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon alert-icon icon-2">
-                                    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
-                                    <path d="M12 9h.01"></path>
-                                    <path d="M11 12h1v4h1"></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <h4 class="alert-heading"><strong>Ой! Похоже, здесь ничего нет.</strong></h4>
-                                <div class="alert-description">Возможно, разработчики ещё не добавили игры в данный раздел. Зайдите в "Витрину" — там точно есть во что поиграть!</div>
-                            </div>
-                        </div>
+                        @php($description = "Возможно, разработчики ещё не добавили игры в данный раздел. Зайдите в \"Витрину\" — там точно есть во что поиграть!")
+                        <x-oops :description="$description"/>
                     </div>
                 @endforelse
                 <div class="col-lg-12 mt-5">

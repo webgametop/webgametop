@@ -13,6 +13,7 @@ use App\Services\Security\HmacHasherService;
 use App\Values\YandexGame\GameDataItem;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class GameYandexGrabberCommand extends Command
@@ -138,5 +139,8 @@ class GameYandexGrabberCommand extends Command
                 Game::insert($data->toArray());
             }
         }
+
+        Cache::forget(provider_game_key());
+        Cache::forget(provider_developer_key());
     }
 }

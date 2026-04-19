@@ -103,7 +103,7 @@
                 <li class="nav-item dropdown">
                     <a @class([
                         'nav-link', 'dropdown-toggle',
-                        'bg-azure-lt' => request()->routeIs(['games'])
+                        'bg-azure-lt' => request()->routeIs(['games.showcase', 'games'])
                     ]) href="#navbar-games" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-device-gamepad-2">
@@ -118,18 +118,12 @@
                         <span class="nav-link-title"> Игры</span>
                     </a>
                     <div class="dropdown-menu">
-                        <a href="{{ route('games', 'yandexgames') }}" @class([
-                            'dropdown-item',
-                            'active' => request()->routeIs('games') && request()->route('provider') === GameProviderEnum::YANDEXGAMES
-                        ])>Яндекс.Игры</a>
-                        <a href="{{ route('games', 'crazygames') }}" @class([
-                            'dropdown-item',
-                            'active' => request()->routeIs('games') && request()->route('provider') === GameProviderEnum::CRAZYGAMES
-                        ])>CrazyGames</a>
-                        <a href="{{ route('games', 'poki') }}" @class([
-                            'dropdown-item',
-                            'active' => request()->routeIs('games') && request()->route('provider') === GameProviderEnum::POKI
-                        ])>Poki</a>
+                        @foreach(GameProviderEnum::cases() as $provider)
+                            <a href="{{ route('games', $provider) }}" @class([
+                                'dropdown-item',
+                                'active' => request()->routeIs('games') && request()->route('provider') === $provider
+                            ])>{{ $provider->label() }}</a>
+                        @endforeach
                         <div class="dropdown-divider"></div>
                         <a href="{{ route('games.showcase') }}" @class([
                             'dropdown-item', 'active' => request()->routeIs('games.showcase')
@@ -140,7 +134,7 @@
                 <li class="nav-item dropdown">
                     <a @class([
                         'nav-link', 'dropdown-toggle',
-                        'bg-azure-lt' => request()->routeIs(['developers'])
+                        'bg-azure-lt' => request()->routeIs(['developers.showcase', 'developers'])
                     ]) href="#navbar-developers" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-code">
@@ -151,18 +145,12 @@
                         <span class="nav-link-title"> Разработчики</span>
                     </a>
                     <div class="dropdown-menu">
-                        <a href="{{ route('developers', 'yandexgames') }}" @class([
-                            'dropdown-item',
-                            'active' => request()->routeIs('developers') && request()->route('provider') === GameProviderEnum::YANDEXGAMES
-                        ])>Яндекс.Игры</a>
-                        <a href="{{ route('developers', 'crazygames') }}" @class([
-                            'dropdown-item',
-                            'active' => request()->routeIs('developers') && request()->route('provider') === GameProviderEnum::CRAZYGAMES
-                        ])>CrazyGames</a>
-                        <a href="{{ route('developers', 'poki') }}" @class([
-                            'dropdown-item',
-                            'active' => request()->routeIs('developers') && request()->route('provider') === GameProviderEnum::POKI
-                        ])>Poki</a>
+                        @foreach(GameProviderEnum::cases() as $provider)
+                            <a href="{{ route('developers', $provider) }}" @class([
+                                'dropdown-item',
+                                'active' => request()->routeIs('developers') && request()->route('provider') === $provider
+                            ])>{{ $provider->label() }}</a>
+                        @endforeach
                         <div class="dropdown-divider"></div>
                         <a href="{{ route('developers.showcase') }}" @class([
                             'dropdown-item', 'active' => request()->routeIs('developers.showcase')

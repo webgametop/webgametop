@@ -3,7 +3,9 @@
 declare(strict_types=1);
 
 use App\Enums\GameProvider as GameProviderEnum;
+use App\Http\Controllers\GameCommentController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\GameReviewController;
 use App\Http\Controllers\GameVoteController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +20,8 @@ Route::group(['prefix' => 'games', 'as' => 'games'], function () {
                 Route::get('/', [GameVoteController::class, 'index']);
                 Route::post('/', [GameVoteController::class, 'store'])->name('.store');
             });
+            Route::get('/reviews', [GameReviewController::class, 'index'])->name('.reviews');
+            Route::get('/comments', [GameCommentController::class, 'index'])->name('.comments');
         }); # votes
     }); # game
 }); # games
