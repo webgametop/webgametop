@@ -19,7 +19,7 @@
                     <div id="carousel-controls" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner rounded-3">
                             <div class="carousel-item active">
-                                <img class="d-block w-100" alt="" src="https://www.tidelandemc.com/assets/camaleon_cms/image-not-found-91d1f1515c0b9b458a51a3c83506dc4bcc138ec059ad787d2bea936d9e29da74.png">
+                                <img class="d-block w-100" alt="" src="{{ asset('static/media/not-found.png') }}">
                             </div>
                         </div>
                         <a class="carousel-control-prev" href="#carousel-controls" role="button" data-bs-slide="prev">

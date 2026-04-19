@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 <div class="d-flex flex-column">
-                    <div class="avatar" style="--tblr-avatar-size: 10rem; background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png'); background-size: cover;"></div>
+                    <div class="avatar" style="--tblr-avatar-size: 10rem; background-image: url('{{ asset('static/media/avatar/not-found.png') }}'); background-size: cover;"></div>
                     <div class="badge badge-outline text-default mt-3 p-2">0 подписчиков</div>
                 </div>
                 <div class="ms-3">
