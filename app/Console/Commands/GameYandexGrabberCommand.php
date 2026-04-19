@@ -141,5 +141,6 @@ class GameYandexGrabberCommand extends Command
         }
 
         Cache::forget(provider_game_key());
+        Cache::forget(provider_developer_key());
     }
 }

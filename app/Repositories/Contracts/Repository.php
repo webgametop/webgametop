@@ -10,7 +10,11 @@ use Illuminate\Database\Eloquent\Model;
 interface Repository
 {
     /** @return T */
+    public function getOne($id): Model;
+    /** @return T */
     public function getOneBy(array $params): Model;
+    /** @return T|null */
+    public function findOne($id): ?Model;
     /** @return T|null */
     public function findOneBy(array $params): ?Model;
 }

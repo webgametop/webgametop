@@ -4,18 +4,28 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Builders\DeveloperBuilder;
 use App\Enums\GameProvider as GameProviderEnum;
 use App\Models\Developer;
 use App\Models\Game;
+use App\Services\GameStats\ProviderStat as GameProviderStat;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 class DeveloperController extends Controller
 {
+    public function __construct(
+        private readonly GameProviderStat $providerStat,
+    )
+    {
+    }
+
     public function showcase()
     {
-        return view('web.developers.showcase');
+        $stats = $this->providerStat->countDevelopers();
+
+        return view('web.developers.showcase', compact('stats'));
     }
 
     /**
@@ -23,7 +33,10 @@ class DeveloperController extends Controller
      */
     public function index(GameProviderEnum $provider)
     {
-        $developers = Developer::where('provider', $provider)->orderBy('created_at', 'desc')->paginate(30);
+        /** @var DeveloperBuilder $q */
+        $q = Developer::query();
+
+        $developers = $q->ofProvider($provider)->orderBy('created_at', 'desc')->paginate(30);
 
         return view('web.developers.index', compact('developers', 'provider'));
     }

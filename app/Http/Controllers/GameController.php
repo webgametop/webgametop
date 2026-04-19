@@ -22,7 +22,7 @@ class GameController extends Controller
 
     public function showcase()
     {
-        $stats = $this->providerStat->generateCount();
+        $stats = $this->providerStat->countGames();
 
         return view('web.games.showcase', compact('stats'));
     }

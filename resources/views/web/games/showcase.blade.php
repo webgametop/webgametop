@@ -1,7 +1,5 @@
 @php use App\Enums\GameProvider as GameProviderEnum; @endphp
 
-@props(['games'])
-
 @section('title', 'Игры &#8212; Витрина')
 
 <x-layouts::main>
@@ -19,11 +17,11 @@
             <div class="row row-cards">
                 @foreach($stats as $provider_name => $count)
                     @php($provider = GameProviderEnum::from($provider_name))
-                    <div class="col-sm-6 col-lg-4">
+                    <div class="col-12 col-lg-4">
                         <div class="card card-sm">
                             <div class="card-body">
                                 <div class="row align-items-center">
-                                    <div class="col-auto">
+                                    <div class="col-auto d-none d-sm-block">
                                         <span class="bg-white text-white avatar avatar-2xl p-3">
                                             <img src="{{ $provider->logo() }}" alt="{{ $provider->label() }}">
                                         </span>
