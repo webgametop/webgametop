@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Traits;
+namespace App\Attributes\Concerns;
 
 /** @internal works only with enums */
-trait HasMetadataTrait
+trait HasMetadata
 {
     /**
      * @template T of object

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use App\Attributes\Concerns\HasMetadata;
 use App\Attributes\Contracts\HasMetadata as Contract;
 use App\Attributes\HashingAlgoMetadata as Attribute;
-use App\Traits\HasMetadataTrait;
 
 enum HashingAlgo: string implements Contract
 {
-    use HasMetadataTrait;
+    use HasMetadata;
 
     #[Attribute('secure', 256)]
     case SHA256 = 'sha256';

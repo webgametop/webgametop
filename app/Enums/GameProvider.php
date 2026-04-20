@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use App\Attributes\Concerns\HasMetadata;
 use App\Attributes\Contracts\HasMetadata as Contract;
 use App\Attributes\GameProviderMetadata as Attribute;
-use App\Traits\HasMetadataTrait;
 
 enum GameProvider: string implements Contract
 {
-    use HasMetadataTrait;
+    use HasMetadata;
 
     #[Attribute('static/media/brands/yandexgames.svg')]
     case YANDEXGAMES = 'yandexgames';
