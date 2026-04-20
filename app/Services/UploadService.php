@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Enums\HashingFormat;
 use App\Models\File;
 use App\Models\User;
 use App\Services\FileStorages\FileStorage;
+use App\Services\Security\HmacHasherService;
+use App\Values\File\FileCreateData;
+use GuzzleHttp\Client;
 use Illuminate\Http\File as HttpFile;
+use Illuminate\Http\UploadedFile as FormFile;
 use Illuminate\Support\Str;
 
 class UploadService
@@ -15,37 +20,55 @@ class UploadService
     public function __construct(
         private readonly FileService $fileService,
         private readonly FileStorage $storage,
+        private readonly HmacHasherService $hasher,
+        private readonly Client $client,
     )
     {
     }
 
-    public function handleUpload(HttpFile $file, User $uploader)
+    public function handleUpload(HttpFile|FormFile $file, User $uploader): File
     {
-        // 1. checksum
-        $checksum = hash_file('sha256', $file->getRealPath(), true);
+        $file_path = $file->path();
 
-        // 3. имя
-        $ext = $file->extension();
-        $name = Str::random(32) . ($ext ? '.' . $ext : '');
+        $checksum = hash_file('sha256', $file_path, true);
 
-        $dir = 'files/' . now()->format('Y/m');
-        $path = $dir . '/' . $name;
+        $path = 'uploads/:filename';
 
-        // 4. сохраняем (stream — важно!)
-        $stream = fopen($file->getRealPath(), 'rb');
-        $this->storage->put($path, $stream);
+        $dto = FileCreateData::make(
+            $file->getFilename(),
+            $filename = Str::random(32),
+            Str::replace(':filename', $filename, $path),
+            $file->getSize(),
+            $file->getMimeType(),
+            $file->extension(),
+            $this->hasher->hash($checksum, HashingFormat::BINARY),
+            $uploader
+        );
+
+
+        $stream = fopen($file_path, 'rb');
+
+        $this->storage->put($dto->path(), $stream);
+
         fclose($stream);
 
-        // 5. запись в БД
-        return File::create([
-            'original_name' => $file->getBasename(),
-            'storage_name' => $name,
-            'storage_path' => $path,
-            'size_bytes' => $file->getSize(),
-            'extension' => $ext,
-            'mime_type' => $file->getMimeType(),
-            'checksum' => $checksum,
-            'uploaded_by' => $uploader->id,
-        ]);
+        return $this->fileService->createFile($dto);
+    }
+
+    public function handleUploadFromUrl(string $url, User $uploader): File
+    {
+        if (! filter_var($url, FILTER_VALIDATE_URL)) {
+            throw new \InvalidArgumentException('Invalid URL.');
+        }
+
+        $temp_path = tempnam(sys_get_temp_dir(), 'url_');
+
+        $this->client->get($url, ['sink' => $temp_path, 'timeout' => 30]);
+
+        $result = $this->handleUpload(new HttpFile($temp_path), $uploader);
+
+        unlink($temp_path);
+
+        return $result;
     }
 }

@@ -16,14 +16,14 @@ return new class extends Migration
         Schema::create('files', function (Blueprint $table) {
             $table->id();
             $table->string('original_name');
-            $table->string('storage_name');
-            $table->string('storage_path');
-            $table->bigInteger('size_bytes', false, true)->unsigned();
-            $table->string('extension');
-            $table->string('mime_type');
+            $table->string('filename');
+            $table->string('path');
             $table->string('disk')->default('local');
-            $table->binary('dedup_hash', 32)->index('idx_files_on_dedup_hash');
+            $table->bigInteger('size', false, true);
+            $table->string('mime_type');
+            $table->string('extension');
             $table->timestamps();
+            $table->binary('dedup_hash', 32)->index('idx_files_on_dedup_hash');
         });
 
         Schema::table('files', function (Blueprint $table) {

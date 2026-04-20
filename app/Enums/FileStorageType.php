@@ -8,5 +8,5 @@ enum FileStorageType: string
 {
     case S3 = 's3';
     case SFTP = 'sftp';
-    case LOCAL = '';
+    case LOCAL = 'local';
 }

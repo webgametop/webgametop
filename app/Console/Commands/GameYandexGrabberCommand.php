@@ -8,14 +8,10 @@ use App\Enums\GameProvider;
 use App\Enums\HashingFormat;
 use App\Models\Developer;
 use App\Models\Game;
-use App\Models\User;
 use App\Services\GameProviders\YandexGameProvider;
 use App\Services\Security\HmacHasherService;
-use App\Services\UploadService;
 use App\Values\YandexGame\GameDataItem;
-use GuzzleHttp\Client;
 use Illuminate\Console\Command;
-use Illuminate\Http\File as HttpFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
@@ -42,23 +38,8 @@ class GameYandexGrabberCommand extends Command
     public function handle(
         YandexGameProvider $provider,
         HmacHasherService $hasher,
-        UploadService $uploadService,
     ) : void
     {
-        // URL вашего изображения
-        $url = 'https://avatars.mds.yandex.net/get-games/16928287/2a0000019d3ab0e4ee81c88573bb7d2ebe72/pjpg928x522';
-        // Создаём HTTP клиент
-        $client = new Client();
-        // Создаём временный файл (путь)
-        $tempPath = tempnam(sys_get_temp_dir(), 'yandexgames_');
-        // Выполняем GET-запрос и сохраняем тело ответа прямо в файл
-        $response = $client->get($url, ['sink' => $tempPath, 'timeout' => 30]);
-        // Теперь можно создать объект File из локального временного файла
-        $fileObj = new HttpFile($tempPath);
-dd(
-    $file = $uploadService->handleUpload($fileObj, User::find(1)),
-
-);
         $provider_name = GameProvider::YANDEXGAMES->value;
 
         $dedup_game = "dedup,$provider_name,game,:identity";

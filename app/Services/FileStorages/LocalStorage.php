@@ -7,21 +7,16 @@ namespace App\Services\FileStorages;
 use App\Enums\FileStorageType as StorageType;
 use Illuminate\Support\Facades\Storage;
 
-class LocalStorage extends FileStorage
+class LocalStorage implements FileStorage
 {
     public function put(string $path, $contents): void
     {
-        Storage::disk($this->getStorageType())->put($path, $contents);
+        Storage::disk('public')->put($path, $contents);
     }
 
-    public function delete(string $location): void
+    public function delete(string $path): void
     {
-        Storage::disk($this->getStorageType())->delete($location);
-    }
-
-    public function url(string $path): string
-    {
-        return Storage::disk($this->getStorageType())->url($path);
+        Storage::disk('public')->delete($path);
     }
 
     public function getStorageType(): StorageType

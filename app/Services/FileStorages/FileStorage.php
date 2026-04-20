@@ -6,13 +6,11 @@ namespace App\Services\FileStorages;
 
 use App\Enums\FileStorageType;
 
-abstract class FileStorage
+interface FileStorage
 {
-    abstract public function put(string $path, $contents): void;
+    public function put(string $path, $contents): void;
 
-    abstract public function delete(string $path): void;
+    public function delete(string $path): void;
 
-    abstract public function url(string $path): string;
-
-    abstract public function getStorageType(): FileStorageType;
+    public function getStorageType(): FileStorageType;
 }
