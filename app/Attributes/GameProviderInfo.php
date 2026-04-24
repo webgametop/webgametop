@@ -7,11 +7,10 @@ namespace App\Attributes;
 use Attribute;
 
 #[Attribute(Attribute::TARGET_CLASS_CONSTANT)]
-class HashingAlgoMetadata
+class GameProviderInfo
 {
     public function __construct(
-        public string $category,
-        public int $bits,
+        public string $logo,
     )
     {
     }
