@@ -6,17 +6,18 @@ namespace App\Models;
 
 use App\Builders\DeveloperBuilder;
 use App\Casts\DeveloperProviderCast;
+use App\Models\Concerns\Developers\HasDeveloperRelationships;
+use App\Models\Concerns\MorphsToMetadata;
 use Database\Factories\DeveloperFactory;
 use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[UseEloquentBuilder(DeveloperBuilder::class)]
 class Developer extends Model
 {
     /** @use HasFactory<DeveloperFactory> */
-    use HasFactory;
+    use HasFactory, MorphsToMetadata, HasDeveloperRelationships;
 
     /**
      * The attributes that are mass assignable.
@@ -41,10 +42,5 @@ class Developer extends Model
         return [
             'provider' => DeveloperProviderCast::class,
         ];
-    }
-
-    public function games(): HasMany
-    {
-        return $this->hasMany(Game::class);
     }
 }

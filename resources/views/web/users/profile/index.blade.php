@@ -176,5 +176,10 @@
         </div>
     </div>
     @push('body-script')
+        <script type="module">
+            $(function () {
+                console.log('Y');
+            });
+        </script>
     @endpush
 </x-layouts::main>

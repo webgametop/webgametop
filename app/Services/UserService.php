@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Enums\UserMetaKey as MetaKey;
 use App\Exceptions\UserEmailTakenException;
 use App\Exceptions\UserPersistenceException;
 use App\Exceptions\UserRegisterLimitWithOneIpException;
+use App\Models\EntityMeta as UserMeta;
 use App\Models\User;
 use App\Repositories\GameVoteRepository;
 use App\Repositories\UserRepository;
@@ -21,7 +23,21 @@ class UserService
     public function __construct(
         readonly private UserRepository $repository,
         readonly private GameVoteRepository $gameVoteRepository,
+        readonly private MetaService $metaService,
     )
+    {
+    }
+
+    public function createUserMeta(User $user, MetaKey $key, mixed $value, bool $unique = false): UserMeta
+    {
+        return $this->metaService->createMetadata($user, $key->value, $value, $unique);
+    }
+
+    public function updateUserMeta()
+    {
+    }
+
+    public function deleteUserMeta()
     {
     }
 
