@@ -28,12 +28,7 @@ class UserService
     {
     }
 
-    public function addUserMeta(
-        User $user,
-        MetaKey $key,
-        mixed $value,
-        bool $unique = false,
-    ) : UserMeta
+    public function createUserMeta(User $user, MetaKey $key, mixed $value, bool $unique = false): UserMeta
     {
         return $this->metaService->createMetadata($user, $key->value, $value, $unique);
     }

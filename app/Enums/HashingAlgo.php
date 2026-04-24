@@ -6,9 +6,9 @@ namespace App\Enums;
 
 use App\Attributes\HashingAlgoInfo as Attribute;
 use App\Enums\Concerns\HasInfo;
-use App\Enums\Contracts\WithInfo as Contract;
+use App\Enums\Contracts\WithInfo;
 
-enum HashingAlgo: string implements Contract
+enum HashingAlgo: string implements WithInfo
 {
     use HasInfo;
 

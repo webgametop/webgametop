@@ -6,9 +6,9 @@ namespace App\Enums;
 
 use App\Attributes\GameProviderInfo as Attribute;
 use App\Enums\Concerns\HasInfo;
-use App\Enums\Contracts\WithInfo as Contract;
+use App\Enums\Contracts\WithInfo;
 
-enum GameProvider: string implements Contract
+enum GameProvider: string implements WithInfo
 {
     use HasInfo;
 
