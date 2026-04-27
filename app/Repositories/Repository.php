@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Repositories\Contracts\Repository as RepositoryContract;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 /**
  * @template T of Model
@@ -49,5 +50,19 @@ abstract class Repository implements RepositoryContract
     public function findOneBy(array $params): ?Model
     {
         return $this->modelClass::query()->where($params)->first();
+    }
+
+    /** @inheritDoc */
+    public function getMany(array $ids, bool $preserveOrder = false): Collection
+    {
+        $models = $this->modelClass::query()->find($ids);
+
+        return $preserveOrder ? $models->orderByArray($ids) : $models;
+    }
+
+    /** @inheritDoc */
+    public function getAll(): Collection
+    {
+        return $this->modelClass::all(); // @phpstan-ignore-line
     }
 }

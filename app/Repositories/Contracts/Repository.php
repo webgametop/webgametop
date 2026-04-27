@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repositories\Contracts;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 /** @template T of Model */
 interface Repository
@@ -17,4 +18,8 @@ interface Repository
     public function findOne($id): ?Model;
     /** @return T|null */
     public function findOneBy(array $params): ?Model;
+    /** @return Collection<array-key, T> */
+    public function getMany(array $ids, bool $preserveOrder = false): Collection;
+    /** @return Collection<array-key, T> */
+    public function getAll(): Collection;
 }
