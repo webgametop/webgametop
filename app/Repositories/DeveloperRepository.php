@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\Builders\GameBuilder;
 use App\Enums\GameProvider as GameProviderEnum;
+use App\Models\Game;
 
 class DeveloperRepository extends Repository
 {
     public function count(GameProviderEnum $provider = null): int
     {
-        /** @var GameBuilder $q */
+        /** @var Game $q */
         $q = $this->modelClass::query();
 
         if ($provider) {
-            return $q->ofProvider($provider)->count();
+            $q->ofProvider($provider);
         }
 
         return $q->count();

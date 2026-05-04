@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Builders\GameBuilder;
+use App\Models\Concerns\HasGameRelationships;
 use Database\Factories\GameFactory;
 use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property-read int $id
@@ -19,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Game extends Model
 {
     /** @use HasFactory<GameFactory> */
-    use HasFactory;
+    use HasFactory, HasGameRelationships;
 
     /**
      * The attributes that are mass assignable.
@@ -52,16 +51,6 @@ class Game extends Model
     {
         /** @var GameBuilder */
         return parent::query();
-    }
-
-    public function developer(): BelongsTo
-    {
-        return $this->belongsTo(Developer::class);
-    }
-
-    public function votes(): HasMany
-    {
-        return $this->hasMany(GameVote::class);
     }
 
     public function payload(): string

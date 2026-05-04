@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Attributes\Contracts;
+namespace App\Enums\Contracts;
 
-interface HasMetadata
+interface WithInfo
 {
     public function getMetadata(): object;
 }
