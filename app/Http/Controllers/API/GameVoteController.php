@@ -9,6 +9,7 @@ use App\Http\Requests\API\GameVoteStoreRequest;
 use App\Models\Game;
 use App\Services\GameVoteService;
 use App\Values\Game\VoteRegisterData;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class GameVoteController extends Controller
@@ -38,7 +39,7 @@ class GameVoteController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(GameVoteStoreRequest $request, Game $game)
+    public function store(GameVoteStoreRequest $request, Game $game): JsonResponse
     {
         $dto = new VoteRegisterData(
             $game->id,

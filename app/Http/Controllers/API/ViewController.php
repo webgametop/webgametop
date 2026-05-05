@@ -6,8 +6,11 @@ namespace App\Http\Controllers\API;
 
 use App\Enums\HashingFormat as FormatEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\ViewStoreRequest;
 use App\Models\View;
 use App\Services\Security\HmacHasherService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ViewController extends Controller
@@ -36,10 +39,11 @@ class ViewController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * @todo move logic to service
      */
-    public function store(Request $request)
+    public function store(ViewStoreRequest $request): JsonResponse
     {
-        $user_id = auth()->check() ? auth()->id() : sha1(request()->ip() . request()->userAgent());
+        $user_id = auth()->id() ?? md5(request()->ip() . request()->userAgent());
 
         $viewable_type = $request->input('viewable_type');
         $viewable_id = $request->input('viewable_id');
@@ -51,17 +55,33 @@ class ViewController extends Controller
         $dedup_hash = $this->hasherService->hash($dedup_string, FormatEnum::BINARY);
 
         try {
-            if (! View::query()->where('dedup_hash', $dedup_hash)->exists()) {
-                $model = app($viewable_type)->find($viewable_id);
-                $model->views()->save(View::make(['dedup_hash' => $dedup_hash]));
+            $view_exists = View::query()->where('dedup_hash', $dedup_hash)->exists();
 
-                return response()->json(['ok' => true, 'description' => 'View has been recorded successfully.']);
+            if ($view_exists) {
+                return response()->json([
+                    'ok' => false,
+                    'description' => 'Duplicate view within the current time window.'
+                ], 409);
             }
-        } catch (\Exception $e) {
-            return response()->json(['ok' => false, 'description' => 'Bad Request.'], 500);
-        }
 
-        return response()->json(['ok' => false, 'description' => 'Duplicate view within the current time window.']);
+            $model = app($viewable_type)->findOrFail($viewable_id);
+            $model->views()->save(View::make(['dedup_hash' => $dedup_hash]));
+
+            return response()->json([
+                'ok' => true,
+                'description' => 'View has been recorded successfully.'
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'ok' => false,
+                'description' => 'Viewable model not found.'
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'ok' => false,
+                'description' => 'Internal Server Error.'
+            ], 500);
+        }
     }
 
     /**
