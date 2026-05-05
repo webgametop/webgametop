@@ -49,7 +49,7 @@ class GameVoteController extends Controller
         try {
             $this->service->registerVote($dto);
         } catch (\Exception $e) {
-            return response()->json(['ok' => false, 'message' => $e->getMessage()]);
+            return response()->json(['ok' => false, 'description' => $e->getMessage()], 500);
         }
 
         return response()->json(['ok' => true]);

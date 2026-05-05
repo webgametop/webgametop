@@ -16,7 +16,7 @@ class Request extends BaseRequest
         throw new HttpResponseException(
             response()->json([
                 'ok' => false,
-                'message' => 'Failed validation.',
+                'description' => 'Failed validation.',
                 'errors' => $errors,
             ], 422)
         );

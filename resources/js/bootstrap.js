@@ -18,7 +18,7 @@ window.viewsIncrement = function () {
         const viewable_type = $el.data('viewable-type');
         const delay = parseInt($el.data('delay'));
         setTimeout(function () {
-            $.post('/api/views/increment', { viewable_id: viewable_id, viewable_type: viewable_type });
+            $.post('/api/views', { viewable_id: viewable_id, viewable_type: viewable_type });
         }, delay);
     });
 };
