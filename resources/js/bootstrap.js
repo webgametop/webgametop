@@ -8,3 +8,17 @@ window.easytimer = Timer;
 window.$ = window.jQuery = $;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+$.ajaxSetup({ 'headers': { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
+
+window.viewsIncrement = function () {
+    $('[data-views-increment]').each(function () {
+        const $el = $(this);
+        const viewable_id = $el.data('viewable-id');
+        const viewable_type = $el.data('viewable-type');
+        const delay = parseInt($el.data('delay'));
+        setTimeout(function () {
+            $.post('/api/views/increment', { viewable_id: viewable_id, viewable_type: viewable_type });
+        }, delay);
+    });
+};

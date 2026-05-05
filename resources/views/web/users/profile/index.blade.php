@@ -175,6 +175,5 @@
             </div>
         </div>
     </div>
-    @push('body-script')
-    @endpush
+    <x-views-increment :viewable="$user"/>
 </x-layouts::main>
