@@ -32,7 +32,6 @@ class GameController extends Controller
      */
     public function index(GameProviderEnum $provider)
     {
-        /** @var GameBuilder $q */
         $q = Game::query();
 
         $games = $q->ofProvider($provider)->orderBy('released_at', 'desc')->paginate(30);

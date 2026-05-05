@@ -12,7 +12,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 $.ajaxSetup({ 'headers': { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
 
 window.viewsIncrement = function () {
-    $('[data-views-increment]').each(function () {
+    $('[data-viewable]').each(function () {
         const $el = $(this);
         const viewable_id = $el.data('viewable-id');
         const viewable_type = $el.data('viewable-type');

@@ -150,7 +150,7 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="subheader">Страницу посетили</div>
-                                            <div class="h3 m-0">0 раз</div>
+                                            <div class="h3 m-0">{{ $game->views()->count() }} раз</div>
                                         </div>
                                     </div>
                                 </div>

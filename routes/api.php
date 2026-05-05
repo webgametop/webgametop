@@ -27,9 +27,9 @@ Route::group(['as' => 'api'], function () {
             $model = app($viewableType)->find($viewableId);
             $model->views()->save(\App\Models\View::make(['dedup_hash' => $dedupHash]));
 
-            return response()->json(['ok' => true, 'message' => 'View is initialized.']);
+            return response()->json(['ok' => true, 'message' => 'View has been recorded successfully.']);
         }
 
-        return response()->json(['ok' => false, 'error' => 'View does not exist.']);
+        return response()->json(['ok' => false, 'error' => 'Duplicate view within the current time window.']);
     })->name('views.increment');
 }); # V1

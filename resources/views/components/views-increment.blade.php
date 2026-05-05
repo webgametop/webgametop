@@ -1,7 +1,7 @@
 @props(['viewable', 'delay' => 3000])
 
 <span
-    data-views-increment
+    data-viewable
     data-viewable-id="{{ $viewable->getKey() }}"
     data-viewable-type="{{ $viewable->getMorphClass() }}"
     data-delay="{{ $delay }}"
