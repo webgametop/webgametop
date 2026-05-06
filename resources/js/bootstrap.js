@@ -14,11 +14,11 @@ $.ajaxSetup({ 'headers': { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('co
 window.viewsIncrement = function () {
     $('[data-viewable]').each(function () {
         const $el = $(this);
-        const viewable_id = $el.data('viewable-id');
-        const viewable_type = $el.data('viewable-type');
+        const viewable = $el.data('viewable');
         const delay = parseInt($el.data('delay'));
+        const user = $('body').data('user');
         setTimeout(function () {
-            $.post('/api/views', { viewable_id: viewable_id, viewable_type: viewable_type });
+            $.post('/api/views', { viewable_type: viewable.type, viewable_id: viewable.id, user_id: user.id });
         }, delay);
     });
 };
