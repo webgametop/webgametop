@@ -17,9 +17,7 @@ abstract class Repository implements RepositoryContract
     /** @var class-string<T> $modelClass */
     public string $modelClass;
 
-    public function __construct(
-        ?string $modelClass = null,
-    )
+    public function __construct(?string $modelClass = null)
     {
         $this->modelClass = $modelClass ?: self::guessModelClass();
     }

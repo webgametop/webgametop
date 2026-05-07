@@ -100,7 +100,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="subheader">Страницу посетили</div>
-                                <div class="h3 m-0">0 раз</div>
+                                <div class="h3 m-0">{{ $developer->views()->count() }} раз</div>
                             </div>
                         </div>
                     </div>
@@ -135,4 +135,5 @@
             </x-developers-card>
         </div>
     </div>
+    <x-viewable :entity="$developer"/>
 </x-layouts::main>

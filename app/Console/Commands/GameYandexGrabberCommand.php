@@ -37,7 +37,7 @@ class GameYandexGrabberCommand extends Command
      */
     public function handle(
         YandexGameProvider $provider,
-        HmacHasherService $hasher,
+        HmacHasherService $hasherService,
     ) : void
     {
         $provider_name = GameProvider::YANDEXGAMES->value;
@@ -67,7 +67,7 @@ class GameYandexGrabberCommand extends Command
             foreach ($games as $game) {
                 /** @var string $dedup_key */
                 $dedup_key = Str::replace(':identity', $game->id, $dedup_game);
-                $dedup_hash = $hasher->hash($dedup_key, HashingFormat::BINARY);
+                $dedup_hash = $hasherService->hash($dedup_key, HashingFormat::BINARY);
 
                 if (! $gameCache->has($dedup_hash)) {
                     $feedGameIds->add($game->id);
@@ -88,7 +88,7 @@ class GameYandexGrabberCommand extends Command
             foreach ($games as $game) {
                 /** @var string $dedup_key */
                 $dedup_key = Str::replace(':identity', $game->developer->id, $dedup_developer);
-                $dedup_hash = $hasher->hash($dedup_key, HashingFormat::BINARY);
+                $dedup_hash = $hasherService->hash($dedup_key, HashingFormat::BINARY);
 
                 /** @var ?Developer $modelDeveloper */
                 $modelDeveloper = $developerCache->first(
@@ -110,7 +110,7 @@ class GameYandexGrabberCommand extends Command
                 }
 
                 $dedup_key = Str::replace(':identity', $game->id, $dedup_game);
-                $dedup_hash = $hasher->hash($dedup_key, HashingFormat::BINARY);
+                $dedup_hash = $hasherService->hash($dedup_key, HashingFormat::BINARY);
 
                 $modelGame = Game::make([
                     'developer_id' => $modelDeveloper->id,

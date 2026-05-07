@@ -6,10 +6,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-class GameVoteNotFoundException extends Exception
+class GameVoteNotFoundException extends EntityNotFoundException
 {
-    public function __construct()
-    {
-        parent::__construct('You are trying to vote in a non-existent game. Please select another one.');
-    }
+    protected static string $entityName = 'Game';
 }

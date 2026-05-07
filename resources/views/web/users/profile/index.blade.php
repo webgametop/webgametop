@@ -175,6 +175,5 @@
             </div>
         </div>
     </div>
-    @push('body-script')
-    @endpush
+    <x-viewable :entity="$user"/>
 </x-layouts::main>
