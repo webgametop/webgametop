@@ -23,8 +23,9 @@ class View extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'entity_id',
         'entity_type',
+        'entity_id',
+        'user_id',
         'dedup_hash',
     ];
 

@@ -19,6 +19,11 @@ return new class extends Migration
             $table->binary('dedup_hash', 32)->index('idx_views_on_dedup_hash');
             $table->timestamps();
         });
+
+        Schema::table('views', function (Blueprint $table) {
+            $table->bigInteger('user_id', false, true)->nullable()->after('entity_id');
+            $table->foreign('user_id', 'fk_votes_on_user_id')->references('id')->on('users');
+        });
     }
 
     /**
