@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Enums\GameProvider as GameProviderEnum;
+use App\Models\Comment;
 use App\Models\Developer;
 use App\Models\Game;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class GameCommentController extends Controller
 {
@@ -20,8 +22,10 @@ class GameCommentController extends Controller
         $developer = $game->developer;
         /** @var GameProviderEnum $provider */
         $provider = $developer->provider;
+        /** @var Collection<Comment> $comments */
+        $comments = $game->comments()->orderBy('created_at', 'desc')->paginate(13);
 
-        return view('web.games.card.comments', compact('game', 'provider'));
+        return view('web.games.card.comments', compact('game', 'provider', 'comments'));
     }
 
     /**
@@ -35,9 +39,16 @@ class GameCommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Game $game)
     {
-        //
+        $game->comments()->save(Comment::make([
+            'user_id' => auth()->id(),
+            'body' => $request->input('comment.body'),
+        ]));
+
+        return redirect()->route('games.comments', [$game, $game->slug])->with('flash', [
+            'type' => 'success', 'message' => 'Комментарий успешно добавлен'
+        ]);
     }
 
     /**

@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Builders\GameBuilder;
 use App\Models\Concerns\HasGameRelationships;
+use App\Models\Concerns\MorphsToComment;
 use App\Models\Concerns\MorphsToView;
 use Database\Factories\GameFactory;
 use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;
@@ -19,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
 class Game extends Model
 {
     /** @use HasFactory<GameFactory> */
-    use HasFactory, HasGameRelationships, MorphsToView;
+    use HasFactory, HasGameRelationships, MorphsToView, MorphsToComment;
 
     /**
      * The attributes that are mass assignable.

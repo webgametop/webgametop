@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Builders\DeveloperBuilder;
 use App\Casts\DeveloperProviderCast;
 use App\Models\Concerns\HasDeveloperRelationships;
+use App\Models\Concerns\MorphsToComment;
 use App\Models\Concerns\MorphsToView;
 use Database\Factories\DeveloperFactory;
 use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
 class Developer extends Model
 {
     /** @use HasFactory<DeveloperFactory> */
-    use HasFactory, HasDeveloperRelationships, MorphsToView;
+    use HasFactory, HasDeveloperRelationships, MorphsToView, MorphsToComment;
 
     /**
      * The attributes that are mass assignable.
