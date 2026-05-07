@@ -7,6 +7,7 @@ namespace App\Http\Requests\API;
 use App\Enums\HashingFormat;
 use App\Enums\ViewableType;
 use App\Services\Security\HmacHasherService;
+use App\Values\View\ViewCreateData;
 use Illuminate\Validation\Rule;
 
 /**
@@ -32,15 +33,7 @@ class ViewStoreRequest extends Request
         ];
     }
 
-    /**
-     * @return array{
-     *     viewable_type: string,
-     *     viewable_id: int,
-     *     user_id: int,
-     *     dedup_hash: string,
-     * }
-     */
-    public function extractRequestData(): array
+    public function toDto(): ViewCreateData
     {
         $viewable_type = $this->input('viewable_type');
         $viewable_id = (int) $this->input('viewable_id');
@@ -49,12 +42,12 @@ class ViewStoreRequest extends Request
         $visitor_id = $this->resolveVisitorId($user_id);
         $dedup_hash = $this->generateDedupHash($viewable_type, $viewable_id, $visitor_id);
 
-        return [
-            'viewable_type' => $viewable_type,
-            'viewable_id' => $viewable_id,
-            'user_id' => $user_id,
-            'dedup_hash' => $dedup_hash,
-        ];
+        return ViewCreateData::make(
+            $viewable_type,
+            $viewable_id,
+            $user_id,
+            $dedup_hash,
+        );
     }
 
     private function resolveVisitorId(?int $user_id): string
