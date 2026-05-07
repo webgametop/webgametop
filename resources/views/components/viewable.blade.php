@@ -1,9 +1,9 @@
-@props(['viewable', 'delay' => 3000])
+@props(['entity', 'delay' => 3000])
 
 <span
     data-viewable="{{ json_encode([
-        'type' => $viewable->getMorphClass(),
-        'id' => $viewable->getKey(),
+        'type' => $entity->getMorphClass(),
+        'id' => $entity->getKey(),
     ]) }}"
     data-delay="{{ $delay }}"
     hidden
@@ -12,7 +12,7 @@
 @pushonce('body-script')
     <script type="module">
         $(function () {
-            viewsIncrement();
+            viewsRecord();
         });
     </script>
 @endpushonce

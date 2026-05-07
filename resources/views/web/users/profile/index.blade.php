@@ -175,5 +175,5 @@
             </div>
         </div>
     </div>
-    <x-views-increment :viewable="$user"/>
+    <x-viewable :entity="$user"/>
 </x-layouts::main>

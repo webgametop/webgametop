@@ -189,5 +189,5 @@
             </div>
         </div>
     </div>
-    <x-views-increment :viewable="$game"/>
+    <x-viewable :entity="$game"/>
 </x-layouts::main>
