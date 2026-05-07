@@ -12,6 +12,6 @@ abstract class EntityNotFoundException extends Exception
 
     public function __construct()
     {
-        parent::__construct(sprintf('You are trying to access in a non-existent entity (%s). Please select another one.', static::$entityName));
+        parent::__construct(sprintf('You are trying to access in a non-existent entity (%s). Please select another one.', static::$entityName), 404);
     }
 }

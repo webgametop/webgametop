@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Exceptions\ViewableTargetNotFoundException;
 use App\Exceptions\ViewDeduplicationException;
 use App\Exceptions\ViewPersistenceException;
 use App\Models\View;
 use App\Values\View\ViewCreateData;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ViewService
 {
@@ -19,7 +19,7 @@ class ViewService
 
         /** @var ?Model $target */
         $target = app($dto->getViewableType())->find($dto->getViewableId());
-        throw_if(! $target, new ModelNotFoundException('Viewable model not found.', 404));
+        throw_if(! $target, new ViewableTargetNotFoundException);
 
         /** @var false|View $saved */
         $saved = $target->views()->save($view);
