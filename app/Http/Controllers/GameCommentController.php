@@ -23,7 +23,7 @@ class GameCommentController extends Controller
         /** @var GameProviderEnum $provider */
         $provider = $developer->provider;
         /** @var Collection<Comment> $comments */
-        $comments = $game->comments()->orderBy('created_at', 'desc')->paginate(13);
+        $comments = $game->comments()->with('user')->orderBy('created_at', 'desc')->paginate(13);
 
         return view('web.games.card.comments', compact('game', 'provider', 'comments'));
     }
