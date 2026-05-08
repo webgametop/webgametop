@@ -7,11 +7,17 @@ namespace App\Http\Controllers;
 use App\Enums\GameProvider as GameProviderEnum;
 use App\Models\Comment;
 use App\Models\Developer;
+use App\Services\CommentService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 
 class DeveloperCommentController extends Controller
 {
+    public function __construct(
+        private readonly CommentService $commentService,
+    )
+    {
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -19,12 +25,8 @@ class DeveloperCommentController extends Controller
     {
         /** @var GameProviderEnum $provider */
         $provider = $developer->provider;
-        /** @var Collection<Comment> $comments */
-        $comments = $developer
-            ->comments()
-            ->with('user')
-            ->orderBy('created_at', 'desc')
-            ->paginate(13); // @todo
+
+        $comments = $developer->comments()->with('user')->orderBy('created_at', 'desc')->paginate(13);
 
         return view('web.developers.card.comments', compact('developer', 'provider', 'comments'));
     }
@@ -42,14 +44,21 @@ class DeveloperCommentController extends Controller
      */
     public function store(Request $request, Developer $developer)
     {
-        $developer->comments()->save(Comment::make([
+        $flash_data = ['type' => 'success', 'message' => 'Comment added successfully.'];
+
+        $comment = Comment::make([
             'user_id' => auth()->id(),
             'body' => $request->input('comment.body'),
-        ]));
-
-        return redirect()->route('developers.comments', [$developer, $developer->slug])->with('flash', [
-            'type' => 'success', 'message' => 'Комментарий успешно добавлен.'
         ]);
+
+        try {
+            $this->commentService->createComment($developer, $comment);
+        } catch (\Exception $e) {
+            $flash_data['type'] = 'danger';
+            $flash_data['message'] = $e->getMessage();
+        }
+
+        return redirect()->route('developers.comments', [$developer, $developer->slug])->with('flash', $flash_data);
     }
 
     /**

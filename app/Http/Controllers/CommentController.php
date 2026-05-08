@@ -6,11 +6,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use App\Models\User;
+use App\Services\CommentService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
+    public function __construct(
+        private readonly CommentService $service,
+    )
+    {
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -32,17 +39,20 @@ class CommentController extends Controller
      */
     public function store(Request $request, Comment $comment)
     {
-        $target = $comment->commentable;
+        $flash_data = ['type' => 'success', 'message' => 'The answer has been successfully added.'];
 
-        $target->comments()->save(Comment::make([
-            'user_id' => auth()->id(),
-            'parent_id' => $comment->id,
-            'body' => $request->input('comment.body'),
-        ]));
+        try {
+            $this->service->createComment($comment->commentable, Comment::make([
+                'user_id' => auth()->id(),
+                'parent_id' => $comment->id,
+                'body' => $request->input('comment.body'),
+            ]));
+        } catch (\Exception $e) {
+            $flash_data['type'] = 'danger';
+            $flash_data['message'] = $e->getMessage();
+        }
 
-        return redirect()->route('comments.show', $comment)->with('flash', [
-            'type' => 'success', 'message' => 'Ответ успешно добавлен.'
-        ]);
+        return redirect()->route('comments.show', $comment)->with('flash', $flash_data);
     }
 
     /**
@@ -55,11 +65,7 @@ class CommentController extends Controller
         /** @var Model $commentable */
         $commentable = $comment->commentable;
 
-        $answers = $comment
-            ->answers()
-            ->with('user')
-            ->orderBy('created_at', 'desc')
-            ->paginate(13);
+        $answers = $comment->answers()->with('user')->orderBy('created_at', 'desc')->paginate(13);
 
         return view('web.comments.show', compact('comment', 'user', 'answers', 'commentable'));
     }

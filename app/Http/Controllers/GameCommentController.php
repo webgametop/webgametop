@@ -8,11 +8,17 @@ use App\Enums\GameProvider as GameProviderEnum;
 use App\Models\Comment;
 use App\Models\Developer;
 use App\Models\Game;
+use App\Services\CommentService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 
 class GameCommentController extends Controller
 {
+    public function __construct(
+        private readonly CommentService $commentService,
+    )
+    {
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -22,12 +28,8 @@ class GameCommentController extends Controller
         $developer = $game->developer;
         /** @var GameProviderEnum $provider */
         $provider = $developer->provider;
-        /** @var Collection<Comment> $comments */
-        $comments = $game
-            ->comments()
-            ->with('user')
-            ->orderBy('created_at', 'desc')
-            ->paginate(13); // @todo
+
+        $comments = $game->comments()->with('user')->orderBy('created_at', 'desc')->paginate(13);
 
         return view('web.games.card.comments', compact('game', 'provider', 'comments'));
     }
@@ -45,14 +47,21 @@ class GameCommentController extends Controller
      */
     public function store(Request $request, Game $game)
     {
-        $game->comments()->save(Comment::make([
+        $flash_data = ['type' => 'success', 'message' => 'Comment added successfully.'];
+
+        $comment = Comment::make([
             'user_id' => auth()->id(),
             'body' => $request->input('comment.body'),
-        ]));
-
-        return redirect()->route('games.comments', [$game, $game->slug])->with('flash', [
-            'type' => 'success', 'message' => 'Комментарий успешно добавлен.'
         ]);
+
+        try {
+            $this->commentService->createComment($game, $comment);
+        } catch (\Exception $e) {
+            $flash_data['type'] = 'danger';
+            $flash_data['message'] = $e->getMessage();
+        }
+
+        return redirect()->route('games.comments', [$game, $game->slug])->with('flash', $flash_data);
     }
 
     /**
