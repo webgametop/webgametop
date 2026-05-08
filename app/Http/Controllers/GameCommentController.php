@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Enums\GameProvider as GameProviderEnum;
+use App\Http\Requests\CommentStoreRequest;
 use App\Models\Comment;
 use App\Models\Developer;
 use App\Models\Game;
@@ -45,9 +46,9 @@ class GameCommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Game $game)
+    public function store(CommentStoreRequest $request, Game $game)
     {
-        $flash_data = ['type' => 'success', 'message' => 'Comment added successfully.'];
+        $route_data = [$game, $game->slug];
 
         $comment = Comment::make([
             'user_id' => auth()->id(),
@@ -57,11 +58,14 @@ class GameCommentController extends Controller
         try {
             $this->commentService->createComment($game, $comment);
         } catch (\Exception $e) {
-            $flash_data['type'] = 'danger';
-            $flash_data['message'] = $e->getMessage();
+            return redirect()->route('games.comments', $route_data)->with('flash', [
+                'type' => 'danger', 'message' => $e->getMessage()
+            ]);
         }
 
-        return redirect()->route('games.comments', [$game, $game->slug])->with('flash', $flash_data);
+        return redirect()->route('games.comments', $route_data)->with('flash', [
+            'type' => 'success', 'message' => 'Comment added successfully.'
+        ]);
     }
 
     /**

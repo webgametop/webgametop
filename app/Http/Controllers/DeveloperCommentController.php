@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Enums\GameProvider as GameProviderEnum;
+use App\Http\Requests\CommentStoreRequest;
 use App\Models\Comment;
 use App\Models\Developer;
 use App\Services\CommentService;
@@ -42,9 +43,9 @@ class DeveloperCommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Developer $developer)
+    public function store(CommentStoreRequest $request, Developer $developer)
     {
-        $flash_data = ['type' => 'success', 'message' => 'Comment added successfully.'];
+        $route_data = [$developer, $developer->slug];
 
         $comment = Comment::make([
             'user_id' => auth()->id(),
@@ -54,11 +55,14 @@ class DeveloperCommentController extends Controller
         try {
             $this->commentService->createComment($developer, $comment);
         } catch (\Exception $e) {
-            $flash_data['type'] = 'danger';
-            $flash_data['message'] = $e->getMessage();
+            return redirect()->route('developers.comments', $route_data)->with('flash', [
+                'type' => 'danger', 'message' => $e->getMessage()
+            ]);
         }
 
-        return redirect()->route('developers.comments', [$developer, $developer->slug])->with('flash', $flash_data);
+        return redirect()->route('developers.comments', $route_data)->with('flash', [
+            'type' => 'success', 'message' => 'Comment added successfully.'
+        ]);
     }
 
     /**

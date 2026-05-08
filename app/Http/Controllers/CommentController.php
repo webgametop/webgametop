@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CommentStoreRequest;
 use App\Models\Comment;
 use App\Models\User;
 use App\Services\CommentService;
@@ -37,22 +38,25 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Comment $comment)
+    public function store(CommentStoreRequest $request, Comment $comment)
     {
-        $flash_data = ['type' => 'success', 'message' => 'The answer has been successfully added.'];
+        $parent = Comment::make([
+            'user_id' => auth()->id(),
+            'parent_id' => $comment->id,
+            'body' => $request->input('comment.body'),
+        ]);
 
         try {
-            $this->service->createComment($comment->commentable, Comment::make([
-                'user_id' => auth()->id(),
-                'parent_id' => $comment->id,
-                'body' => $request->input('comment.body'),
-            ]));
+            $this->service->createComment($comment->commentable, $parent);
         } catch (\Exception $e) {
-            $flash_data['type'] = 'danger';
-            $flash_data['message'] = $e->getMessage();
+            return redirect()->route('comments.show', $comment)->with('flash', [
+                'type' => 'danger', 'message' => $e->getMessage()
+            ]);
         }
 
-        return redirect()->route('comments.show', $comment)->with('flash', $flash_data);
+        return redirect()->route('comments.show', $comment)->with('flash', [
+            'type' => 'success', 'message' => 'The answer has been successfully added.'
+        ]);
     }
 
     /**
