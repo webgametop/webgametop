@@ -18,7 +18,7 @@ Route::group(['prefix' => 'developers', 'as' => 'developers'], function () {
             Route::get('/games', [DeveloperGameController::class, 'index'])->name('.games');
             Route::group(['prefix' => 'comments', 'as' => '.comments'], function () {
                 Route::get('/', [DeveloperCommentController::class, 'index']);
-                Route::post('/', [DeveloperCommentController::class, 'store'])->name('.store');
+                Route::post('/', [DeveloperCommentController::class, 'store'])->middleware('auth')->name('.store');
             }); # comments
         });
     }); # developer

@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -51,6 +52,8 @@ class CommentController extends Controller
     {
         /** @var User $user */
         $user = $comment->user;
+        /** @var Model $commentable */
+        $commentable = $comment->commentable;
 
         $answers = $comment
             ->answers()
@@ -58,7 +61,7 @@ class CommentController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(13);
 
-        return view('web.comments.show', compact('comment', 'user', 'answers'));
+        return view('web.comments.show', compact('comment', 'user', 'answers', 'commentable'));
     }
 
     /**
