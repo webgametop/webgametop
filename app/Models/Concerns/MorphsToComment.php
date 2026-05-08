@@ -11,6 +11,6 @@ trait MorphsToComment
 {
     public function comments(): MorphMany
     {
-        return $this->morphMany(Comment::class, 'target');
+        return $this->morphMany(Comment::class, 'commentable');
     }
 }

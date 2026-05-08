@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -27,23 +29,42 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Comment $comment)
     {
-        //
+        $target = $comment->commentable;
+
+        $target->comments()->save(Comment::make([
+            'user_id' => auth()->id(),
+            'parent_id' => $comment->id,
+            'body' => $request->input('comment.body'),
+        ]));
+
+        return redirect()->route('comments.show', $comment)->with('flash', [
+            'type' => 'success', 'message' => 'Ответ успешно добавлен.'
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Comment $comment)
     {
-        //
+        /** @var User $user */
+        $user = $comment->user;
+
+        $answers = $comment
+            ->answers()
+            ->with('user')
+            ->orderBy('created_at', 'desc')
+            ->paginate(13);
+
+        return view('web.comments.show', compact('comment', 'user', 'answers'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Comment $comment)
     {
         //
     }
@@ -51,7 +72,7 @@ class CommentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Comment $comment)
     {
         //
     }
@@ -59,7 +80,7 @@ class CommentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Comment $comment)
     {
         //
     }

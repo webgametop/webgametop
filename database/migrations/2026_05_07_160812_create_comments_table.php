@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->morphs('target', 'idx_comments_on_target_type_and_target_id');
+            $table->morphs('commentable', 'idx_comments_on_commentable_type_and_commentable_id');
             $table->text('body');
             $table->timestamps();
         });
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->bigInteger('parent_id', false, true)->nullable()->after('id');
             $table->foreign('parent_id', 'fk_comments_on_parent_id')->references('id')->on('comments');
 
-            $table->bigInteger('user_id', false, true)->nullable()->after('target_id');
+            $table->bigInteger('user_id', false, true)->nullable()->after('parent_id');
             $table->foreign('user_id', 'fk_comments_on_user_id')->references('id')->on('users');
         });
     }

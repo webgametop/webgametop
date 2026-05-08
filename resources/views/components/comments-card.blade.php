@@ -1,4 +1,4 @@
-@props(['action', 'comments'])
+@props(['action', 'comments', 'label' => 'Комментарии'])
 
 @if(auth()->check())
     <x-ui.subheadline label="Твой комментарий">
@@ -18,9 +18,10 @@
         </form>
     </x-ui.subheadline>
 @endif
+
 <div class="scrollable">
     <div class="chat">
-        <x-ui.subheadline label="Комментарии"/>
+        <x-ui.subheadline :label="$label"/>
         <div class="chat-bubbles">
             @forelse($comments as $comment)
                 @php($user = $comment->user)
@@ -37,15 +38,20 @@
                                     <div class="row">
                                         <div class="col chat-bubble-author">
                                             <span>{{ $user->nickname }}</span>
-                                            <a href="/comments/{{ $comment->id }}">
+                                            <a href="{{ route('comments.show', $comment) }}">
                                                 <span class="text-muted">{{ '#' . $comment->id }}</span>
                                             </a>
                                         </div>
-                                        <div class="col-auto chat-bubble-date">
-                                            <span
-                                                class="text-muted"
-                                                title="{{ $comment->created_at->format('Y/m/d H:i:s') }}"
-                                            >{{ $comment->created_at->ago() }}</span>
+                                        <div class="col-auto chat-bubble-date d-flex">
+                                            @if(! is_null($comment->parent_id))
+                                                <div class="me-2">
+                                                    <span>ответ</span>
+                                                    <a href="{{ route('comments.show', $comment->parent) }}">
+                                                        <b class="text-muted">{{ '#' . $comment->parent_id }}</b>
+                                                    </a>
+                                                </div>
+                                            @endif
+                                            <span class="text-muted" title="{{ $comment->created_at->format('Y/m/d H:i:s') }}">{{ $comment->created_at->ago() }}</span>
                                         </div>
                                     </div>
                                 </div>

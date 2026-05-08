@@ -20,7 +20,11 @@ class DeveloperCommentController extends Controller
         /** @var GameProviderEnum $provider */
         $provider = $developer->provider;
         /** @var Collection<Comment> $comments */
-        $comments = $developer->comments()->orderBy('created_at', 'desc')->paginate(13);
+        $comments = $developer
+            ->comments()
+            ->with('user')
+            ->orderBy('created_at', 'desc')
+            ->paginate(13); // @todo
 
         return view('web.developers.card.comments', compact('developer', 'provider', 'comments'));
     }
@@ -44,7 +48,7 @@ class DeveloperCommentController extends Controller
         ]));
 
         return redirect()->route('developers.comments', [$developer, $developer->slug])->with('flash', [
-            'type' => 'success', 'message' => 'Комментарий успешно добавлен'
+            'type' => 'success', 'message' => 'Комментарий успешно добавлен.'
         ]);
     }
 
