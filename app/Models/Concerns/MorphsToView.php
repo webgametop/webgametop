@@ -11,6 +11,6 @@ trait MorphsToView
 {
     public function views(): MorphMany
     {
-        return $this->morphMany(View::class, 'entity');
+        return $this->morphMany(View::class, 'viewable');
     }
 }

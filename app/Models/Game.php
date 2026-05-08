@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Builders\GameBuilder;
-use App\Models\Concerns\HasGameRelationships;
+use App\Models\Concerns\Games\HasGameRelationships;
 use App\Models\Concerns\MorphsToView;
 use Database\Factories\GameFactory;
 use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;

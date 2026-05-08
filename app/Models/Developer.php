@@ -6,7 +6,7 @@ namespace App\Models;
 
 use App\Builders\DeveloperBuilder;
 use App\Casts\DeveloperProviderCast;
-use App\Models\Concerns\HasDeveloperRelationships;
+use App\Models\Concerns\Developers\HasDeveloperRelationships;
 use App\Models\Concerns\MorphsToView;
 use Database\Factories\DeveloperFactory;
 use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;

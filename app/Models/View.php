@@ -23,8 +23,6 @@ class View extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'entity_type',
-        'entity_id',
         'user_id',
         'dedup_hash',
     ];
@@ -35,7 +33,7 @@ class View extends Model
         return parent::query();
     }
 
-    public function entity(): MorphTo
+    public function viewable(): MorphTo
     {
         return $this->morphTo();
     }
