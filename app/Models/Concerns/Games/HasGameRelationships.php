@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Models\Concerns;
+namespace App\Models\Concerns\Games;
 
 use App\Models\Developer;
 use App\Models\GameVote;
