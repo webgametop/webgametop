@@ -8,7 +8,7 @@
     </div>
     <div class="container">
         <x-developers-card :developer="$developer">
-            <x-comments-card :action="route('developers.comments.store', [$developer, $developer->slug])" :comments="$comments"/>
+            <x-comments-card :commentable="$developer" :comments="$comments"/>
         </x-developers-card>
     </div>
 </x-layouts::main>

@@ -6,9 +6,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CommentStoreRequest;
 use App\Models\Comment;
+use App\Models\Contracts\Commentable;
 use App\Models\User;
 use App\Services\CommentService;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -38,24 +40,29 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CommentStoreRequest $request, Comment $comment)
+    public function store(CommentStoreRequest $request)
     {
-        $parent = Comment::make([
+        $modelType = Relation::getMorphedModel($request->input('commentable.type'));
+
+        /** @var Commentable|Model $entity */
+        $entity = $modelType::findOrFail($request->input('commentable.id'));
+
+        $comment = Comment::make([
             'user_id' => auth()->id(),
-            'parent_id' => $comment->id,
+            'parent_id' => $request->input('comment.parent_id') ?? null,
             'body' => $request->input('comment.body'),
         ]);
 
         try {
-            $this->service->createComment($comment->commentable, $parent);
+            $this->service->createComment($entity, $comment);
         } catch (\Exception $e) {
-            return redirect()->route('comments.show', $comment)->with('flash', [
+            return redirect()->back()->with('flash', [
                 'type' => 'danger', 'message' => $e->getMessage()
             ]);
         }
 
-        return redirect()->route('comments.show', $comment)->with('flash', [
-            'type' => 'success', 'message' => 'The answer has been successfully added.'
+        return redirect()->back()->with('flash', [
+            'type' => 'success', 'message' => 'The comment has been successfully added.'
         ]);
     }
 
@@ -66,6 +73,7 @@ class CommentController extends Controller
     {
         /** @var User $user */
         $user = $comment->user;
+
         /** @var Model $commentable */
         $commentable = $comment->commentable;
 

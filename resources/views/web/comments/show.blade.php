@@ -13,7 +13,7 @@
                 <span class="text-muted">{{ $comment->created_at->ago() }}</span>
                 <p>{{ $comment->body }}</p>
             </x-ui.subheadline>
-            <x-comments-card action="{{ route('comments.store', $comment) }}" label="Ответы" :comments="$answers"/>
+            <x-comments-card :commentable="$commentable" :comments="$answers" label="Ответы"/>
         </div>
     </div>
 </x-layouts::main>
