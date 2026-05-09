@@ -10,8 +10,9 @@
             <input type="hidden" name="commentable[type]" value="{{ morph_alias($commentable::class) }}" autocomplete="off">
             <input type="hidden" name="commentable[id]" value="{{ $commentable->id }}" autocomplete="off">
             @if(! is_null($comment_id = request()->comment?->id))
-                <input type="hidden" name="comment[parent_id]" value="{{ $comment_id }}" autocomplete="off">
+            <input type="hidden" name="comment[parent_id]" value="{{ $comment_id }}" autocomplete="off">
             @endif
+            <input type="hidden" name="comment[author_id]" value="{{ auth()->id() }}" autocomplete="off">
             <textarea name="comment[body]" cols="30" rows="5" class="form-control rounded-0 mb-3" required>{{ request()->old('comment.body') }}</textarea>
             <div class="text-end">
                 <button type="submit" class="btn btn-sm btn-primary" data-loading-text="Отправка...">Отправить</button>

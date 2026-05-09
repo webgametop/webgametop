@@ -29,15 +29,15 @@ class ViewStoreRequest extends Request
         return [
             'viewable_type' => ['required', 'string', Rule::enum(ViewableType::class)],
             'viewable_id' => ['required', 'integer'],
-            'user_id' => ['integer', 'nullable'],
+            'user_id' => ['nullable', 'integer', 'exists:users,id'],
         ];
     }
 
     public function toDto(): ViewCreateData
     {
-        $viewable_type = $this->input('viewable_type');
+        $viewable_type = (string) $this->input('viewable_type');
         $viewable_id = (int) $this->input('viewable_id');
-        $user_id = is_null($this->input('user_id')) ? null : (int) $this->input('user_id');
+        $user_id = is_null($v = $this->input('user_id')) ? null : (int) $v;
 
         $visitor_id = $this->resolveVisitorId($user_id);
         $dedup_hash = $this->generateDedupHash($viewable_type, $viewable_id, $visitor_id);

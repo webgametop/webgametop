@@ -42,20 +42,8 @@ final readonly class ViewCreateData implements Arrayable
         return $this->viewable_id;
     }
 
-    public function getUserId(): ?int
-    {
-        return $this->user_id;
-    }
-
-    public function getHash(): string
-    {
-        return $this->dedup_hash;
-    }
-
     /**
      * @return array{
-     *     viewable_type: string,
-     *     viewable_id: int,
      *     user_id: ?int,
      *     dedup_hash: string,
      * }
@@ -63,8 +51,6 @@ final readonly class ViewCreateData implements Arrayable
     public function toArray(): array
     {
         return [
-            'viewable_type' => $this->viewable_type,
-            'viewable_id' => $this->viewable_id,
             'user_id' => $this->user_id,
             'dedup_hash' => $this->dedup_hash,
         ];

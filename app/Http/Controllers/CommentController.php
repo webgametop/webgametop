@@ -42,16 +42,14 @@ class CommentController extends Controller
      */
     public function store(CommentStoreRequest $request)
     {
-        $modelType = Relation::getMorphedModel($request->input('commentable.type'));
+        $dto = $request->toDto();
+
+        $modelType = Relation::getMorphedModel($dto->getCommentableType());
 
         /** @var Commentable|Model $entity */
-        $entity = $modelType::findOrFail($request->input('commentable.id'));
+        $entity = $modelType::findOrFail($dto->getCommentableId());
 
-        $comment = Comment::make([
-            'user_id' => auth()->id(),
-            'parent_id' => $request->input('comment.parent_id') ?? null,
-            'body' => $request->input('comment.body'),
-        ]);
+        $comment = Comment::make($dto->toArray());
 
         try {
             $this->service->createComment($entity, $comment);
