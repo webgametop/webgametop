@@ -2,7 +2,7 @@
 
 <span
     data-viewable="{{ json_encode([
-        'type' => $viewable::class,
+        'type' => morph_alias($viewable::class),
         'id' => $viewable->getKey(),
     ]) }}"
     data-delay="{{ $delay }}"

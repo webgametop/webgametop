@@ -6,7 +6,11 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\ViewStoreRequest;
+use App\Models\Contracts\Viewable;
+use App\Models\View;
 use App\Services\ViewService;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -36,14 +40,20 @@ class ViewController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * @todo move logic to service
      */
     public function store(ViewStoreRequest $request): JsonResponse
     {
         $dto = $request->toDto();
 
+        $modelType = Relation::getMorphedModel($dto->getViewableType());
+
+        /** @var Viewable|Model $entity */
+        $entity = $modelType::findOrFail($dto->getViewableId());
+
+        $view = View::make($dto->toArray());
+
         try {
-            $this->service->registerView($dto);
+            $this->service->registerView($entity, $view);
         } catch (\Exception $e) {
             return response()->json(['ok' => false, 'description' => $e->getMessage()], $e->getCode());
         }

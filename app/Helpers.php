@@ -3,12 +3,18 @@
 declare(strict_types=1);
 
 use App\Services\GravatarService;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 function gravatar(string $email, int $size = 192): string
 {
     return GravatarService::url($email, $size);
+}
+
+function morph_alias(string $class_name): string
+{
+    return array_search($class_name, Relation::morphMap(), true);
 }
 
 function provider_developer_key(): string

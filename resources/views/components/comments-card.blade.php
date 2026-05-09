@@ -7,7 +7,7 @@
         @endif
         <form action="{{ route('comments.store') }}" method="post">
             @csrf
-            <input type="hidden" name="commentable[type]" value="{{ strtolower(class_basename($commentable::class)) }}" autocomplete="off">
+            <input type="hidden" name="commentable[type]" value="{{ morph_alias($commentable::class) }}" autocomplete="off">
             <input type="hidden" name="commentable[id]" value="{{ $commentable->id }}" autocomplete="off">
             @if(! is_null($comment_id = request()->comment?->id))
                 <input type="hidden" name="comment[parent_id]" value="{{ $comment_id }}" autocomplete="off">

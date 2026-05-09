@@ -6,6 +6,7 @@ namespace App\Enums;
 
 enum CommentableType: string
 {
-    case GAME = 'game';
+    case USER = 'user';
     case DEVELOPER = 'developer';
+    case GAME = 'game';
 }

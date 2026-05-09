@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Comment;
 use App\Models\Developer;
 use App\Models\Game;
+use App\Models\User;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -29,8 +31,10 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Relation::morphMap([
+            'user' => User::class,
             'developer' => Developer::class,
             'game' => Game::class,
+            'comment' => Comment::class,
         ]);
     }
 }

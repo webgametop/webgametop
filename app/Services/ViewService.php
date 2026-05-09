@@ -4,35 +4,28 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Exceptions\ViewableTargetNotFoundException;
 use App\Exceptions\ViewDeduplicationException;
 use App\Exceptions\ViewPersistenceException;
+use App\Models\Contracts\Viewable;
 use App\Models\View;
-use App\Values\View\ViewCreateData;
 use Illuminate\Database\Eloquent\Model;
 
 class ViewService
 {
-    public function createView(ViewCreateData $dto): View
+    public function createView(Viewable|Model $viewable, View $view): View
     {
-        $view = View::make($dto->toArray());
-
-        /** @var ?Model $target */
-        $target = app($dto->getViewableType())->find($dto->getViewableId());
-        throw_if(! $target, new ViewableTargetNotFoundException);
-
         /** @var false|View $saved */
-        $saved = $target->views()->save($view);
+        $saved = $viewable->views()->save($view);
         throw_if(! $saved, new ViewPersistenceException);
 
         return $saved;
     }
 
-    public function registerView(ViewCreateData $dto): View
+    public function registerView(Viewable|Model $viewable, View $view): View
     {
-        throw_if($this->existsByHash($dto->getHash()), new ViewDeduplicationException);
+        throw_if($this->existsByHash($view->dedup_hash), new ViewDeduplicationException);
 
-        return $this->createView($dto);
+        return $this->createView($viewable, $view);
     }
 
     public function existsBy(array $params): bool

@@ -74,12 +74,12 @@ class CommentController extends Controller
         /** @var User $user */
         $user = $comment->user;
 
-        /** @var Model $commentable */
-        $commentable = $comment->commentable;
+        /** @var Commentable|Model $commentable */
+        $entity = $comment->commentable;
 
         $answers = $comment->answers()->with('user')->orderBy('created_at', 'desc')->paginate(13);
 
-        return view('web.comments.show', compact('comment', 'user', 'answers', 'commentable'));
+        return view('web.comments.show', compact('entity', 'comment', 'user', 'answers'));
     }
 
     /**
