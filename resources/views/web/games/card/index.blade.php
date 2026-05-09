@@ -189,5 +189,5 @@
             </div>
         </div>
     </div>
-    <x-viewable :entity="$game"/>
+    <x-views-record :viewable="$game"/>
 </x-layouts::main>

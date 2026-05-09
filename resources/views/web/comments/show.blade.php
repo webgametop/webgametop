@@ -16,4 +16,5 @@
             <x-comments-card :commentable="$commentable" :comments="$answers" label="Ответы"/>
         </div>
     </div>
+    <x-views-record :viewable="$comment"/>
 </x-layouts::main>

@@ -135,5 +135,5 @@
             </x-developers-card>
         </div>
     </div>
-    <x-viewable :entity="$developer"/>
+    <x-views-record :viewable="$developer"/>
 </x-layouts::main>

@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Builders\CommentBuilder;
 use App\Models\Concerns\BelongsToUser;
 use App\Models\Concerns\Comments\HasCommentRelationships;
+use App\Models\Concerns\MorphsToView;
 use Database\Factories\CommentFactory;
 use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 class Comment extends Model
 {
     /** @use HasFactory<CommentFactory> */
-    use HasFactory, BelongsToUser, HasCommentRelationships;
+    use HasFactory, BelongsToUser, HasCommentRelationships, MorphsToView;
 
     /**
      * The attributes that are mass assignable.
