@@ -15,7 +15,7 @@ class CommentStoreRequest extends Request
         return [
             'commentable.type' => ['required', 'string', Rule::enum(CommentableType::class)],
             'commentable.id' => ['required', 'integer'],
-            'comment.parent_id' => ['integer', 'nullable', 'exists:comments,id'],
+            'comment.parent_id' => ['nullable', 'integer', 'exists:comments,id'],
             'comment.body' => ['required', 'string'],
         ];
     }
