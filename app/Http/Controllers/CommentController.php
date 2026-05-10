@@ -77,7 +77,7 @@ class CommentController extends Controller
 
         $answers = $comment->answers()->with('user')->orderBy('created_at', 'desc')->paginate(13);
 
-        return view('web.comments.show', compact('entity', 'comment', 'user', 'answers'));
+        return view('web.comments.show', compact('entity', 'comment', 'answers', 'user'));
     }
 
     /**

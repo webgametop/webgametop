@@ -1,4 +1,4 @@
-@props(['entity', 'comment', 'user', 'answers',])
+@props(['entity', 'comment', 'answers', 'user'])
 
 @section('title', 'Комментарий от ' . $user->nickname)
 

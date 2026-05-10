@@ -16,7 +16,6 @@ class CommentStoreRequest extends Request
             'commentable.type' => ['required', 'string', Rule::enum(CommentableType::class)],
             'commentable.id' => ['required', 'integer'],
             'comment.parent_id' => ['integer', 'nullable', 'exists:comments,id'],
-            'comment.author_id' => ['required', 'integer', 'exists:users,id'],
             'comment.body' => ['required', 'string'],
         ];
     }
@@ -26,7 +25,7 @@ class CommentStoreRequest extends Request
         $commentable_type = (string) $this->input('commentable.type');
         $commentable_id = (int) $this->input('commentable.id');
         $parent_id = is_null($v = $this->input('comment.parent_id')) ? null : (int) $v;
-        $user_id = (int) $this->input('comment.author_id');
+        $user_id = (int) auth()->id();
         $body = (string) $this->input('comment.body');
 
         return new CommentCreateData(
