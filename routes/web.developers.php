@@ -16,7 +16,9 @@ Route::group(['prefix' => 'developers', 'as' => 'developers'], function () {
         Route::group(['prefix' => '{slug}', 'middleware' => ['redirect.developerslug']], function () {
             Route::get('/', [DeveloperController::class, 'show'])->name('.show');
             Route::get('/games', [DeveloperGameController::class, 'index'])->name('.games');
-            Route::get('/comments', [DeveloperCommentController::class, 'index'])->name('.comments');
+            Route::group(['prefix' => 'comments', 'as' => '.comments'], function () {
+                Route::get('/', [DeveloperCommentController::class, 'index']);
+            }); # comments
         });
     }); # developer
 }); # developers

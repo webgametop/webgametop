@@ -4,19 +4,21 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Builders\ViewBuilder;
+use App\Builders\CommentBuilder;
 use App\Models\Concerns\BelongsToUser;
-use Database\Factories\ViewFactory;
+use App\Models\Concerns\Comments\HasCommentRelationships;
+use App\Models\Concerns\MorphsToView;
+use Database\Factories\CommentFactory;
 use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-#[UseEloquentBuilder(ViewBuilder::class)]
-class View extends Model
+#[UseEloquentBuilder(CommentBuilder::class)]
+class Comment extends Model
 {
-    /** @use HasFactory<ViewFactory> */
-    use HasFactory, BelongsToUser;
+    /** @use HasFactory<CommentFactory> */
+    use HasFactory, BelongsToUser, HasCommentRelationships, MorphsToView;
 
     /**
      * The attributes that are mass assignable.
@@ -24,17 +26,18 @@ class View extends Model
      * @var list<string>
      */
     protected $fillable = [
+        'parent_id',
         'user_id',
-        'dedup_hash',
+        'body',
     ];
 
-    public static function query(): ViewBuilder
+    public static function query(): CommentBuilder
     {
-        /** @var ViewBuilder */
+        /** @var CommentBuilder */
         return parent::query();
     }
 
-    public function viewable(): MorphTo
+    public function commentable(): MorphTo
     {
         return $this->morphTo();
     }

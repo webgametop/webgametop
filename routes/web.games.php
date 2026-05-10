@@ -21,7 +21,9 @@ Route::group(['prefix' => 'games', 'as' => 'games'], function () {
                 Route::post('/', [GameVoteController::class, 'store'])->name('.store');
             });
             Route::get('/reviews', [GameReviewController::class, 'index'])->name('.reviews');
-            Route::get('/comments', [GameCommentController::class, 'index'])->name('.comments');
-        }); # votes
+            Route::group(['prefix' => 'comments', 'as' => '.comments'], function () {
+                Route::get('/', [GameCommentController::class, 'index']);
+            }); # comments
+        });
     }); # game
 }); # games

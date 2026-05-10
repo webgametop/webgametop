@@ -175,5 +175,5 @@
             </div>
         </div>
     </div>
-    <x-viewable :entity="$user"/>
+    <x-views-record :viewable="$user"/>
 </x-layouts::main>

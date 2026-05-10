@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Enums\GameProvider as GameProviderEnum;
+use App\Http\Requests\CommentStoreRequest;
 use App\Models\Developer;
 use App\Models\Game;
 use Illuminate\Http\Request;
@@ -21,7 +22,9 @@ class GameCommentController extends Controller
         /** @var GameProviderEnum $provider */
         $provider = $developer->provider;
 
-        return view('web.games.card.comments', compact('game', 'provider'));
+        $comments = $game->comments()->with('user')->orderBy('created_at', 'desc')->paginate(13);
+
+        return view('web.games.card.comments', compact('game', 'provider', 'comments'));
     }
 
     /**
@@ -35,7 +38,7 @@ class GameCommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CommentStoreRequest $request, Game $game)
     {
         //
     }
