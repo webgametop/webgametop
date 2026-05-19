@@ -95,7 +95,9 @@
             </div>
             <x-games-card :game="$game">
                 <x-ui.subheadline label="Описание">
-                    {{ $game->description }}
+                    <div style="white-space: pre-wrap;" class="card rounded-0">
+                        <div class="card-body">{{ $game->description }}</div>
+                    </div>
                 </x-ui.subheadline>
                 <div class="row row-cards">
                     <div class="col-md-4">

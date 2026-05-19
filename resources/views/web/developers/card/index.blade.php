@@ -88,50 +88,34 @@
                 @endauth
             </div>
             <div class="card mt-3">
-                <div class="card-body">No bio yet.</div>
+                <div class="card-body">Биографии пока нет.</div>
             </div>
             <x-developers-card :developer="$developer">
-                <div>
-                    <h2>Описание</h2>
-                    <div><code>@todo</code></div>
-                </div>
-                <div class="row row-cards mt-2">
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="subheader">Страницу посетили</div>
-                                <div class="h3 m-0">{{ $developer->views()->count() }} раз</div>
-                            </div>
-                        </div>
+                <x-ui.subheadline label="Описание">
+                    <div style="white-space: pre-wrap;" class="card rounded-0">
+                        <div class="card-body">Нет описания</div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="subheader">Добавили в избранное</div>
-                                <div class="h3 m-0">0 пользователей</div>
-                            </div>
-                        </div>
+                </x-ui.subheadline>
+                <div class="row row-cards">
+                    <div class="col-md-4">
+                        <x-ui.subheadline label="Страницу посетили">
+                            {{ $developer->views()->count() }} раз
+                        </x-ui.subheadline>
                     </div>
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="subheader">Голосов за всё время</div>
-                                <div class="h3 m-0">0 голосов</div>
-                            </div>
-                        </div>
+                    <div class="col-md-4">
+                        <x-ui.subheadline label="Добавили в избранное">
+                            0 пользователей
+                        </x-ui.subheadline>
                     </div>
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="subheader">Голосов в этом месяце</div>
-                                <div class="h3 m-0">0 голосов</div>
-                            </div>
-                        </div>
+                    <div class="col-md-4">
+                        <x-ui.subheadline label="Голосов за всё время">
+                            0 голосов
+                        </x-ui.subheadline>
                     </div>
                 </div>
-                <div class="mt-4">
+                <x-ui.subheadline label="Похожие разработчики">
                     <x-oops/>
-                </div>
+                </x-ui.subheadline>
             </x-developers-card>
         </div>
     </div>
