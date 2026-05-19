@@ -92,24 +92,28 @@
             </div>
             <x-developers-card :developer="$developer">
                 <x-ui.subheadline label="Описание">
-                    <div style="white-space: pre-wrap;" class="card rounded-0">
-                        <div class="card-body">Нет описания</div>
-                    </div>
+                    <x-ui.card>Нет описания</x-ui.card>
                 </x-ui.subheadline>
                 <div class="row row-cards">
                     <div class="col-md-4">
                         <x-ui.subheadline label="Страницу посетили">
-                            {{ $developer->views()->count() }} раз
+                            <x-ui.card>
+                                {{ $developer->views()->count() }} раз
+                            </x-ui.card>
                         </x-ui.subheadline>
                     </div>
                     <div class="col-md-4">
                         <x-ui.subheadline label="Добавили в избранное">
-                            0 пользователей
+                            <x-ui.card>
+                                0 пользователей
+                            </x-ui.card>
                         </x-ui.subheadline>
                     </div>
                     <div class="col-md-4">
                         <x-ui.subheadline label="Голосов за всё время">
-                            0 голосов
+                            <x-ui.card>
+                                0 голосов
+                            </x-ui.card>
                         </x-ui.subheadline>
                     </div>
                 </div>
