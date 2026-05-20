@@ -36,12 +36,12 @@ class FavoriteController extends Controller
 
         if (! $favorite) {
             return redirect()->back()->with('flash', [
-                'type' => 'info', 'message' => 'deleted'
+                'type' => 'info', 'message' => 'Successfully removed from favorites.'
             ]);
         }
 
         return redirect()->back()->with('flash', [
-            'type' => 'success', 'message' => 'added'
+            'type' => 'success', 'message' => 'Successfully added to favorites.'
         ]);
     }
 
