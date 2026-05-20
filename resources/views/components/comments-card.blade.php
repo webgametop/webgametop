@@ -85,7 +85,9 @@
                         </div>
                     </div>
                 @empty
-                    <div class="text-muted">Нет комментариев</div>
+                    <x-ui.card>
+                        <span class="text-muted">Нет комментариев</span>
+                    </x-ui.card>
                 @endforelse
             </div>
         </div>
@@ -98,8 +100,6 @@
 
 @pushonce('body-script')
     <script type="module">
-        $(function () {
-            $('.icons-tabler-filled').on('click', () => alert('Работает над реализацией.'));
-        });
+        $(function () { $('.icons-tabler-filled').on('click', () => alert('Работаем над реализацией.')); });
     </script>
 @endpushonce

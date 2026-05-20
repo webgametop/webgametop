@@ -103,21 +103,21 @@
                     <div class="col-md-4">
                         <x-ui.subheadline label="Страницу посетили">
                             <x-ui.card>
-                                {{ $game->views()->count() }} раз
+                                {{ $game->views()->count() }} раза
                             </x-ui.card>
                         </x-ui.subheadline>
                     </div>
                     <div class="col-md-4">
                         <x-ui.subheadline label="Добавили в избранное">
                             <x-ui.card>
-                                0 пользователей
+                                0 пользователя
                             </x-ui.card>
                         </x-ui.subheadline>
                     </div>
                     <div class="col-md-4">
                         <x-ui.subheadline label="Голосов за всё время">
                             <x-ui.card>
-                                0 голосов
+                                {{ $game->votes()->count() }} голоса
                             </x-ui.card>
                         </x-ui.subheadline>
                     </div>
