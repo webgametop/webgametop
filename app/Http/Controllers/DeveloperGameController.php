@@ -6,7 +6,9 @@ namespace App\Http\Controllers;
 
 use App\Enums\GameProvider as GameProviderEnum;
 use App\Models\Developer;
+use App\Models\Game;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class DeveloperGameController extends Controller
 {
@@ -17,8 +19,10 @@ class DeveloperGameController extends Controller
     {
         /** @var GameProviderEnum $provider */
         $provider = $developer->provider;
+        /** @var Collection<Game> $games */
+        $games = $developer->games()->paginate(13);
 
-        return view('web.developers.card.games', compact('developer', 'provider'));
+        return view('web.developers.card.games', compact('developer', 'games', 'provider'));
     }
 
     /**

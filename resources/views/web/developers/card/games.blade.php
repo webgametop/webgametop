@@ -1,4 +1,4 @@
-@props(['developer', 'provider'])
+@props(['developer', 'games', 'provider'])
 
 @section('title', 'Игры')
 
@@ -8,7 +8,7 @@
     </div>
     <div class="container">
         <x-developers-nav :developer="$developer">
-            <x-oops/>
+            <x-cards-game :games="$games"/>
         </x-developers-nav>
     </div>
 </x-layouts::main>
