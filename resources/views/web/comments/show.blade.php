@@ -13,7 +13,7 @@
                 <span class="text-muted">{{ $comment->created_at->ago() }}</span>
                 <p>{{ $comment->body }}</p>
             </x-ui.subheadline>
-            <x-comments-card :commentable="$entity" :comments="$answers" label="Ответы"/>
+            <x-comments-chat :commentable="$entity" :comments="$answers" label="Ответы"/>
         </div>
     </div>
     <x-views-record :viewable="$comment"/>

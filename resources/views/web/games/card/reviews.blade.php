@@ -7,8 +7,8 @@
         {{ Breadcrumbs::render('games.reviews', $provider, $game) }}
     </div>
     <div class="container">
-        <x-games-card :game="$game">
+        <x-games-nav :game="$game">
             <x-oops/>
-        </x-games-card>
+        </x-games-nav>
     </div>
 </x-layouts::main>

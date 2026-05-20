@@ -7,8 +7,8 @@
         {{ Breadcrumbs::render('developers.games', $provider, $developer) }}
     </div>
     <div class="container">
-        <x-developers-card :developer="$developer">
+        <x-developers-nav :developer="$developer">
             <x-oops/>
-        </x-developers-card>
+        </x-developers-nav>
     </div>
 </x-layouts::main>

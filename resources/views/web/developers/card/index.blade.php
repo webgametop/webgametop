@@ -90,7 +90,7 @@
             <div class="card mt-3">
                 <div class="card-body">Биографии пока нет.</div>
             </div>
-            <x-developers-card :developer="$developer">
+            <x-developers-nav :developer="$developer">
                 <x-ui.subheadline label="Описание">
                     <x-ui.card>Нет описания</x-ui.card>
                 </x-ui.subheadline>
@@ -120,7 +120,7 @@
                 <x-ui.subheadline label="Похожие разработчики">
                     <x-oops/>
                 </x-ui.subheadline>
-            </x-developers-card>
+            </x-developers-nav>
         </div>
     </div>
     <x-views-record :viewable="$developer"/>

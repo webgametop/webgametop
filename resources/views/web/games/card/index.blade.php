@@ -93,7 +93,7 @@
                     </div>
                 </div>
             </div>
-            <x-games-card :game="$game">
+            <x-games-nav :game="$game">
                 <x-ui.subheadline label="Описание">
                     <x-ui.card>
                         {{ $game->description }}
@@ -125,7 +125,7 @@
                 <x-ui.subheadline label="Похожие игры">
                     <x-oops/>
                 </x-ui.subheadline>
-            </x-games-card>
+            </x-games-nav>
         </div>
     </div>
     <x-views-record :viewable="$game"/>
