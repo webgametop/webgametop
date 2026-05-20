@@ -8,6 +8,7 @@ use App\Builders\DeveloperBuilder;
 use App\Casts\DeveloperProviderCast;
 use App\Models\Concerns\Developers\HasDeveloperRelationships;
 use App\Models\Concerns\MorphsToComment;
+use App\Models\Concerns\MorphsToFavorites;
 use App\Models\Concerns\MorphsToView;
 use Database\Factories\DeveloperFactory;
 use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;
@@ -18,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
 class Developer extends Model
 {
     /** @use HasFactory<DeveloperFactory> */
-    use HasFactory, HasDeveloperRelationships, MorphsToView, MorphsToComment;
+    use HasFactory, HasDeveloperRelationships, MorphsToView, MorphsToComment, MorphsToFavorites;
 
     /**
      * The attributes that are mass assignable.

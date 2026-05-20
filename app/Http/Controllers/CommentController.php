@@ -46,7 +46,7 @@ class CommentController extends Controller
 
         $modelType = Relation::getMorphedModel($dto->getCommentableType());
 
-        /** @var Commentable|Model $entity */
+        /** @var Model|Commentable $entity */
         $entity = $modelType::findOrFail($dto->getCommentableId());
 
         $comment = Comment::make($dto->toArray());
