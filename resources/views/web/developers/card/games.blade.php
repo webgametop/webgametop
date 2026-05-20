@@ -1,4 +1,4 @@
-@props(['developer', 'provider'])
+@props(['developer', 'games', 'provider'])
 
 @section('title', 'Игры')
 
@@ -7,8 +7,8 @@
         {{ Breadcrumbs::render('developers.games', $provider, $developer) }}
     </div>
     <div class="container">
-        <x-developers-card :developer="$developer">
-            <x-oops/>
-        </x-developers-card>
+        <x-developers-nav :developer="$developer">
+            <x-cards-game :games="$games"/>
+        </x-developers-nav>
     </div>
 </x-layouts::main>

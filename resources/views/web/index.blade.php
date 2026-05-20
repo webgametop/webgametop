@@ -30,8 +30,8 @@
                     <div class="list">
                         <div class="d-flex flex-column">
                             <div class="nav nav-pills" id="v-pills-tab" role="tablist">
-                                <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab">Новые комментарии</button>
-                                <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab">Популярные комментарии</button>
+                                <button class="nav-link border active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab">Новые комментарии</button>
+                                <button class="nav-link border ms-2" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab">Популярные комментарии</button>
                             </div>
                             <div class="tab-content mt-3" id="v-pills-tabContent">
                                 <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">

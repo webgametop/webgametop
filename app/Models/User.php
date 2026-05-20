@@ -58,7 +58,7 @@ class User extends Authenticatable
         ];
     }
 
-    public function equals(self $other): bool
+    public function equals(?self $other): bool
     {
         return $this->is($other);
     }

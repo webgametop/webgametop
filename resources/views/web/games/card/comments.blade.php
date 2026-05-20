@@ -7,8 +7,8 @@
         {{ Breadcrumbs::render('games.comments', $provider, $game) }}
     </div>
     <div class="container">
-        <x-games-card :game="$game">
-            <x-comments-card :commentable="$game" :comments="$comments"/>
-        </x-games-card>
+        <x-games-nav :game="$game">
+            <x-comments-chat :commentable="$game" :comments="$comments"/>
+        </x-games-nav>
     </div>
 </x-layouts::main>

@@ -7,8 +7,8 @@
         {{ Breadcrumbs::render('developers.comments', $provider, $developer) }}
     </div>
     <div class="container">
-        <x-developers-card :developer="$developer">
-            <x-comments-card :commentable="$developer" :comments="$comments"/>
-        </x-developers-card>
+        <x-developers-nav :developer="$developer">
+            <x-comments-chat :commentable="$developer" :comments="$comments"/>
+        </x-developers-nav>
     </div>
 </x-layouts::main>
