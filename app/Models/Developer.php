@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Builders\DeveloperBuilder;
 use App\Casts\DeveloperProviderCast;
+use App\Models\Concerns\Developers\HasDeveloperAttributes;
 use App\Models\Concerns\Developers\HasDeveloperRelationships;
 use App\Models\Concerns\MorphsToComment;
 use App\Models\Concerns\MorphsToFavorites;
@@ -14,12 +15,13 @@ use Database\Factories\DeveloperFactory;
 use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 #[UseEloquentBuilder(DeveloperBuilder::class)]
 class Developer extends Model
 {
     /** @use HasFactory<DeveloperFactory> */
-    use HasFactory, HasDeveloperRelationships, MorphsToView, MorphsToComment, MorphsToFavorites;
+    use HasFactory, HasDeveloperAttributes, HasDeveloperRelationships, MorphsToView, MorphsToComment, MorphsToFavorites;
 
     /**
      * The attributes that are mass assignable.
@@ -44,5 +46,10 @@ class Developer extends Model
         return [
             'provider' => DeveloperProviderCast::class,
         ];
+    }
+
+    public function favoriteable(): MorphTo
+    {
+        return $this->morphTo();
     }
 }

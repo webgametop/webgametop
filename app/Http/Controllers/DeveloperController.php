@@ -36,7 +36,13 @@ class DeveloperController extends Controller
         /** @var DeveloperBuilder $q */
         $q = Developer::query();
 
-        $developers = $q->ofProvider($provider)->orderBy('created_at', 'desc')->paginate(30);
+        $developers = $q
+            ->ofProvider($provider)
+            ->orderBy('created_at', 'desc')
+            ->withExists(['favorites as is_favorite' => function ($query) {
+                $query->where('user_id', auth()->id());
+            }])
+            ->paginate(30);
 
         return view('web.developers.index', compact('developers', 'provider'));
     }
