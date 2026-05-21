@@ -23,7 +23,7 @@ abstract class FavoriteBuilder extends Builder
         $user = auth()->user();
 
         return $this->withExists([
-            'favorites as is_favorite' => static fn(Builder $q) => $q->where('user_id', $user->id)
+            'favorites as is_favorite' => static fn(Builder $q) => $q->where('user_id', $user?->id)
         ]);
     }
 }
