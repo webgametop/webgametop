@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 abstract class FavoriteBuilder extends Builder
 {
-    public function withIsFavorite(): static
+    public function withFavoriteStatus(): static
     {
         /** @var ?User $user */
         $user = auth()->user();

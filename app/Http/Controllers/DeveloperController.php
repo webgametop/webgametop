@@ -38,7 +38,7 @@ class DeveloperController extends Controller
 
         $developers = $q
             ->whereProvider($provider)
-            ->withIsFavorite()
+            ->withFavoriteStatus()
             ->orderBy('created_at', 'desc')
             ->paginate(30);
 
