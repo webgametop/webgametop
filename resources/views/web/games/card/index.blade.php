@@ -124,7 +124,7 @@
                     <div class="col-md-4">
                         <x-ui.subheadline label="Добавили в избранное">
                             <x-ui.card>
-                                0 пользователя
+                                {{ $game->favorites->count() }} пользователя
                             </x-ui.card>
                         </x-ui.subheadline>
                     </div>

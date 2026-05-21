@@ -10,7 +10,6 @@ trait HasDeveloperAttributes
 {
     protected function isFavorite(): Attribute
     {
-        // @todo i dont know what to do with these auth()->id()
         return Attribute::make(fn() => $this->favorites()->where('user_id', auth()->id())->exists());
     }
 }

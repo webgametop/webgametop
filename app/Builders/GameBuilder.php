@@ -11,8 +11,6 @@ class GameBuilder extends FavoriteBuilder
 {
     public function whereProvider(GameProviderEnum $provider): self
     {
-        return $this->whereHas(
-            'developer', static fn(Builder $q) => $q->where('provider', $provider)
-        );
+        return $this->whereHas('developer', static fn(Builder $q) => $q->where('provider', $provider));
     }
 }
