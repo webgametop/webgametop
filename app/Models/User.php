@@ -4,9 +4,13 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Casts\UserStatusCast;
+use App\Enums\FavoriteableType;
 use App\Models\Concerns\MorphsToView;
+use App\Models\Concerns\Users\HasUserRelationships;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Cache;
@@ -14,7 +18,7 @@ use Illuminate\Support\Facades\Cache;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, MorphsToView;
+    use HasFactory, Notifiable, HasUserRelationships, MorphsToView;
 
     /**
      * The attributes that are mass assignable.
@@ -76,5 +80,29 @@ class User extends Authenticatable
     public function isOnline(): bool
     {
         return Cache::has($this->getCacheKeyOnline());
+    }
+
+    // @todo
+    public function favorites(): HasMany
+    {
+        return $this->hasMany(Favorite::class)->with('favoriteable');
+    }
+
+    // @todo
+    public function favoritesDeveloper(): MorphToMany
+    {
+        return $this->favoritesByType(FavoriteableType::DEVELOPER);
+    }
+
+    // @todo
+    public function favoritesGame(): MorphToMany
+    {
+        return $this->favoritesByType(FavoriteableType::GAME);
+    }
+
+    // @todo
+    private function favoritesByType(FavoriteableType $type): MorphToMany
+    {
+        return $this->morphedByMany($type->modelClass(), 'favoriteable', 'favorites');
     }
 }

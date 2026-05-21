@@ -7,9 +7,9 @@ namespace App\Builders;
 use App\Enums\GameProvider as GameProviderEnum;
 use Illuminate\Database\Eloquent\Builder;
 
-class GameBuilder extends Builder
+class GameBuilder extends FavoriteBuilder
 {
-    public function ofProvider(GameProviderEnum $provider): self
+    public function whereProvider(GameProviderEnum $provider): self
     {
         return $this->whereHas('developer', static fn(Builder $q) => $q->where('provider', $provider));
     }

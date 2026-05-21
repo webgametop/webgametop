@@ -36,7 +36,10 @@ class ProviderStat
             $c = [];
 
             foreach (GameProviderEnum::cases() as $provider) {
-                $c[$provider->value] = $repository->count($provider);
+                $c[$provider->value] = match ($repository::class) {
+                    DeveloperRepository::class => $repository->countDevelopers($provider),
+                    GameRepository::class => $repository->countGames($provider),
+                };
             }
 
             return json_encode($c);

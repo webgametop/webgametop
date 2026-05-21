@@ -47,7 +47,7 @@ class ViewController extends Controller
 
         $modelType = Relation::getMorphedModel($dto->getViewableType());
 
-        /** @var Viewable|Model $entity */
+        /** @var Model|Viewable $entity */
         $entity = $modelType::findOrFail($dto->getViewableId());
 
         $view = View::make($dto->toArray());

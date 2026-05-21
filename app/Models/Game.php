@@ -7,20 +7,24 @@ namespace App\Models;
 use App\Builders\GameBuilder;
 use App\Models\Concerns\Games\HasGameRelationships;
 use App\Models\Concerns\MorphsToComment;
+use App\Models\Concerns\MorphsToFavorites;
 use App\Models\Concerns\MorphsToView;
 use Database\Factories\GameFactory;
+use App\Models\Concerns\Games\HasGameAttributes;
 use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * @property-read int $id
+ * @property-read bool $is_favorite
  */
 #[UseEloquentBuilder(GameBuilder::class)]
 class Game extends Model
 {
     /** @use HasFactory<GameFactory> */
-    use HasFactory, HasGameRelationships, MorphsToView, MorphsToComment;
+    use HasFactory, HasGameAttributes, HasGameRelationships, MorphsToView, MorphsToComment, MorphsToFavorites;
 
     /**
      * The attributes that are mass assignable.
@@ -69,5 +73,10 @@ class Game extends Model
         $payload = ['sub' => $this->id, 'key' => game_vote_key($user->id)];
 
         return rtrim(strtr(base64_encode(json_encode($payload)), '+/', '-_'), '=');
+    }
+
+    public function favoriteable(): MorphTo
+    {
+        return $this->morphTo();
     }
 }

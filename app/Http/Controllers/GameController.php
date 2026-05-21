@@ -34,7 +34,11 @@ class GameController extends Controller
     {
         $q = Game::query();
 
-        $games = $q->ofProvider($provider)->orderBy('released_at', 'desc')->paginate(30);
+        $games = $q
+            ->whereProvider($provider)
+            ->withFavoriteStatus()
+            ->orderBy('released_at', 'desc')
+            ->paginate(30);
 
         return view('web.games.index', compact('games', 'provider'));
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Models\Favorite;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -39,6 +40,12 @@ class UserProfileController extends Controller
      */
     public function show(User $user)
     {
+//        $user->load('favorites.favoriteable');
+//        /** @var Favorite $favorite */
+//        foreach ($user->favorites as $favorite) {
+//            dd($favorite->favoriteable);
+//        }
+
         return view('web.users.profile.index', compact('user'));
     }
 

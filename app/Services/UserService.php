@@ -19,8 +19,8 @@ class UserService
     private const MAX_REGISTER_PER_FROM_IP = 3;
 
     public function __construct(
-        readonly private UserRepository $repository,
-        readonly private GameVoteRepository $gameVoteRepository,
+        private readonly UserRepository $repository,
+        private readonly GameVoteRepository $gameVoteRepository,
     )
     {
     }
