@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Builders\FavoriteBuilder;
 use Database\Factories\FavoriteFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Favorite extends Model
 {
@@ -23,9 +24,13 @@ class Favorite extends Model
         'user_id',
     ];
 
-    public static function query(): FavoriteBuilder
+    public function favoriteable(): MorphTo
     {
-        /** @var FavoriteBuilder */
-        return parent::query();
+        return $this->morphTo();
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

@@ -164,6 +164,7 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item" data-reviews>Обзоры <span><a href="#">0</a></span></li>
                             <li class="list-group-item" data-comments>Комментарии <span><a href="#">0</a></span></li>
+                            <li class="list-group-item" data-favorites>Избранное <span><a href="#">0</a></span></li>
                         </ul>
                     </div>
                     <div class="card mt-3">

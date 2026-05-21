@@ -14,7 +14,7 @@ class GameRepository extends Repository
         $q = Game::query();
 
         if ($provider) {
-            $q->ofProvider($provider);
+            $q->whereProvider($provider);
         }
 
         return $q->count();

@@ -15,7 +15,7 @@ class DeveloperRepository extends Repository
         $q = $this->modelClass::query();
 
         if ($provider) {
-            $q->ofProvider($provider);
+            $q->whereProvider($provider);
         }
 
         return $q->count();
