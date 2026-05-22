@@ -15,12 +15,12 @@
     <div class="page-body">
         <div class="container">
             <div class="d-flex flex-md-row flex-column">
-                <div class="card me-md-3 mb-3 mb-md-0 m-0" title="0 плюсов / 0 минусов">
+                <div class="card me-md-3 mb-3 mb-md-0 m-0" style="min-width: 40px; min-height: 40px;" title="0 плюсов / 0 минусов">
                     <div @class([
                         'card-body', 'd-flex', 'flex-row', 'flex-md-column', 'align-items-center', 'w-100', 'p-0',
-                        'justify-content-between' => Auth::check(),
-                        'justify-content-center' => !Auth::check()
-                    ]) style="width: 40px;">
+                        'justify-content-between' => auth()->check(),
+                        'justify-content-center' => !auth()->check()
+                    ])>
                         @auth
                             <button type="button" class="btn btn-link p-0" title="Поставить плюсик" disabled="">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-arrow-big-up m-0">
