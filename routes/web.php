@@ -8,6 +8,7 @@ Route::group([], function () {
     require __DIR__ . '/web.developers.php';
     require __DIR__ . '/web.comments.php';
     require __DIR__ . '/web.favorites.php';
+    require __DIR__ . '/web.ratings.php';
 });
 
 Route::get('/', function () {
