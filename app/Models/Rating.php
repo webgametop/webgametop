@@ -21,6 +21,7 @@ class Rating extends Model
      */
     protected $fillable = [
         'user_id',
+        'rate',
     ];
 
     public function rateable(): MorphTo

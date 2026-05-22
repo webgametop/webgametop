@@ -8,6 +8,7 @@ use App\Builders\GameBuilder;
 use App\Models\Concerns\Games\HasGameRelationships;
 use App\Models\Concerns\MorphsToComment;
 use App\Models\Concerns\MorphsToFavorites;
+use App\Models\Concerns\MorphsToRating;
 use App\Models\Concerns\MorphsToView;
 use Database\Factories\GameFactory;
 use App\Models\Concerns\Games\HasGameAttributes;
@@ -24,7 +25,13 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 class Game extends Model
 {
     /** @use HasFactory<GameFactory> */
-    use HasFactory, HasGameAttributes, HasGameRelationships, MorphsToView, MorphsToComment, MorphsToFavorites;
+    use HasFactory,
+        HasGameAttributes,
+        HasGameRelationships,
+        MorphsToView,
+        MorphsToComment,
+        MorphsToFavorites,
+        MorphsToRating;
 
     /**
      * The attributes that are mass assignable.

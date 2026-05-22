@@ -15,32 +15,42 @@
     <div class="page-body">
         <div class="container">
             <div class="d-flex flex-md-row flex-column">
-                <div class="card me-md-3 mb-3 mb-md-0 m-0 justify-content-center" style="min-width: 40px; min-height: 40px;" title="0 плюсов / 0 минусов">
+                @php($is_auth = auth()->check())
+                @php($is_rating = $developer->is_rating)
+                <div @class([
+                    'card me-md-3 mb-3 mb-md-0 m-0 justify-content-center',
+                    'p-3' => !$is_auth || $is_rating
+                ]) title="{{ $developer->ratings()->where('rate', 1)->count() }} плюсов / {{ $developer->ratings()->where('rate', -1)->count() }} минусов">
+                    @php($rate = $developer->ratings()->sum('rate'))
                     @auth
-                        <form action="{{ route('ratings.store') }}" method="post" @class([
-                            'card-body', 'd-flex', 'flex-row', 'flex-md-column', 'align-items-center', 'w-100', 'p-0',
-                            'justify-content-between' => auth()->check(),
-                            'justify-content-center' => !auth()->check()
-                        ])>
-                            @csrf
-                            <input type="hidden" name="rateable[type]" value="{{ morph_alias($developer::class) }}" autocomplete="off">
-                            <input type="hidden" name="rateable[id]" value="{{ $developer->id }}" autocomplete="off">
-                            <button type="submit" class="btn btn-link p-0" title="Поставить плюсик">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-arrow-big-up m-0">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                    <path d="M10.586 3l-6.586 6.586a2 2 0 0 0 -.434 2.18l.068 .145a2 2 0 0 0 1.78 1.089h2.586v7a2 2 0 0 0 2 2h4l.15 -.005a2 2 0 0 0 1.85 -1.995l-.001 -7h2.587a2 2 0 0 0 1.414 -3.414l-6.586 -6.586a2 2 0 0 0 -2.828 0z"></path>
-                                </svg>
-                            </button>
-                            <div>0</div>
-                            <button type="submit" class="btn btn-link p-0" title="Поставить минус">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-arrow-big-down m-0">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                    <path d="M10 2l-.15 .005a2 2 0 0 0 -1.85 1.995v6.999l-2.586 .001a2 2 0 0 0 -1.414 3.414l6.586 6.586a2 2 0 0 0 2.828 0l6.586 -6.586a2 2 0 0 0 .434 -2.18l-.068 -.145a2 2 0 0 0 -1.78 -1.089l-2.586 -.001v-6.999a2 2 0 0 0 -2 -2h-4z"></path>
-                                </svg>
-                            </button>
-                        </form>
+                        @if($is_rating)
+                            <div class="text-center">{{ $rate }}</div>
+                        @else
+                            <form action="{{ route('ratings.store') }}" method="post" @class([
+                                'card-body', 'd-flex', 'flex-row', 'flex-md-column', 'align-items-center', 'w-100', 'p-0',
+                                'justify-content-between' => $is_auth,
+                                'justify-content-center' => !$is_auth,
+                            ])>
+                                @csrf
+                                <input type="hidden" name="rateable[type]" value="{{ morph_alias($developer::class) }}" autocomplete="off">
+                                <input type="hidden" name="rateable[id]" value="{{ $developer->id }}" autocomplete="off">
+                                <button type="submit" class="btn btn-link p-0" name="rate" value="upvote" title="Поставить плюсик">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-arrow-big-up m-0">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M10.586 3l-6.586 6.586a2 2 0 0 0 -.434 2.18l.068 .145a2 2 0 0 0 1.78 1.089h2.586v7a2 2 0 0 0 2 2h4l.15 -.005a2 2 0 0 0 1.85 -1.995l-.001 -7h2.587a2 2 0 0 0 1.414 -3.414l-6.586 -6.586a2 2 0 0 0 -2.828 0z"></path>
+                                    </svg>
+                                </button>
+                                <div>{{ $rate }}</div>
+                                <button type="submit" class="btn btn-link p-0" name="rate" value="downvote" title="Поставить минус">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-arrow-big-down m-0">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M10 2l-.15 .005a2 2 0 0 0 -1.85 1.995v6.999l-2.586 .001a2 2 0 0 0 -1.414 3.414l6.586 6.586a2 2 0 0 0 2.828 0l6.586 -6.586a2 2 0 0 0 .434 -2.18l-.068 -.145a2 2 0 0 0 -1.78 -1.089l-2.586 -.001v-6.999a2 2 0 0 0 -2 -2h-4z"></path>
+                                    </svg>
+                                </button>
+                            </form>
+                        @endif
                     @else
-                        <div class="text-center">0</div>
+                        <div class="text-center">{{ $rate }}</div>
                     @endauth
                 </div>
                 <div class="d-flex flex-column mb-md-0 mb-3">

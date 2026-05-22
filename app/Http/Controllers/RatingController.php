@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Models\Contracts\Rateable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 
 class RatingController extends Controller
@@ -29,7 +32,27 @@ class RatingController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        $modelType = Relation::getMorphedModel($request->input('rateable.type'));
+
+        /** @var Model|Rateable $entity */
+        $entity = $modelType::findOrFail($request->input('rateable.id'));
+
+        $rate = match ($request->input('rate')) {
+            'upvote' => 1,
+            'downvote' => -1,
+        };
+
+        try {
+            $entity->ratings()->create(['user_id' => auth()->id(), 'rate' => $rate]);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('flash', [
+                'type' => 'danger', 'message' => $e->getMessage()
+            ]);
+        }
+
+        return redirect()->back()->with('flash', [
+            'type' => 'success', 'message' => 'Rating added successfully.'
+        ]);
     }
 
     /**

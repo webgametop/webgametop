@@ -12,4 +12,9 @@ trait HasDeveloperAttributes
     {
         return Attribute::make(fn() => $this->favorites()->where('user_id', auth()->id())->exists());
     }
+
+    protected function isRating(): Attribute
+    {
+        return Attribute::make(fn() => $this->ratings()->where('user_id', auth()->id())->exists());
+    }
 }

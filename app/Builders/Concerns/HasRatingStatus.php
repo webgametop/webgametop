@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Builders;
+namespace App\Builders\Concerns;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -15,15 +15,15 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property ?User $user
  */
-abstract class FavoriteBuilder extends Builder
+trait HasRatingStatus
 {
-    public function withFavoriteStatus(): static
+    public function withRatingStatus(): static
     {
         /** @var ?User $user */
         $user = auth()->user();
 
         return $this->withExists([
-            'favorites as is_favorite' => static fn(Builder $q) => $q->where('user_id', $user?->id)
+            'ratings as is_rating' => static fn(Builder $q) => $q->where('user_id', $user?->id)
         ]);
     }
 }
