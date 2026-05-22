@@ -16,7 +16,7 @@
         <div class="container">
             <div class="row row-cards">
                 @if($process['allowed'])
-                    <div class="col">
+                    <div class="col-12 col-md-6 col-lg-4">
                         <div class="card card-md">
                             <div class="card-body text-center">
                                 <div class="text-uppercase text-secondary font-weight-medium">Сайт</div>
@@ -46,7 +46,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-12 col-md-6 col-lg-4">
                         <div class="card card-md">
                             <div class="ribbon ribbon-top bg-danger">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-3">
@@ -79,7 +79,7 @@
                         </div>
                     </div>
                 @else
-                    <div class="col-8">
+                    <div class="col-12 col-lg-8">
                         <div class="card card-md h-100">
                             <div class="card-body text-center">
                                 <div class="h1">Спасибо за участие! Сегодня вы уже голосовали.</div>
@@ -90,7 +90,7 @@
                         </div>
                     </div>
                 @endif
-                <div class="col">
+                <div class="col-12 col-lg-4">
                     <div class="card card-md">
                         <div class="card-body text-center">
                             <div class="text-uppercase text-secondary font-weight-medium">СМС</div>
