@@ -26,4 +26,12 @@ trait HasRatingStatus
             'ratings as is_rating' => static fn(Builder $q) => $q->where('user_id', $user?->id)
         ]);
     }
+
+    public function withRatingSummary()
+    {
+        return $this->withCount([
+            'ratings as likes_count'  => fn(Builder $q) => $q->where('rate', 1),
+            'ratings as dislikes_count' => fn(Builder $q) => $q->where('rate', -1),
+        ]);
+    }
 }

@@ -18,8 +18,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
- * @property-read int $id
  * @property-read bool $is_favorite
+ * @property-read bool $is_rating
+ * @property-read int $likes_count
+ * @property-read int $dislikes_count
  */
 #[UseEloquentBuilder(GameBuilder::class)]
 class Game extends Model

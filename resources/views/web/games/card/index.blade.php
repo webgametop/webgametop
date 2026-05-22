@@ -79,7 +79,7 @@
                                 </form>
                             @endauth
                             @php($is_rating = $game->is_rating)
-                            <div class="card h-100 w-100" title="{{ $game->ratings()->where('rate', 1)->count() }} плюсов / {{ $game->ratings()->where('rate', -1)->count() }} минусов">
+                            <div class="card h-100 w-100" title="{{ $game->likes_count }} плюсов / {{ $game->dislikes_count }} минусов">
                                 @php($is_auth = auth()->check())
                                 @php($rate = $game->ratings()->sum('rate'))
                                 @auth

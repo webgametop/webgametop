@@ -20,7 +20,7 @@
                 <div @class([
                     'card me-md-3 mb-3 mb-md-0 m-0 justify-content-center',
                     'p-3' => !$is_auth || $is_rating
-                ]) title="{{ $developer->ratings()->where('rate', 1)->count() }} плюсов / {{ $developer->ratings()->where('rate', -1)->count() }} минусов">
+                ]) title="{{ $developer->likes_count }} плюсов / {{ $developer->dislikes_count }} минусов">
                     @php($rate = $developer->ratings()->sum('rate'))
                     @auth
                         @if($is_rating)
