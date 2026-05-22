@@ -14,10 +14,10 @@
     </div>--}}
     <div class="page-body">
         <div class="container">
-            <div class="d-flex">
-                <div class="card me-3" title="0 плюсов / 0 минусов">
+            <div class="d-flex flex-md-row flex-column">
+                <div class="card me-md-3 mb-3 mb-md-0 m-0" title="0 плюсов / 0 минусов">
                     <div @class([
-                        'card-body', 'd-flex', 'align-items-center', 'flex-column', 'p-0',
+                        'card-body', 'd-flex', 'flex-row', 'flex-md-column', 'align-items-center', 'w-100', 'p-0',
                         'justify-content-between' => Auth::check(),
                         'justify-content-center' => !Auth::check()
                     ]) style="width: 40px;">
@@ -40,16 +40,16 @@
                         @endauth
                     </div>
                 </div>
-                <div class="d-flex flex-column">
+                <div class="d-flex flex-column mb-md-0 mb-3">
                     <div class="avatar" style="--tblr-avatar-size: 10rem; background-image: url('{{ asset('static/media/avatar/not-found.png') }}'); background-size: cover;"></div>
                     <div class="badge badge-outline text-default mt-3 p-2">0 подписчиков</div>
                 </div>
-                <div class="ms-3">
+                <div class="ms-md-3 m-0 mb-md-0 mb-3">
                     <h1 class="m-0">{{ $developer->name }}</h1>
                     <div class="text-muted">Анонимный разработчик</div>
                 </div>
                 @auth
-                    <div class="ms-auto">
+                    <div class="ms-md-auto ms-0">
                         @php($is_favorite = $developer->is_favorite)
                         <form action="{{ route('favorites.toggle') }}" method="post">
                             @csrf
@@ -57,7 +57,7 @@
                             <input type="hidden" name="favoriteable[id]" value="{{ $developer->id }}" autocomplete="off">
                             <button
                                 type="submit"
-                                @class(['btn', 'mb-2', 'w-100', $is_favorite ? 'btn-warning' : 'btn-outline-warning'])
+                                @class(['justify-content-start', 'btn', 'mb-2', 'w-100', $is_favorite ? 'btn-warning' : 'btn-outline-warning'])
                                 data-loading-text="Выполнение..."
                             >
 
