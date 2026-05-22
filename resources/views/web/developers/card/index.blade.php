@@ -99,7 +99,7 @@
                 @endauth
             </div>
             <div class="card mt-3">
-                <div class="card-body">Биографии пока нет.</div>
+                <div class="card-body">Биографии пока нет</div>
             </div>
             <x-developers-nav :developer="$developer">
                 <x-ui.subheadline label="Описание">

@@ -9,43 +9,47 @@
     <div class="page-body">
         <div class="container">
             <div class="row">
-                <div class="col-auto">
-                    <span class="avatar avatar-2xl bg-azure-lt" style="background-image: url('{{ $user->gravatar(2048) }}')"></span>
-                </div>
-                <div class="col">
-                    <h1 class="fw-bold m-0">{{ $user->nickname }}</h1>
-                    <h2 class="text-muted">{{ '@' . $user->username }}</h2>
-                    <div class="my-2">Any details such as age, occupation or city. Example: 23 y.o. designer from San Francisco</div>
-                    <div class="list-inline list-inline-dots text-secondary">
-                        <div class="list-inline-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-inline icon-2">
-                                <path d="M3 7l6 -3l6 3l6 -3v13l-6 3l-6 -3l-6 3v-13"></path>
-                                <path d="M9 4v13"></path>
-                                <path d="M15 7v13"></path>
-                            </svg>
-                            СПб
+                <div class="col-12 col-md-9">
+                    <div class="row">
+                        <div class="col-auto d-none d-md-block">
+                            <span class="avatar avatar-2xl bg-azure-lt" style="background-image: url('{{ $user->gravatar(2048) }}')"></span>
                         </div>
-                        <div class="list-inline-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-inline icon-2">
-                                <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"></path>
-                                <path d="M3 7l9 6l9 -6"></path>
-                            </svg>
-                            <a href="#" class="text-reset">test@example.com</a>
-                        </div>
-                        <div class="list-inline-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-inline icon-2">
-                                <path d="M3 20h18v-8a3 3 0 0 0 -3 -3h-12a3 3 0 0 0 -3 3v8z"></path>
-                                <path d="M3 14.803c.312 .135 .654 .204 1 .197a2.4 2.4 0 0 0 2 -1a2.4 2.4 0 0 1 2 -1a2.4 2.4 0 0 1 2 1a2.4 2.4 0 0 0 2 1a2.4 2.4 0 0 0 2 -1a2.4 2.4 0 0 1 2 -1a2.4 2.4 0 0 1 2 1a2.4 2.4 0 0 0 2 1c.35 .007 .692 -.062 1 -.197"></path>
-                                <path d="M12 4l1.465 1.638a2 2 0 1 1 -3.015 .099l1.55 -1.737z"></path>
-                            </svg>
-                            01/01/1970
+                        <div class="col">
+                            <h1 class="fw-bold m-0">{{ $user->nickname }}</h1>
+                            <h2 class="text-muted">{{ '@' . $user->username }}</h2>
+                            <div class="my-2">О себе пока нет</div>
+{{--                            <div class="list-inline list-inline-dots text-secondary">--}}
+{{--                                <div class="list-inline-item">--}}
+{{--                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-inline icon-2">--}}
+{{--                                        <path d="M3 7l6 -3l6 3l6 -3v13l-6 3l-6 -3l-6 3v-13"></path>--}}
+{{--                                        <path d="M9 4v13"></path>--}}
+{{--                                        <path d="M15 7v13"></path>--}}
+{{--                                    </svg>--}}
+{{--                                    СПб--}}
+{{--                                </div>--}}
+{{--                                <div class="list-inline-item">--}}
+{{--                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-inline icon-2">--}}
+{{--                                        <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"></path>--}}
+{{--                                        <path d="M3 7l9 6l9 -6"></path>--}}
+{{--                                    </svg>--}}
+{{--                                    <a href="#" class="text-reset">test@example.com</a>--}}
+{{--                                </div>--}}
+{{--                                <div class="list-inline-item">--}}
+{{--                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-inline icon-2">--}}
+{{--                                        <path d="M3 20h18v-8a3 3 0 0 0 -3 -3h-12a3 3 0 0 0 -3 3v8z"></path>--}}
+{{--                                        <path d="M3 14.803c.312 .135 .654 .204 1 .197a2.4 2.4 0 0 0 2 -1a2.4 2.4 0 0 1 2 -1a2.4 2.4 0 0 1 2 1a2.4 2.4 0 0 0 2 1a2.4 2.4 0 0 0 2 -1a2.4 2.4 0 0 1 2 -1a2.4 2.4 0 0 1 2 1a2.4 2.4 0 0 0 2 1c.35 .007 .692 -.062 1 -.197"></path>--}}
+{{--                                        <path d="M12 4l1.465 1.638a2 2 0 1 1 -3.015 .099l1.55 -1.737z"></path>--}}
+{{--                                    </svg>--}}
+{{--                                    01/01/1970--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
                         </div>
                     </div>
                 </div>
-                <div class="col-auto ms-auto">
+                <div class="col">
                     @auth
                         @if($user->equals(request()->user()))
-                            <a href="{{ route('users.edit.account', [$user, $user->username]) }}" class="btn btn-primary mb-2 w-100">
+                            <a href="{{ route('users.edit.account', [$user, $user->username]) }}" class="btn btn-primary justify-content-start mb-2 w-100">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-pencil-cog">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                     <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"/>
@@ -62,7 +66,7 @@
                             </a>
                             <form action="{{ route('logout') }}" method="post">
                                 @csrf
-                                <button type="submit" class="btn btn-danger w-100 mb-2" data-loading-text="Выход...">
+                                <button type="submit" class="btn btn-danger justify-content-start w-100 mb-2" data-loading-text="Выход...">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-logout">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                         <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"/>
@@ -85,10 +89,10 @@
                             </a>
                         @endif
                     @endauth
-                    <div class="btn-list">
-                        @auth
+                    @auth
+                        <div class="btn-list">
                             @if(! $user->equals(request()->user()))
-                                <a href="#" class="btn btn-primary disabled">
+                                <a href="#" class="btn btn-primary flex-grow-1 justify-content-start disabled">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-heart-plus">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                         <path d="M12 20l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.96 6.053"/>
@@ -131,15 +135,15 @@
                                     </a>
                                 </div>
                             @endif
-                        @endauth
-                    </div>
+                        </div>
+                    @endauth
                 </div>
             </div>
-            <div class="row mt-4">
-                <div class="col-9">
+            <div class="row flex-column flex-column-reverse flex-lg-row">
+                <div class="col-12 col-lg-9 mt-4">
                     <x-oops/>
                 </div>
-                <div class="col-3">
+                <div class="col-12 col-lg-3 mt-lg-0 mt-4">
                     <div class="card">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item" data-badges>Значки <span><a href="#">0</a></span></li>
