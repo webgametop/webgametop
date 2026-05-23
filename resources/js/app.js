@@ -3,10 +3,10 @@ import '@tabler/core';
 
 $('form').on('submit', function () {
     const $form = $(this);
-    const $button = $form.find('button[data-loading-text]');
+    const $button = $form.data('clicked-submit');
     const text = $button.data('loading-text');
 
-    if ($button.length && $button.attr('name')) {
+    if ($button.attr('name')) {
         $form.find(`input[type="hidden"][name="${$button.attr('name')}"]`).remove();
 
         $('<input>').attr({
