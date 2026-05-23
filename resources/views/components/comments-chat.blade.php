@@ -85,8 +85,8 @@
                                 <div
                                     @class([
                                         'card',
-                                        'justify-content-center',
                                         'h-100',
+                                        'justify-content-center',
                                         $comment->rating_class,
                                     ])
                                     title="{{ $comment->likes_count }} плюсов / {{ $comment->dislikes_count }} минусов"
@@ -95,7 +95,15 @@
                                         @if($comment->is_rating)
                                             <div class="text-center mx-lg-0 my-3" style="min-width: 40px;">{{ $comment->rating_total }}</div>
                                         @else
-                                            <x-ratings-store :rateable="$comment"/>
+                                            <x-ratings-store
+                                                :rateable="$comment"
+                                                @class([
+                                                    'd-flex',
+                                                    'flex-column',
+                                                    'justify-content-between',
+                                                    'h-100',
+                                                ])
+                                            />
                                         @endif
                                     @else
                                         <div class="text-center mx-lg-0 my-3" style="min-width: 40px;">{{ $comment->rating_total }}</div>
