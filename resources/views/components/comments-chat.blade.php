@@ -82,6 +82,27 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-auto align-self-stretch">
+                                <div
+                                    @class([
+                                        'card',
+                                        'justify-content-center',
+                                        'h-100',
+                                        $comment->rating_class,
+                                    ])
+                                    title="{{ $comment->likes_count }} плюсов / {{ $comment->dislikes_count }} минусов"
+                                >
+                                    @auth
+                                        @if($comment->is_rating)
+                                            <div class="text-center mx-lg-0 my-3" style="min-width: 40px;">{{ $comment->rating_total }}</div>
+                                        @else
+                                            <x-ratings-store :rateable="$comment"/>
+                                        @endif
+                                    @else
+                                        <div class="text-center mx-lg-0 my-3" style="min-width: 40px;">{{ $comment->rating_total }}</div>
+                                    @endauth
+                                </div>
+                            </div>
                         </div>
                     </div>
                 @empty

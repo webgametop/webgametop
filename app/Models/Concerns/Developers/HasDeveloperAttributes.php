@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models\Concerns\Developers;
 
-use App\Models\Concerns\HasInteractionAttributes;
+use App\Models\Concerns\HasFavoriteAttributes;
+use App\Models\Concerns\HasRatingAttributes;
 
 trait HasDeveloperAttributes
 {
-    use HasInteractionAttributes;
+    use HasFavoriteAttributes, HasRatingAttributes;
 }
