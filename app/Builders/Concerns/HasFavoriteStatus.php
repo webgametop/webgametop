@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Builders;
+namespace App\Builders\Concerns;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property ?User $user
  */
-abstract class FavoriteBuilder extends Builder
+trait HasFavoriteStatus
 {
     public function withFavoriteStatus(): static
     {

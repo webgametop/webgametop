@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Comment;
 use App\Models\Developer;
 use App\Models\Game;
+use App\Models\Rating;
 use App\Models\User;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
@@ -35,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
             'developer' => Developer::class,
             'game' => Game::class,
             'comment' => Comment::class,
+            'rating' => Rating::class,
         ]);
     }
 }
