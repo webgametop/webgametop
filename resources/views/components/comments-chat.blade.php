@@ -34,7 +34,8 @@
                     @php($is_equals = $user->equals(auth()->user()))
                     <div class="chat-item">
                         <div @class([
-                            'row', 'align-items-end',
+                            'row',
+                            'align-items-end',
                             'justify-content-end flex-row-reverse' => $is_equals
                         ])>
                             <div class="col-auto">
@@ -42,8 +43,8 @@
                                     <span class="avatar avatar-1" style="background-image: url({{ $user->gravatar() }})"></span>
                                 </a>
                             </div>
-                            <div class="col">
-                                <div @class(['chat-bubble', 'border', 'bg-blue-lt' => $is_equals])>
+                            <div class="col align-self-stretch">
+                                <div @class(['chat-bubble', 'border', 'h-100', 'bg-blue-lt' => $is_equals])>
                                     <div class="chat-bubble-title">
                                         <div class="row">
                                             <div class="col chat-bubble-author">
@@ -70,16 +71,14 @@
                                     <div class="chat-bubble-body">
                                         <p style="white-space: pre-wrap;">{{ $comment->body }}</p>
                                     </div>
-                                    <div class="text-muted text-end">
-                                        @if(! is_null($comment->parent_id))
-                                            <div class="me-2">
-                                                <b>ответ</b>
-                                                <a href="{{ route('comments.show', $comment->parent) }}">
-                                                    <b>{{ '#' . $comment->parent_id }}</b>
-                                                </a>
-                                            </div>
-                                        @endif
-                                    </div>
+                                    @if(! is_null($comment->parent_id))
+                                        <div class="text-muted text-end">
+                                            <b>ответ</b>
+                                            <a href="{{ route('comments.show', $comment->parent) }}">
+                                                <b>{{ '#' . $comment->parent_id }}</b>
+                                            </a>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                             <div class="col-auto align-self-stretch">
@@ -121,6 +120,6 @@
 
 @pushonce('body-script')
     <script type="module">
-        $(function () { $('.icons-tabler-filled').on('click', () => alert('Работаем над реализацией.')); });
+        $(function () { $('.icon-tabler-flag').on('click', () => alert('Работаем над реализацией.')); });
     </script>
 @endpushonce
