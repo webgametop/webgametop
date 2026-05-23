@@ -38,7 +38,7 @@ class RatingController extends Controller
         /** @var Model|Rateable $entity */
         $entity = $modelType::findOrFail($request->input('rateable.id'));
 
-        $rate = match ($request->input('rate')) {
+        $rate = match ($request->input('rating.type')) {
             'upvote' => 1,
             'downvote' => -1,
         };

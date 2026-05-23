@@ -13,7 +13,7 @@ class RatingStoreRequest extends Request
     public function rules(): array
     {
         return [
-            'rate' => ['required', 'string', Rule::enum(RatingType::class)],
+            'rating.type' => ['required', 'string', Rule::enum(RatingType::class)],
             'rateable.type' => ['required', 'string', Rule::enum(RateableType::class)],
             'rateable.id' => ['required', 'int'],
         ];
