@@ -1,9 +1,9 @@
 import './bootstrap';
 import '@tabler/core';
 
-$('form').on('submit', function () {
+$('form').on('submit', function (e) {
     const $form = $(this);
-    const $button = $form.data('clicked-submit');
+    const $button = $(e.originalEvent.submitter);
     const text = $button.data('loading-text');
 
     if ($button.attr('name')) {
@@ -25,6 +25,7 @@ $('form').on('submit', function () {
         items.push($('<span>', {'class': 'ms-2', 'role': 'status', 'text': text}));
     }
 
-    $button.prop('disabled', true);
+    $('[data-loading-text]').prop('disabled', true);
+
     $button.html(items);
 });
