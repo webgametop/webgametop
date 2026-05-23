@@ -79,12 +79,8 @@
                                 </form>
                             @endauth
                             @php($is_rating = $game->is_rating)
-                            @php($rate = $game->ratings()->sum('rate'))
-                            @php($rate_class = match (true) {
-                                $rate > 0 => 'bg-success-lt',
-                                $rate < 0 => 'bg-danger-lt',
-                                default => null,
-                            })
+                            @php($rate = $game->rating_total)
+                            @php($rate_class = $game->rating_class)
                             <div @class([
                                 'card', 'h-100', 'w-100', $rate_class
                             ]) title="{{ $game->likes_count }} плюсов / {{ $game->dislikes_count }} минусов">

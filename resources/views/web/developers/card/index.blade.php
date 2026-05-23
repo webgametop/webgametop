@@ -17,11 +17,12 @@
             <div class="d-flex flex-md-row flex-column">
                 @php($is_auth = auth()->check())
                 @php($is_rating = $developer->is_rating)
+                @php($rate = $developer->rating_total)
+                @php($rate_class = $developer->rating_class)
                 <div @class([
-                    'card me-md-3 mb-3 mb-md-0 m-0 justify-content-center',
+                    'card', 'me-md-3', 'mb-3', 'mb-md-0', 'm-0', 'justify-content-center', $rate_class,
                     'p-3' => !$is_auth || $is_rating
                 ]) title="{{ $developer->likes_count }} плюсов / {{ $developer->dislikes_count }} минусов">
-                    @php($rate = $developer->ratings()->sum('rate'))
                     @auth
                         @if($is_rating)
                             <div class="text-center">{{ $rate }}</div>

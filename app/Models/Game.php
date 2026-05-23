@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property-read bool $is_rating
  * @property-read int $likes_count
  * @property-read int $dislikes_count
+ * @property-read int $likes_percentage
  */
 #[UseEloquentBuilder(GameBuilder::class)]
 class Game extends Model

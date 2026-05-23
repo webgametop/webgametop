@@ -66,12 +66,10 @@ class DeveloperController extends Controller
      */
     public function show(Developer $developer)
     {
-        /** @var Collection<Game> $games */
-        $games = $developer->games;
         /** @var GameProviderEnum $provider */
         $provider = $developer->provider;
 
-        return view('web.developers.card.index', compact('developer', 'games', 'provider'));
+        return view('web.developers.card.index', compact('developer', 'provider'));
     }
 
     /**
