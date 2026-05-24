@@ -8,4 +8,5 @@ enum RateableType: string
 {
     case DEVELOPER = 'developer';
     case GAME = 'game';
+    case COMMENT = 'comment';
 }

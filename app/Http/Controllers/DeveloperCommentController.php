@@ -19,7 +19,13 @@ class DeveloperCommentController extends Controller
         /** @var GameProviderEnum $provider */
         $provider = $developer->provider;
 
-        $comments = $developer->comments()->with('user')->orderBy('created_at', 'desc')->paginate(13);
+        $comments = $developer
+            ->comments()
+            ->with('user')
+            ->withRatingStatus()
+            ->withRatingSummary()
+            ->orderBy('created_at', 'desc')
+            ->paginate(13);
 
         return view('web.developers.card.comments', compact('developer', 'provider', 'comments'));
     }

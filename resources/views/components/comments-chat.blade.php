@@ -34,7 +34,8 @@
                     @php($is_equals = $user->equals(auth()->user()))
                     <div class="chat-item">
                         <div @class([
-                            'row', 'align-items-end',
+                            'row',
+                            'align-items-end',
                             'justify-content-end flex-row-reverse' => $is_equals
                         ])>
                             <div class="col-auto">
@@ -42,8 +43,8 @@
                                     <span class="avatar avatar-1" style="background-image: url({{ $user->gravatar() }})"></span>
                                 </a>
                             </div>
-                            <div class="col">
-                                <div @class(['chat-bubble', 'border', 'bg-blue-lt' => $is_equals])>
+                            <div class="col align-self-stretch">
+                                <div @class(['chat-bubble', 'border', 'h-100', 'bg-blue-lt' => $is_equals])>
                                     <div class="chat-bubble-title">
                                         <div class="row">
                                             <div class="col chat-bubble-author">
@@ -70,16 +71,43 @@
                                     <div class="chat-bubble-body">
                                         <p style="white-space: pre-wrap;">{{ $comment->body }}</p>
                                     </div>
-                                    <div class="text-muted text-end">
-                                        @if(! is_null($comment->parent_id))
-                                            <div class="me-2">
-                                                <b>ответ</b>
-                                                <a href="{{ route('comments.show', $comment->parent) }}">
-                                                    <b>{{ '#' . $comment->parent_id }}</b>
-                                                </a>
-                                            </div>
+                                    @if(! is_null($comment->parent_id))
+                                        <div class="text-muted text-end">
+                                            <b>ответ</b>
+                                            <a href="{{ route('comments.show', $comment->parent) }}">
+                                                <b>{{ '#' . $comment->parent_id }}</b>
+                                            </a>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-auto align-self-stretch">
+                                <div
+                                    @class([
+                                        'card',
+                                        'h-100',
+                                        'justify-content-center',
+                                        $comment->rating_class,
+                                    ])
+                                    title="{{ $comment->likes_count }} плюсов / {{ $comment->dislikes_count }} минусов"
+                                >
+                                    @auth
+                                        @if($comment->is_rating)
+                                            <div class="text-center mx-lg-0 my-3" style="min-width: 40px;">{{ $comment->rating_total }}</div>
+                                        @else
+                                            <x-ratings-store
+                                                :rateable="$comment"
+                                                @class([
+                                                    'd-flex',
+                                                    'flex-column',
+                                                    'justify-content-between',
+                                                    'h-100',
+                                                ])
+                                            />
                                         @endif
-                                    </div>
+                                    @else
+                                        <div class="text-center mx-lg-0 my-3" style="min-width: 40px;">{{ $comment->rating_total }}</div>
+                                    @endauth
                                 </div>
                             </div>
                         </div>
@@ -100,6 +128,6 @@
 
 @pushonce('body-script')
     <script type="module">
-        $(function () { $('.icons-tabler-filled').on('click', () => alert('Работаем над реализацией.')); });
+        $(function () { $('.icon-tabler-flag').on('click', () => alert('Работаем над реализацией.')); });
     </script>
 @endpushonce
