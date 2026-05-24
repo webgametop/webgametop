@@ -44,6 +44,7 @@
                 loop: false,
                 slidesPerView: 3,
                 spaceBetween: 10,
+                grabCursor: true,
                 scrollbar: {
                     el: ".swiper-scrollbar",
                     hide: true,
