@@ -1,10 +1,15 @@
 import axios from 'axios';
 import Timer from 'easytimer.js'
-import $ from 'jquery';
+import Swiper from 'swiper/bundle';
 import 'jquery.cookie';
+import $ from 'jquery';
+
+import 'swiper/css/bundle';
 
 window.axios = axios;
 window.easytimer = Timer;
+window.swiper = Swiper;
+
 window.$ = window.jQuery = $;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';

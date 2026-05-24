@@ -16,13 +16,14 @@ use Database\Factories\DeveloperFactory;
 use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * @property-read bool $is_favorite
  * @property-read bool $is_rating
  * @property-read int $likes_count
  * @property-read int $dislikes_count
+ * @property-read string $url
+ * @property-read string $display
  */
 #[UseEloquentBuilder(DeveloperBuilder::class)]
 class Developer extends Model
@@ -59,10 +60,5 @@ class Developer extends Model
         return [
             'provider' => DeveloperProviderCast::class,
         ];
-    }
-
-    public function favoriteable(): MorphTo
-    {
-        return $this->morphTo();
     }
 }
