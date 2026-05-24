@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Exceptions\UserEmailTakenException;
 use App\Exceptions\UserPersistenceException;
 use App\Exceptions\UserRegisterLimitWithOneIpException;
+use App\Helpers\Email;
 use App\Models\User;
 use App\Repositories\GameVoteRepository;
 use App\Repositories\UserRepository;
@@ -27,11 +28,15 @@ class UserService
 
     public function createUser(UserCreateData $dto): User
     {
+        $email = $dto->getEmail();
+
+        throw_unless(Email::validate($email), new \InvalidArgumentException('Invalid email address.'));
+
+        throw_if($this->isEmailTaken($email), new UserEmailTakenException);
+
         $user = User::make($dto->toArray());
 
-        throw_if($this->isEmailTaken($user->email), new UserEmailTakenException);
-
-        throw_if(! $user->save(), new UserPersistenceException);
+        throw_unless($user->save(), new UserPersistenceException);
 
         return $user;
     }
@@ -40,7 +45,7 @@ class UserService
     {
         $ip_hash = $dto->getIpHash();
 
-        throw_if(! $this->canRegisterFromIp($ip_hash), new UserRegisterLimitWithOneIpException);
+        throw_unless($this->canRegisterFromIp($ip_hash), new UserRegisterLimitWithOneIpException);
 
         return $this->createUser($dto);
     }
@@ -73,6 +78,6 @@ class UserService
 
     public function isEmailTaken(string $email): bool
     {
-        return !empty($this->repository->findOneBy(['email' => $email]));
+        return empty($this->repository->findOneBy(['email' => $email]));
     }
 }

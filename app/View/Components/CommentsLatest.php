@@ -31,6 +31,7 @@ class CommentsLatest extends Component
             ->with('user')
             ->with('commentable')
             ->whereHasMorph('commentable', [Developer::class, Game::class])
+            ->where('parent_id')
             ->orderBy('created_at', 'desc')
             ->limit(13)
             ->get();
