@@ -15,7 +15,8 @@
     </div>--}}
     <div class="page-body">
         <div class="container mb-5">
-            <div><code>component::swiper::content</code></div>
+            {{--<div><code>component::swiper::content</code></div>--}}
+            <x-oops/>
         </div>
         <div id="discussion" class="bg-blue-lt d-none d-md-block">
             <div class="container">
@@ -63,7 +64,7 @@
             <div class="row">
                 <div class="col-12 col-md-6">
                     <x-ui.subheadline label="Самые популярные игры">
-                        <code>component::games::popular</code>
+                        <x-games-popular/>
                     </x-ui.subheadline>
                 </div>
                 <div class="col-12 col-md-6">
@@ -73,7 +74,8 @@
                 </div>
             </div>
             <x-ui.subheadline label="Выбор редакции" class="green">
-                <code>component::games::recommended</code>
+                {{--<code>component::games::recommended</code>--}}
+                <x-oops/>
             </x-ui.subheadline>
         </div>
     </div>

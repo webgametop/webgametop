@@ -28,30 +28,32 @@ trait HasRatingStatus
         ]);
     }
 
-    public function withRatingSummary()
+    public function withRatingSummary(bool $likes_percentage = false)
     {
-        return $this->withCount([
+        $t = $this->getModel()->getTable();
+
+        $q = $this->withCount([
             'ratings as likes_count' => static fn(Builder $q) => $q->where('rate', 1),
             'ratings as dislikes_count' => static fn(Builder $q) => $q->where('rate', -1),
         ]);
-    }
 
-    public function withLikesPercentage()
-    {
-        $q = $this->withRatingSummary();
-        $t = $this->getModel()->getTable();
-
-        return $this->fromSub($q, $t)->select([
-            "$t.*",
-            DB::raw(
-                "CASE " .
-                    "WHEN (likes_count + dislikes_count) > 0 " .
-                    "THEN ROUND(" .
-                        "100 * likes_count / (likes_count + dislikes_count)" .
-                    ") " .
+        if ($likes_percentage) {
+            return $this->fromSub($q, $t)->select([
+                "$t.*",
+                DB::raw(
+                    "CASE " .
+                        "WHEN (likes_count + dislikes_count) > 0 " .
+                        "THEN CAST(" .
+                            "ROUND(" .
+                                "100 * likes_count / (likes_count + dislikes_count)" .
+                            ") AS SIGNED" .
+                        ") " .
                     "ELSE 0 " .
-                "END AS likes_percentage"
-            )
-        ]);
+                    "END AS likes_percentage"
+                )
+            ]);
+        }
+
+        return $q;
     }
 }

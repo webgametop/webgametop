@@ -4,14 +4,11 @@
     @forelse($games as $game)
         <a
             href="{{ route('games.show', [$game, $game->slug]) }}"
-            class="list-group-item list-group-item-action d-flex justify-content-between align-items-start"
+            class="list-group-item list-group-item-action"
         >
-            <div>
-                <div>{{ $game->title }}</div>
-                <div><b class="text-muted">{{ $game->developer->name }}</b></div>
-            </div>
-            <div class="badge rounded-0 bg-warning border text-white" title="Добавили в избранное">
-                <span>{{ $game->favorites_count }}</span>
+            <span>{{ $game->title }}</span>
+            <div class="text-muted">
+                <b>{{ $game->developer->name }}</b>
             </div>
         </a>
     @empty

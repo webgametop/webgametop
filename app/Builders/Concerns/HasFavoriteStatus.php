@@ -26,4 +26,9 @@ trait HasFavoriteStatus
             'favorites as is_favorite' => static fn(Builder $q) => $q->where('user_id', $user?->id)
         ]);
     }
+
+    public function withFavoritesCount(): static
+    {
+        return $this->withCount('favorites');
+    }
 }

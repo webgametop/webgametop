@@ -28,7 +28,7 @@ class GamesFavorite extends Component
 
         $games = $q
             ->with('developer')
-            ->withCount('favorites')
+            ->withFavoritesCount()
             ->orderBy('favorites_count', 'desc')
             ->orderBy('released_at', 'desc')
             ->limit(5)
