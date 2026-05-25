@@ -50,9 +50,12 @@
             <div class="row">
                 @foreach(GameProviderEnum::cases() as $provider)
                     @php($label = "Новинки от <span class=\"text-muted\">:name</span>")
-                    <div class="col-12 col-lg-4">
-                        <x-ui.subheadline :label="Str::replace(':name', $provider->label(), $label)">
-                            <code>component::games::{{ $provider->value }}::latest</code>
+                    <div class="col-12 col-lg-4 d-flex flex-column">
+                        <x-ui.subheadline
+                            :href="route('games', $provider)"
+                            :label="Str::replace(':name', $provider->label(), $label)"
+                        >
+                            <x-games-latest :provider="$provider"/>
                         </x-ui.subheadline>
                     </div>
                 @endforeach
