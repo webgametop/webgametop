@@ -68,7 +68,7 @@
                 </div>
                 <div class="col-12 col-md-6">
                     <x-ui.subheadline label="Самые любимые игры">
-                        <code>component::games::favorite</code>
+                        <x-games-favorite/>
                     </x-ui.subheadline>
                 </div>
             </div>

@@ -31,7 +31,7 @@ trait HasRatingStatus
     public function withRatingSummary()
     {
         return $this->withCount([
-            'ratings as likes_count'  => static fn(Builder $q) => $q->where('rate', 1),
+            'ratings as likes_count' => static fn(Builder $q) => $q->where('rate', 1),
             'ratings as dislikes_count' => static fn(Builder $q) => $q->where('rate', -1),
         ]);
     }
