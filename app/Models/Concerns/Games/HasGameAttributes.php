@@ -12,6 +12,16 @@ trait HasGameAttributes
 {
     use HasFavoriteAttributes, HasRatingAttributes;
 
+    protected function url(): Attribute
+    {
+        return Attribute::make(fn() => route('games.show', [$this, $this->slug]));
+    }
+
+    protected function display(): Attribute
+    {
+        return Attribute::make(fn() => $this->title);
+    }
+
     protected function isVote(): Attribute
     {
         return Attribute::make(fn() => $this->votes()->where('user_id', auth()->id())->exists());

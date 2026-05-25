@@ -37,7 +37,7 @@ class GameController extends Controller
         $games = $q
             ->whereProvider($provider)
             ->withFavoriteStatus()
-            ->withLikesPercentage()
+            ->withRatingSummary(true)
             ->orderBy('released_at', 'desc')
             ->paginate(30);
 

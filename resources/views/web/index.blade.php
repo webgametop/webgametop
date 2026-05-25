@@ -15,7 +15,8 @@
     </div>--}}
     <div class="page-body">
         <div class="container mb-5">
-            <div><code>component::swiper::content</code></div>
+            {{--<div><code>component::swiper::content</code></div>--}}
+            <x-oops/>
         </div>
         <div id="discussion" class="bg-blue-lt d-none d-md-block">
             <div class="container">
@@ -31,14 +32,14 @@
                         <div class="d-flex flex-column">
                             <div class="nav nav-pills" id="v-pills-tab" role="tablist">
                                 <button class="nav-link border active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab">Новые комментарии</button>
-                                <button class="nav-link border ms-2" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab">Популярные комментарии</button>
+                                <button class="nav-link border ms-2" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" disabled>Популярные комментарии</button>
                             </div>
                             <div class="tab-content mt-3" id="v-pills-tabContent">
                                 <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
-                                    <code>component::comments::latest</code>
+                                    <x-comments-latest/>
                                 </div>
                                 <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
-                                    <code>component::comments::popular</code>
+                                    <x-comments-popular/>
                                 </div>
                             </div>
                         </div>
@@ -50,9 +51,12 @@
             <div class="row">
                 @foreach(GameProviderEnum::cases() as $provider)
                     @php($label = "Новинки от <span class=\"text-muted\">:name</span>")
-                    <div class="col-12 col-lg-4">
-                        <x-ui.subheadline :label="Str::replace(':name', $provider->label(), $label)">
-                            <code>component::games::{{ $provider->value }}::latest</code>
+                    <div class="col-12 col-lg-4 d-flex flex-column">
+                        <x-ui.subheadline
+                            :href="route('games', $provider)"
+                            :label="Str::replace(':name', $provider->label(), $label)"
+                        >
+                            <x-games-latest :provider="$provider"/>
                         </x-ui.subheadline>
                     </div>
                 @endforeach
@@ -60,17 +64,18 @@
             <div class="row">
                 <div class="col-12 col-md-6">
                     <x-ui.subheadline label="Самые популярные игры">
-                        <code>component::games::popular</code>
+                        <x-games-popular/>
                     </x-ui.subheadline>
                 </div>
                 <div class="col-12 col-md-6">
                     <x-ui.subheadline label="Самые любимые игры">
-                        <code>component::games::favorite</code>
+                        <x-games-favorite/>
                     </x-ui.subheadline>
                 </div>
             </div>
             <x-ui.subheadline label="Выбор редакции" class="green">
-                <code>component::games::recommended</code>
+                {{--<code>component::games::recommended</code>--}}
+                <x-oops/>
             </x-ui.subheadline>
         </div>
     </div>

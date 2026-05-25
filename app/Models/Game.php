@@ -15,7 +15,6 @@ use App\Models\Concerns\Games\HasGameAttributes;
 use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * @property-read bool $is_favorite
@@ -23,6 +22,8 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property-read int $likes_count
  * @property-read int $dislikes_count
  * @property-read int $likes_percentage
+ * @property-read string $url
+ * @property-read string $display
  */
 #[UseEloquentBuilder(GameBuilder::class)]
 class Game extends Model
@@ -83,10 +84,5 @@ class Game extends Model
         $payload = ['sub' => $this->id, 'key' => game_vote_key($user->id)];
 
         return rtrim(strtr(base64_encode(json_encode($payload)), '+/', '-_'), '=');
-    }
-
-    public function favoriteable(): MorphTo
-    {
-        return $this->morphTo();
     }
 }

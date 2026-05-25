@@ -20,7 +20,7 @@ class DeveloperGameController extends Controller
         /** @var GameProviderEnum $provider */
         $provider = $developer->provider;
         /** @var Collection<Game> $games */
-        $games = $developer->games()->withLikesPercentage()->paginate(30);
+        $games = $developer->games()->withRatingSummary(true)->paginate(30);
 
         return view('web.developers.card.games', compact('developer', 'games', 'provider'));
     }

@@ -33,7 +33,8 @@
         @endif
     </div>
     @if($slot->isNotEmpty())
-        <div class="subheadline-body">
+        {{--@todo removed .flex-grow-1 e.g. games-latest.blade --}}
+        <div class="subheadline-body flex-grow-1">
             {{ $slot }}
         </div>
     @endif
