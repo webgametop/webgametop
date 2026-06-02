@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-
 use App\Models\Contracts\Favoriteable;
 use App\Models\Favorite;
 use App\Models\User;

@@ -33,7 +33,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary" data-loading-text="Регистрация...">Зарегистрироваться</button>
                 <a href="{{ route('login') }}" class="ms-3">Войти в уже существующий аккаунт</a>
-                <a href="" class="ms-3">Забыли пароль?</a>
+                {{--<a href="" class="ms-3">Забыли пароль?</a>--}}
             </form>
         </div>
     </div>
