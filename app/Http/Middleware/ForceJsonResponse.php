@@ -10,8 +10,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ForceJsonResponse
 {
-    private const OFFLINE_THRESHOLD_MINUTES = 15;
-
     /**
      * Handle an incoming request.
      *

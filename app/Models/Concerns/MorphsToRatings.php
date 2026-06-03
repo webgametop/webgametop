@@ -7,7 +7,7 @@ namespace App\Models\Concerns;
 use App\Models\Rating;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-trait MorphsToRating
+trait MorphsToRatings
 {
     public function ratings(): MorphMany
     {

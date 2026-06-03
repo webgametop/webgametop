@@ -31,8 +31,10 @@
                                     </li>
                                 </ul>
                                 <div class="text-center mt-4">
-                                    <form action="{{ route('games.votes', [$game, $game->slug]) }}" method="post">
+                                    <form action="{{ route('votes.store') }}" method="post">
                                         @csrf
+                                        <input type="hidden" name="votable[type]" value="{{ morph_alias($game::class) }}" autocomplete="off">
+                                        <input type="hidden" name="votable[id]" value="{{ $game->id }}" autocomplete="off">
                                         <button type="submit" class="btn w-100" data-loading-text="Голосование...">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-thumb-up">
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>

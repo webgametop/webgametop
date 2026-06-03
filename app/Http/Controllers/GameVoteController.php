@@ -31,7 +31,7 @@ class GameVoteController extends Controller
         $provider = $developer->provider;
 
         /** @var User $user */
-        $user = \Auth::user();
+        $user = auth()->user();
 
         /**
          * @var array{

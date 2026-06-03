@@ -7,7 +7,7 @@ namespace App\Models\Concerns;
 use App\Models\View;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-trait MorphsToView
+trait MorphsToViews
 {
     public function views(): MorphMany
     {
