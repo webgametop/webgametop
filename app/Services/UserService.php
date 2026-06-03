@@ -54,7 +54,7 @@ class UserService
     {
     }
 
-    public function deleteUser(int $id)
+    public function deleteUser(User $user)
     {
     }
 

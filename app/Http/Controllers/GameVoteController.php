@@ -54,6 +54,7 @@ class GameVoteController extends Controller
     }
 
     /**
+     * @deprecated
      * Store a newly created resource in storage.
      */
     public function store(Request $request, Game $game)

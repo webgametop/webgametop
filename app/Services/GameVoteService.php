@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Exceptions\GameVoteExpiredException;
-use App\Exceptions\GameVoteLimitExceededException;
+use App\Exceptions\DailyVoteAlreadyCastException;
 use App\Exceptions\GameVoteMismatchException;
 use App\Exceptions\GameVoteNotFoundException;
 use App\Exceptions\GameVotePersistenceException;
@@ -28,16 +28,17 @@ class GameVoteService
     {
     }
 
+    /** @deprecated */
     public function createVote(VoteCreateData $dto): Vote
     {
         $vote = Vote::make($dto->toArray());
 
         /** @var ?Game $game */
         $game = $this->gameRepository->findOne($vote->game_id);
-        throw_if(! $game, new GameVoteNotFoundException);
+        throw_unless($game, new GameVoteNotFoundException);
 
         $checked = $this->userService->hasVotedToday($vote->user_id);
-        throw_if($checked, new GameVoteLimitExceededException);
+        throw_if($checked, new DailyVoteAlreadyCastException);
 
         /** @var false|Vote $saved */
         $saved = $game->votes()->save($vote);
@@ -74,14 +75,6 @@ class GameVoteService
         );
 
         return $this->createVote($dto);
-    }
-
-    public function updateVote(array $data)
-    {
-    }
-
-    public function deleteVote(int $id)
-    {
     }
 
     /**

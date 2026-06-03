@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Enums\VoteCreatedVia as CreatedViaEnum;
 use App\Enums\VoteType as Strategy;
 use App\Exceptions\VotePersistenceException;
 use App\Models\Contracts\Votable;
@@ -35,11 +36,11 @@ class VoteService
         return $saved;
     }
 
-    public function registerVote(Votable|Model $votable, User $user): Vote
+    public function registerVote(Votable|Model $votable, User $user, CreatedViaEnum $via): Vote
     {
         /** @var VoteStrategy $strategy */
         $strategy = app($this->strategy->strategyClass());
 
-        return $strategy->registerVote($votable, $user);
+        return $strategy->registerVote($votable, $user, $via);
     }
 }

@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Enums\VoteCreatedVia as CreatedViaEnum;
 use App\Enums\VoteType as Strategy;
 use App\Http\Requests\VoteStoreRequest;
 use App\Models\Contracts\Votable;
+use App\Models\User;
 use App\Services\VoteService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -46,18 +48,23 @@ class VoteController extends Controller
         /** @var Model|Votable $entity */
         $entity = $modelType::findOrFail($request->input('votable.id'));
 
+        /** @var User $user */
+        $user = auth()->user();
+
         $this->service->setStrategy(Strategy::DAILY);
 
         try {
-            $this->service->registerVote($entity, auth()->user());
+            $this->service->registerVote($entity, $user, CreatedViaEnum::WEB);
         } catch (\Exception $e) {
             return redirect()->back()->with('flash', [
-                'type' => 'danger', 'message' => $e->getMessage()
+                'type' => 'info',
+                'message' => $e->getMessage()
             ]);
         }
 
         return redirect()->back()->with('flash', [
-            'type' => 'success', 'message' => 'Successfully added to your vote.'
+            'type' => 'success',
+            'message' => 'Thank you! Your vote has been counted. Come back tomorrow to vote again.'
         ]);
     }
 
