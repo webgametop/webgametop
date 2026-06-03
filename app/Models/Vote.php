@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Casts\VoteCreatedViaCast;
+use App\Casts\VoteTypeCast;
 use App\Models\Concerns\BelongsToUser;
 use Database\Factories\VoteFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -25,6 +27,19 @@ class Vote extends Model
         'type',
         'created_via',
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'type' => VoteTypeCast::class,
+            'created_via' => VoteCreatedViaCast::class,
+        ];
+    }
 
     public function votable(): MorphTo
     {

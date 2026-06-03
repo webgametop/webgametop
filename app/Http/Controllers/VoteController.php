@@ -4,17 +4,22 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Enums\VoteCreatedVia;
-use App\Enums\VoteType;
+use App\Enums\VoteType as Strategy;
 use App\Http\Requests\VoteStoreRequest;
 use App\Models\Contracts\Votable;
-use App\Models\Vote;
+use App\Services\VoteService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 
 class VoteController extends Controller
 {
+    public function __construct(
+        private readonly VoteService $service,
+    )
+    {
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -41,12 +46,10 @@ class VoteController extends Controller
         /** @var Model|Votable $entity */
         $entity = $modelType::findOrFail($request->input('votable.id'));
 
+        $this->service->setStrategy(Strategy::DAILY);
+
         try {
-            $entity->votes()->save(Vote::make([
-                'user_id' => auth()->id(),
-                'type' => VoteType::DAILY,
-                'created_via' => VoteCreatedVia::WEB,
-            ]));
+            $this->service->registerVote($entity, auth()->user());
         } catch (\Exception $e) {
             return redirect()->back()->with('flash', [
                 'type' => 'danger', 'message' => $e->getMessage()
