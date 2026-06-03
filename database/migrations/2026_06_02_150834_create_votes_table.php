@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('votes', function (Blueprint $table) {
             $table->id();
             $table->morphs('votable', 'idx_votes_on_votable_type_and_votable_id');
-            $table->string('created_via', 8);
+            $table->string('type')->index('idx_votes_on_type');
+            $table->string('created_via');
             $table->timestamps();
         });
 
