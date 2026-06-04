@@ -7,6 +7,7 @@ namespace App\Values\Game;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Carbon;
 
+/** @deprecated */
 final readonly class VoteCreateData implements Arrayable
 {
     public function __construct(

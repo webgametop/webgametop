@@ -8,6 +8,7 @@ use Database\Factories\GameVoteFactory as VoteFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/** @deprecated */
 class GameVote extends Model
 {
     /** @use HasFactory<VoteFactory> */

@@ -8,6 +8,7 @@ use App\Models\GameVote as Vote;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
+ * @deprecated
  * @extends Factory<Vote>
  */
 class GameVoteFactory extends Factory

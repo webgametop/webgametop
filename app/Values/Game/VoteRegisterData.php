@@ -6,6 +6,7 @@ namespace App\Values\Game;
 
 use Illuminate\Contracts\Support\Arrayable;
 
+/** @deprecated */
 final readonly class VoteRegisterData implements Arrayable
 {
     public function __construct(

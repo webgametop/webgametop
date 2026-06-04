@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Enums\VoteCreatedVia as CreatedViaEnum;
-use App\Enums\VoteType as Strategy;
 use App\Http\Requests\VoteStoreRequest;
 use App\Models\Contracts\Votable;
 use App\Models\User;
@@ -51,10 +49,8 @@ class VoteController extends Controller
         /** @var User $user */
         $user = auth()->user();
 
-        $this->service->setStrategy(Strategy::DAILY);
-
         try {
-            $this->service->registerVote($entity, $user, CreatedViaEnum::WEB);
+            $this->service->registerVote($entity, $user);
         } catch (\Exception $e) {
             return redirect()->back()->with('flash', [
                 'type' => 'info',

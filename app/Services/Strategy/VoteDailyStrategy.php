@@ -11,20 +11,15 @@ use App\Models\Contracts\Votable;
 use App\Models\User;
 use App\Models\Vote;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
 
 class VoteDailyStrategy extends VoteStrategy
 {
     public function registerVote(Votable|Model $votable, User $user, CreatedViaEnum $via): Vote
     {
-        $q = Vote::query();
-
-        $q->where('user_id', $user->id);
-        $q->whereDate('created_at', Carbon::today());
-
-        if ($q->exists()) {
-            throw new DailyVoteAlreadyCastException;
-        }
+        throw_unless(
+            $this->service->canTodayVote($votable, $user),
+            new DailyVoteAlreadyCastException
+        );
 
         return $this->service->createVote($votable, Vote::make([
             'user_id' => $user->id,

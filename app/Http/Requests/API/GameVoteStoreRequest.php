@@ -6,6 +6,7 @@ namespace App\Http\Requests\API;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 
+/** @deprecated */
 class GameVoteStoreRequest extends Request
 {
     public function rules(): array

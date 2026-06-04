@@ -6,7 +6,7 @@ namespace App\Services;
 
 use App\Exceptions\UserEmailTakenException;
 use App\Exceptions\UserPersistenceException;
-use App\Exceptions\UserRegisterLimitWithOneIpException;
+use App\Exceptions\UserRegistrationLimitPerIpReachedException;
 use App\Helpers\Email;
 use App\Models\User;
 use App\Repositories\GameVoteRepository;
@@ -17,7 +17,7 @@ use Illuminate\Support\Carbon;
 
 class UserService
 {
-    private const MAX_REGISTER_PER_FROM_IP = 3;
+    private const MAX_REGISTRATIONS_PER_IP = 3;
 
     public function __construct(
         private readonly UserRepository $repository,
@@ -32,7 +32,7 @@ class UserService
 
         throw_unless(Email::validate($email), new \InvalidArgumentException('Invalid email address.'));
 
-        throw_if($this->isEmailTaken($email), new UserEmailTakenException);
+        throw_unless($this->canUseEmail($email), new UserEmailTakenException);
 
         $user = User::make($dto->toArray());
 
@@ -45,7 +45,10 @@ class UserService
     {
         $ip_hash = $dto->getIpHash();
 
-        throw_unless($this->canRegisterFromIp($ip_hash), new UserRegisterLimitWithOneIpException);
+        throw_unless(
+            $this->canRegisterMoreUsersFromIp($ip_hash),
+            new UserRegistrationLimitPerIpReachedException
+        );
 
         return $this->createUser($dto);
     }
@@ -58,16 +61,18 @@ class UserService
     {
     }
 
-    public function canRegisterFromIp(string $ip_hash): bool
+    public function canRegisterMoreUsersFromIp(string $ip_hash): bool
     {
-        return $this->repository->countIpHashes($ip_hash) < self::MAX_REGISTER_PER_FROM_IP;
+        return $this->repository->countIpHashes($ip_hash) < self::MAX_REGISTRATIONS_PER_IP;
     }
 
+    /** @deprecated */
     public function canVotedToday(int $user_id): bool
     {
         return !$this->hasVotedToday($user_id);
     }
 
+    /** @deprecated */
     public function hasVotedToday(int $user_id): bool
     {
         return !empty($this->gameVoteRepository->findOneBy([
@@ -76,7 +81,7 @@ class UserService
         ]));
     }
 
-    public function isEmailTaken(string $email): bool
+    public function canUseEmail(string $email): bool
     {
         return empty($this->repository->findOneBy(['email' => $email]));
     }

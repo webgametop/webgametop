@@ -15,7 +15,7 @@
     <div class="page-body">
         <div class="container">
             <div class="row row-cards">
-                @if($process['allowed'])
+                @if($info['allowed'])
                     <div class="col-12 col-md-6 col-lg-4">
                         <div class="card card-md">
                             <div class="card-body text-center">
@@ -87,7 +87,9 @@
                                 <div class="h1">Спасибо за участие! Сегодня вы уже голосовали.</div>
                                 <div class="text-muted">Отдохните, подумайте, а завтра возвращайтесь с новыми силами.</div>
                                 <hr>
-                                <div class="display-4"><b id="usage">{{ $process['next_in'] }}</b></div>
+                                <div class="display-4">
+                                    <b id="usage">{{ $info['next_in'] }}</b>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -139,7 +141,7 @@
         <script type="module">
             const countdown = new easytimer({ countdown: true} );
 
-            const target_timestamp = {{ $process['next_at'] }};
+            const target_timestamp = {{ $info['next_at'] }};
             const target_ms = target_timestamp * 1000;
             const remaining_ms = target_ms - Date.now();
 

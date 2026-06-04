@@ -19,6 +19,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 
+/** @deprecated */
 class GameVoteService
 {
     public function __construct(
@@ -28,7 +29,6 @@ class GameVoteService
     {
     }
 
-    /** @deprecated */
     public function createVote(VoteCreateData $dto): Vote
     {
         $vote = Vote::make($dto->toArray());
@@ -139,7 +139,10 @@ class GameVoteService
 
     private function buildPayload(Game $game, array $data): array
     {
-        return Arr::collapse([$this->basePayload($game), $data]);
+        return Arr::collapse([
+            $this->basePayload($game),
+            $data,
+        ]);
     }
 
     /**

@@ -6,7 +6,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-class UserRegisterLimitWithOneIpException extends Exception
+class UserRegistrationLimitPerIpReachedException extends Exception
 {
     public function __construct()
     {
