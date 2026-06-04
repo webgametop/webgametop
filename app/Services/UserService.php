@@ -9,11 +9,9 @@ use App\Exceptions\UserPersistenceException;
 use App\Exceptions\UserRegistrationLimitPerIpReachedException;
 use App\Helpers\Email;
 use App\Models\User;
-use App\Repositories\GameVoteRepository;
 use App\Repositories\UserRepository;
 use App\Values\User\UserCreateData;
 use App\Values\User\UserUpdateData;
-use Illuminate\Support\Carbon;
 
 class UserService
 {
@@ -21,7 +19,6 @@ class UserService
 
     public function __construct(
         private readonly UserRepository $repository,
-        private readonly GameVoteRepository $gameVoteRepository,
     )
     {
     }
@@ -64,21 +61,6 @@ class UserService
     public function canRegisterMoreUsersFromIp(string $ip_hash): bool
     {
         return $this->repository->countIpHashes($ip_hash) < self::MAX_REGISTRATIONS_PER_IP;
-    }
-
-    /** @deprecated */
-    public function canVotedToday(int $user_id): bool
-    {
-        return !$this->hasVotedToday($user_id);
-    }
-
-    /** @deprecated */
-    public function hasVotedToday(int $user_id): bool
-    {
-        return !empty($this->gameVoteRepository->findOneBy([
-            'user_id' => $user_id,
-            'voted_at' => Carbon::now()->format('Y-m-d'),
-        ]));
     }
 
     public function canUseEmail(string $email): bool
