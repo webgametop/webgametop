@@ -46,15 +46,39 @@ class VoteService
         return $strategy->registerVote($votable, $user, $via);
     }
 
-    public function canTodayVote(Votable|Model $votable, User $user): bool
+    public function canVoteToday(Votable|Model $votable, User $user): bool
+    {
+        return !$this->hasVoted(
+            $votable,
+            $user,
+            strict: false,
+            strategy: $this->strategy,
+            created_at: Carbon::today(),
+        );
+    }
+
+    public function hasVoted(Votable|Model $votable, User $user, ...$filter): bool
     {
         $q = Vote::query();
 
         $q->where('user_id', $user->id);
-        $q->where('votable_type', $votable->getMorphClass());
-        $q->where('type', $this->strategy);
-        $q->whereDate('created_at', Carbon::today());
 
-        return !$q->exists();
+        $q->when(
+            isset($filter['strict']) && $filter['strict'],
+            static fn ($q) => $q->whereMorphedTo('votable', $votable),
+            static fn ($q) => $q->where('votable_type', $votable->getMorphClass()),
+        );
+
+        $q->when(
+            isset($filter['strategy']),
+            static fn ($q) => $q->where('type', $filter['strategy']),
+        );
+
+        $q->when(
+            isset($filter['created_at']),
+            static fn ($q) => $q->whereDate('created_at', $filter['created_at']),
+        );
+
+        return $q->exists();
     }
 }

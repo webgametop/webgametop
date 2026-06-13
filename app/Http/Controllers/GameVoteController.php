@@ -8,13 +8,13 @@ use App\Enums\GameProvider as GameProviderEnum;
 use App\Models\Developer;
 use App\Models\Game;
 use App\Models\User;
-use App\Services\GameService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 
 class GameVoteController extends Controller
 {
     public function __construct(
-        private readonly GameService $service,
+        private readonly UserService $userService,
     )
     {
     }
@@ -32,20 +32,9 @@ class GameVoteController extends Controller
         /** @var User $user */
         $user = auth()->user();
 
-        /**
-         * @var array{
-         *     allowed: bool,
-         *     next_in: string,
-         *     next_at: int,
-         * } $info
-         */
-        $info = $this->service->voteStatus($game, $user);
+        $vote_info = $this->userService->getDailyVoteInfo($user, $game);
 
-        return view('web.games.card.votes', compact([
-            'game',
-            'provider',
-            'info',
-        ]));
+        return view('web.games.card.votes', compact(['game', 'provider', 'vote_info']));
     }
 
     /**

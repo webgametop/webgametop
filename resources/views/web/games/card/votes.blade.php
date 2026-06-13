@@ -1,4 +1,4 @@
-@props(['game', 'provider', 'process'])
+@props(['game', 'provider', 'vote_info'])
 
 @section('title', 'Игра')
 
@@ -15,7 +15,7 @@
     <div class="page-body">
         <div class="container">
             <div class="row row-cards">
-                @if($info['allowed'])
+                @if($vote_info['is_available'])
                     <div class="col-12 col-md-6 col-lg-4">
                         <div class="card card-md">
                             <div class="card-body text-center">
@@ -88,7 +88,9 @@
                                 <div class="text-muted">Отдохните, подумайте, а завтра возвращайтесь с новыми силами.</div>
                                 <hr>
                                 <div class="display-4">
-                                    <b id="usage">{{ $info['next_in'] }}</b>
+                                    <b id="usage" data-timestamp="{{ $vote_info['available_at'] }}">
+                                        {{ $vote_info['available_in'] }}
+                                    </b>
                                 </div>
                             </div>
                         </div>
@@ -131,7 +133,9 @@
                     </svg>
                 </div>
                 <div>
-                    <h4 class="alert-heading"><strong>Ой! Похоже, здесь есть подводные камни.</strong></h4>
+                    <h4 class="alert-heading">
+                        <strong>Ой! Похоже, здесь есть подводные камни.</strong>
+                    </h4>
                     <div class="alert-description">Бонусы являются частью игровой механики и предоставляются исключительно разработчиком. Наш сайт выступает только в роли инструмента для голосования и навигации. Все вопросы по бонусам следует адресовать разработчику игры.</div>
                 </div>
             </div>
@@ -141,7 +145,7 @@
         <script type="module">
             const countdown = new easytimer({ countdown: true} );
 
-            const target_timestamp = {{ $info['next_at'] }};
+            const target_timestamp = parseInt($('#usage').data('timestamp'));
             const target_ms = target_timestamp * 1000;
             const remaining_ms = target_ms - Date.now();
 

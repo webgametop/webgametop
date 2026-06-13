@@ -17,7 +17,7 @@ class VoteDailyStrategy extends VoteStrategy
     public function registerVote(Votable|Model $votable, User $user, CreatedViaEnum $via): Vote
     {
         throw_unless(
-            $this->service->canTodayVote($votable, $user),
+            $this->service->canVoteToday($votable, $user),
             new DailyVoteAlreadyCastException
         );
 

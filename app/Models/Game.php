@@ -75,7 +75,7 @@ class Game extends Model
     public function payload(): string
     {
         /** @var User $user */
-        $user = \Auth::user();
+        $user = auth()->user();
 
         /**
          * @var array{
