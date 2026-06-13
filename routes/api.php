@@ -6,7 +6,6 @@ use App\Http\Controllers\API\AuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([], function () {
-    require __DIR__ . '/api.games.php';
     require __DIR__ . '/api.views.php';
     require __DIR__ . '/api.votes.php';
 });

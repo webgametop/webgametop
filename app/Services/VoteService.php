@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Enums\VoteCreatedVia as CreatedViaEnum;
+use App\Enums\VoteMatch;
 use App\Enums\VoteType as Strategy;
 use App\Exceptions\VotePersistenceException;
 use App\Models\Contracts\Votable;
 use App\Models\User;
 use App\Models\Vote;
 use App\Services\Strategy\Contracts\VoteStrategy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
@@ -51,7 +53,7 @@ class VoteService
         return !$this->hasVoted(
             $votable,
             $user,
-            strict: false,
+            match: VoteMatch::TYPE,
             strategy: $this->strategy,
             created_at: Carbon::today(),
         );
@@ -64,19 +66,22 @@ class VoteService
         $q->where('user_id', $user->id);
 
         $q->when(
-            isset($filter['strict']) && $filter['strict'],
-            static fn ($q) => $q->whereMorphedTo('votable', $votable),
-            static fn ($q) => $q->where('votable_type', $votable->getMorphClass()),
+            isset($filter['match']),
+            static fn (Builder $q) => match ($filter['match']) {
+                VoteMatch::MODEL => $q->whereMorphedTo('votable', $votable),
+                VoteMatch::TYPE => $q->where('votable_type', $votable->getMorphClass()),
+                default => throw new \Exception(__FILE__),
+            },
         );
 
         $q->when(
             isset($filter['strategy']),
-            static fn ($q) => $q->where('type', $filter['strategy']),
+            static fn (Builder $q) => $q->where('type', $filter['strategy']),
         );
 
         $q->when(
             isset($filter['created_at']),
-            static fn ($q) => $q->whereDate('created_at', $filter['created_at']),
+            static fn (Builder $q) => $q->whereDate('created_at', $filter['created_at']),
         );
 
         return $q->exists();
