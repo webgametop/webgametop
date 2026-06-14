@@ -17,33 +17,45 @@ function morph_alias(string $class_name): string
     return array_search($class_name, Relation::morphMap(), true);
 }
 
-function provider_developer_key(): string
+function developer_count_in_provider__cache_key(): string
 {
-    $template_key = 'provider,developer,count';
+    $template_key = 'developer,count,provider';
 
     return cache_key($template_key);
 }
 
-function provider_game_key(): string
+function game_count_in_provider__cache_key(): string
 {
-    $template_key = 'provider,game,count';
+    $template_key = 'game,count,provider';
 
     return cache_key($template_key);
 }
 
-function game_vote_key(int $user_id): string
+function game_vote__cache_key(int $user_id): string
 {
     $template_key = 'game,vote,:date,user,:id';
     $date = Carbon::now()->format('Y/m/d');
 
-    return cache_key(Str::replace([':id', ':date'], [$user_id, $date], $template_key), config('app.key'));
+    return cache_key(
+        Str::replace(
+            [':id', ':date'],
+            [$user_id, $date],
+            $template_key,
+        ), config('app.key')
+    );
 }
 
-function user_online_key(int $user_id): string
+function user_online__cache_key(int $user_id): string
 {
     $template_key = 'user,:id,online';
 
-    return cache_key(Str::replace(':id', $user_id, $template_key));
+    return cache_key(
+        Str::replace(
+            ':id',
+            $user_id,
+            $template_key,
+        )
+    );
 }
 
 /**

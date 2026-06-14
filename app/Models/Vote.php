@@ -45,4 +45,20 @@ class Vote extends Model
     {
         return $this->morphTo();
     }
+
+    public static function payload(Game $game): string
+    {
+        /** @var User $user */
+        $user = auth()->user();
+
+        /**
+         * @var array{
+         *     sub: int,
+         *     key: string,
+         * } $payload
+         */
+        $payload = ['sub' => $game->id, 'key' => game_vote__cache_key($user->id)];
+
+        return rtrim(strtr(base64_encode(json_encode($payload)), '+/', '-_'), '=');
+    }
 }

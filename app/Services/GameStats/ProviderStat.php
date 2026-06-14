@@ -21,12 +21,18 @@ class ProviderStat
 
     public function countDevelopers(): array
     {
-        return $this->cacheCount($this->developerRepository, provider_developer_key());
+        return $this->cacheCount(
+            $this->developerRepository,
+            developer_count_in_provider__cache_key(),
+        );
     }
 
     public function countGames(): array
     {
-        return $this->cacheCount($this->gameRepository, provider_game_key());
+        return $this->cacheCount(
+            $this->gameRepository,
+            game_count_in_provider__cache_key(),
+        );
     }
 
     private function cacheCount(Repository $repository, string $key): array

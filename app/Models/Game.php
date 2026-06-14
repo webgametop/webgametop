@@ -71,20 +71,4 @@ class Game extends Model
         /** @var GameBuilder */
         return parent::query();
     }
-
-    public function payload(): string
-    {
-        /** @var User $user */
-        $user = auth()->user();
-
-        /**
-         * @var array{
-         *     sub: int,
-         *     key: string,
-         * } $payload
-         */
-        $payload = ['sub' => $this->id, 'key' => game_vote_key($user->id)];
-
-        return rtrim(strtr(base64_encode(json_encode($payload)), '+/', '-_'), '=');
-    }
 }

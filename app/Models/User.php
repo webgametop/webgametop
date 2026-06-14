@@ -79,7 +79,7 @@ class User extends Authenticatable
 
     public function getCacheKeyOnline(): string
     {
-        return user_online_key($this->id);
+        return user_online__cache_key($this->id);
     }
 
     public function isOnline(): bool
