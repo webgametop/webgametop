@@ -83,12 +83,7 @@
                             </div>
                             <div class="col-auto align-self-stretch">
                                 <div
-                                    @class([
-                                        'card',
-                                        'h-100',
-                                        'justify-content-center',
-                                        $comment->rating_class,
-                                    ])
+                                    @class(['card', 'h-100', 'justify-content-center', $comment->rating_class])
                                     title="{{ $comment->likes_count }} плюсов / {{ $comment->dislikes_count }} минусов"
                                 >
                                     @auth
@@ -97,12 +92,7 @@
                                         @else
                                             <x-ratings-store
                                                 :rateable="$comment"
-                                                @class([
-                                                    'd-flex',
-                                                    'flex-column',
-                                                    'justify-content-between',
-                                                    'h-100',
-                                                ])
+                                                @class(['d-flex', 'flex-column', 'justify-content-between', 'h-100'])
                                             />
                                         @endif
                                     @else

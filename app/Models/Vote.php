@@ -46,6 +46,7 @@ class Vote extends Model
         return $this->morphTo();
     }
 
+    /** @todo https://github.com/webgametop/webgametop/pull/19 */
     public static function payload(Game $game): string
     {
         /** @var User $user */

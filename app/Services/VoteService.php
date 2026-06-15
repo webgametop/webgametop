@@ -9,15 +9,12 @@ use App\Enums\VoteMatch;
 use App\Enums\VoteType as Strategy;
 use App\Exceptions\VotePersistenceException;
 use App\Models\Contracts\Votable;
-use App\Models\Game;
 use App\Models\User;
 use App\Models\Vote;
 use App\Services\Strategy\Contracts\VoteStrategy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Cache;
 
 class VoteService
 {
@@ -49,52 +46,6 @@ class VoteService
         $strategy = app($this->strategy->strategyClass());
 
         return $strategy->registerVote($votable, $user, $via);
-    }
-
-    /** @todo https://github.com/webgametop/webgametop/pull/19 */
-    private function payloadGenerate(Game $game, User $user): array
-    {
-        return $this->payloadCache(
-            $this->payloadBuild($game, ['uid' => $user->id])
-        );
-    }
-
-    /** @todo https://github.com/webgametop/webgametop/pull/19 */
-    private function payloadCache(array $payload): array
-    {
-        $key = game_vote__cache_key($payload['uid']);
-
-        /** @var ?string $cached */
-        if ($cached = Cache::get($key)) {
-            /** @var array $old */
-            $old = json_decode($cached, true);
-            if ($old['sub'] === $payload['sub']) {
-                return $old;
-            }
-        }
-
-        Cache::put($key, json_encode($payload), Carbon::createFromTimestamp($payload['exp']));
-
-        return $payload;
-    }
-
-    /** @todo https://github.com/webgametop/webgametop/pull/19 */
-    private function payloadBuild(Game $game, array $data): array
-    {
-        return Arr::collapse([$this->payloadBase($game), $data]);
-    }
-
-    /** @todo https://github.com/webgametop/webgametop/pull/19 */
-    private function payloadBase(Game $game): array
-    {
-        $now = Carbon::now();
-        $exp = $now->copy()->addMinutes(7);
-
-        return [
-            'sub' => $game->id,
-            'iat' => $now->timestamp,
-            'exp' => $exp->timestamp,
-        ];
     }
 
     public function canVoteToday(Votable|Model $votable, User $user): bool
