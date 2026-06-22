@@ -5,7 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Casts\UserStatusCast;
 use App\Enums\FavoriteableType;
-use App\Models\Concerns\MorphsToView;
+use App\Models\Concerns\MorphsToViews;
 use App\Models\Concerns\Users\HasUserRelationships;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,11 +14,16 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Cache;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, HasUserRelationships, MorphsToView;
+    use HasFactory,
+        Notifiable,
+        HasApiTokens,
+        HasUserRelationships,
+        MorphsToViews;
 
     /**
      * The attributes that are mass assignable.
@@ -74,7 +79,7 @@ class User extends Authenticatable
 
     public function getCacheKeyOnline(): string
     {
-        return user_online_key($this->id);
+        return user_online__cache_key($this->id);
     }
 
     public function isOnline(): bool

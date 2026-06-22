@@ -6,10 +6,11 @@ namespace App\Models;
 
 use App\Builders\GameBuilder;
 use App\Models\Concerns\Games\HasGameRelationships;
-use App\Models\Concerns\MorphsToComment;
+use App\Models\Concerns\MorphsToComments;
 use App\Models\Concerns\MorphsToFavorites;
-use App\Models\Concerns\MorphsToRating;
-use App\Models\Concerns\MorphsToView;
+use App\Models\Concerns\MorphsToRatings;
+use App\Models\Concerns\MorphsToViews;
+use App\Models\Concerns\MorphsToVotes;
 use Database\Factories\GameFactory;
 use App\Models\Concerns\Games\HasGameAttributes;
 use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;
@@ -32,10 +33,11 @@ class Game extends Model
     use HasFactory,
         HasGameAttributes,
         HasGameRelationships,
-        MorphsToView,
-        MorphsToComment,
+        MorphsToViews,
+        MorphsToComments,
         MorphsToFavorites,
-        MorphsToRating;
+        MorphsToRatings,
+        MorphsToVotes;
 
     /**
      * The attributes that are mass assignable.
@@ -68,21 +70,5 @@ class Game extends Model
     {
         /** @var GameBuilder */
         return parent::query();
-    }
-
-    public function payload(): string
-    {
-        /** @var User $user */
-        $user = \Auth::user();
-
-        /**
-         * @var array{
-         *     sub: int,
-         *     key: string,
-         * } $payload
-         */
-        $payload = ['sub' => $this->id, 'key' => game_vote_key($user->id)];
-
-        return rtrim(strtr(base64_encode(json_encode($payload)), '+/', '-_'), '=');
     }
 }

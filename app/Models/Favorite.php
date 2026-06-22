@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Concerns\BelongsToUser;
 use Database\Factories\FavoriteFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Favorite extends Model
 {
     /** @use HasFactory<FavoriteFactory> */
-    use HasFactory;
+    use HasFactory, BelongsToUser;
 
     /**
      * The attributes that are mass assignable.
@@ -27,10 +27,5 @@ class Favorite extends Model
     public function favoriteable(): MorphTo
     {
         return $this->morphTo();
-    }
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
     }
 }

@@ -7,7 +7,7 @@ namespace App\Models\Concerns;
 use App\Models\Comment;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-trait MorphsToComment
+trait MorphsToComments
 {
     public function comments(): MorphMany
     {

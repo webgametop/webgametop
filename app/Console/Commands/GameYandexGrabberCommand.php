@@ -140,7 +140,7 @@ class GameYandexGrabberCommand extends Command
             }
         }
 
-        Cache::forget(provider_game_key());
-        Cache::forget(provider_developer_key());
+        Cache::forget(game_count_in_provider__cache_key());
+        Cache::forget(developer_count_in_provider__cache_key());
     }
 }

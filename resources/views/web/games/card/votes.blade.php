@@ -1,4 +1,6 @@
-@props(['game', 'provider', 'process'])
+@php use App\Models\Vote; @endphp
+
+@props(['game', 'provider', 'vote_info'])
 
 @section('title', 'Игра')
 
@@ -15,24 +17,29 @@
     <div class="page-body">
         <div class="container">
             <div class="row row-cards">
-                @if($process['allowed'])
+                @if($vote_info['is_available'])
                     <div class="col-12 col-md-6 col-lg-4">
                         <div class="card card-md">
                             <div class="card-body text-center">
-                                <div class="text-uppercase text-secondary font-weight-medium">Сайт</div>
-                                <div class="display-5 fw-bold my-3">+1 голос</div>
+                                <div class="text-uppercase">
+                                    <div class="text-secondary font-weight-medium">Сайт</div>
+                                    <div class="display-5 fw-bold my-3">+1 голос</div>
+                                </div>
                                 <ul class="list-unstyled lh-lg text-start">
-                                    <li>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon me-1 text-danger icon-2">
-                                            <path d="M18 6l-12 12"></path>
-                                            <path d="M6 6l12 12"></path>
+                                    <li class="d-flex align-items-center text-uppercase text-muted">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-circle-check">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                            <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/>
+                                            <path d="M9 12l2 2l4 -4"/>
                                         </svg>
-                                        Бонус в игре
+                                        <span class="ms-2">Бонус в игре</span>
                                     </li>
                                 </ul>
                                 <div class="text-center mt-4">
-                                    <form action="{{ route('games.votes', [$game, $game->slug]) }}" method="post">
+                                    <form action="{{ route('votes.store') }}" method="post" data-confirm="Вы уверены?">
                                         @csrf
+                                        <input type="hidden" name="votable[type]" value="{{ morph_alias($game::class) }}" autocomplete="off">
+                                        <input type="hidden" name="votable[id]" value="{{ $game->id }}" autocomplete="off">
                                         <button type="submit" class="btn w-100" data-loading-text="Голосование...">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-thumb-up">
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -54,25 +61,27 @@
                                 </svg>
                             </div>
                             <div class="card-body text-center">
-                                <div class="text-uppercase text-secondary font-weight-medium">
-                                    {{ $provider->label() }}
+                                <div class="text-uppercase">
+                                    <div class="text-secondary font-weight-medium">{{ $provider->label() }}</div>
+                                    <div class="display-5 fw-bold my-3">+1 голос</div>
                                 </div>
-                                <div class="display-5 fw-bold my-3">+1 голос</div>
                                 <ul class="list-unstyled lh-lg text-start">
-                                    <li>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon me-1 text-success icon-2">
-                                            <path d="M5 12l5 5l10 -10"></path>
+                                    <li class="d-flex align-items-center text-uppercase text-success">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-circle-check">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                            <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/>
+                                            <path d="M9 12l2 2l4 -4"/>
                                         </svg>
-                                        Бонус в игре
+                                        <span class="ms-2">Бонус в игре</span>
                                     </li>
                                 </ul>
                                 <div class="text-center mt-4">
-                                    <a href="https://yandex.ru/games/app/{{ $game->identity }}?payload={{ $game->payload() }}" class="btn btn-danger w-100">
+                                    <a href="https://yandex.ru/games/app/{{ $game->identity }}?payload={{ Vote::payload($game) }}" class="disabled btn btn-danger w-100">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-external-link">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                             <path d="M12 5a1 1 0 0 1 0 2h-6a1 1 0 0 0 -1 1v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1 -1v-6a1 1 0 0 1 2 0v6a3 3 0 0 1 -3 3h-10a3 3 0 0 1 -3 -3v-10a3 3 0 0 1 3 -3zm3 -2h5l.075 .003l.126 .017l.111 .03l.111 .044l.098 .052l.096 .067l.09 .08q .054 .053 .097 .112l.071 .11l.054 .114l.035 .105l.03 .148l.006 .118v5a1 1 0 0 1 -2 0v-2.586l-7.293 7.293a1 1 0 0 1 -1.414 -1.414l7.291 -7.293h-2.584a1 1 0 0 1 0 -2"/>
                                         </svg>
-                                        Перейти
+                                        <span>Перейти</span>
                                     </a>
                                 </div>
                             </div>
@@ -85,7 +94,11 @@
                                 <div class="h1">Спасибо за участие! Сегодня вы уже голосовали.</div>
                                 <div class="text-muted">Отдохните, подумайте, а завтра возвращайтесь с новыми силами.</div>
                                 <hr>
-                                <div class="display-4"><b id="usage">{{ $process['next_in'] }}</b></div>
+                                <div class="display-4">
+                                    <b id="usage" data-timestamp="{{ $vote_info['available_at'] }}">
+                                        {{ $vote_info['available_in'] }}
+                                    </b>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -93,15 +106,18 @@
                 <div class="col-12 col-lg-4">
                     <div class="card card-md">
                         <div class="card-body text-center">
-                            <div class="text-uppercase text-secondary font-weight-medium">СМС</div>
-                            <div class="display-5 fw-bold my-3">+1 голос</div>
+                            <div class="text-uppercase">
+                                <div class="text-secondary font-weight-medium">СМС</div>
+                                <div class="display-5 fw-bold my-3">+1 голос</div>
+                            </div>
                             <ul class="list-unstyled lh-lg text-start">
-                                <li>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon me-1 text-danger icon-2">
-                                        <path d="M18 6l-12 12"></path>
-                                        <path d="M6 6l12 12"></path>
+                                <li class="d-flex align-items-center text-uppercase text-muted">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-circle-check">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                        <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/>
+                                        <path d="M9 12l2 2l4 -4"/>
                                     </svg>
-                                    Бонус в игре
+                                    <span class="ms-2">Бонус в игре</span>
                                 </li>
                             </ul>
                             <div class="text-center mt-4">
@@ -111,7 +127,7 @@
                                         <path d="M13 3a3 3 0 0 1 2.995 2.824l.005 .176v4h2a3 3 0 0 1 2.98 2.65l.015 .174l.005 .176l-.02 .196l-1.006 5.032c-.381 1.626 -1.502 2.796 -2.81 2.78l-.164 -.008h-8a1 1 0 0 1 -.993 -.883l-.007 -.117l.001 -9.536a1 1 0 0 1 .5 -.865a2.998 2.998 0 0 0 1.492 -2.397l.007 -.202v-1a3 3 0 0 1 3 -3z"></path>
                                         <path d="M5 10a1 1 0 0 1 .993 .883l.007 .117v9a1 1 0 0 1 -.883 .993l-.117 .007h-1a2 2 0 0 1 -1.995 -1.85l-.005 -.15v-7a2 2 0 0 1 1.85 -1.995l.15 -.005h1z"></path>
                                     </svg>
-                                    Голосовать
+                                    <span>Голосовать</span>
                                 </button>
                             </div>
                         </div>
@@ -127,7 +143,9 @@
                     </svg>
                 </div>
                 <div>
-                    <h4 class="alert-heading"><strong>Ой! Похоже, здесь есть подводные камни.</strong></h4>
+                    <h4 class="alert-heading">
+                        <strong>Ой! Похоже, здесь есть подводные камни.</strong>
+                    </h4>
                     <div class="alert-description">Бонусы являются частью игровой механики и предоставляются исключительно разработчиком. Наш сайт выступает только в роли инструмента для голосования и навигации. Все вопросы по бонусам следует адресовать разработчику игры.</div>
                 </div>
             </div>
@@ -137,7 +155,7 @@
         <script type="module">
             const countdown = new easytimer({ countdown: true} );
 
-            const target_timestamp = {{ $process['next_at'] }};
+            const target_timestamp = parseInt($('#usage').data('timestamp'));
             const target_ms = target_timestamp * 1000;
             const remaining_ms = target_ms - Date.now();
 

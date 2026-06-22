@@ -6,7 +6,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-class GameVoteLimitExceededException extends Exception
+class DailyVoteAlreadyCastException extends Exception
 {
     public function __construct()
     {

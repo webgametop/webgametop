@@ -4,24 +4,26 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Enums\VoteType as Strategy;
 use App\Exceptions\UserEmailTakenException;
 use App\Exceptions\UserPersistenceException;
-use App\Exceptions\UserRegisterLimitWithOneIpException;
+use App\Exceptions\UserRegistrationLimitPerIpReachedException;
 use App\Helpers\Email;
+use App\Models\Contracts\Votable;
 use App\Models\User;
-use App\Repositories\GameVoteRepository;
 use App\Repositories\UserRepository;
 use App\Values\User\UserCreateData;
 use App\Values\User\UserUpdateData;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
 class UserService
 {
-    private const MAX_REGISTER_PER_FROM_IP = 3;
+    private const MAX_REGISTRATIONS_PER_IP = 3;
 
     public function __construct(
         private readonly UserRepository $repository,
-        private readonly GameVoteRepository $gameVoteRepository,
+        private readonly VoteService $voteService,
     )
     {
     }
@@ -32,7 +34,7 @@ class UserService
 
         throw_unless(Email::validate($email), new \InvalidArgumentException('Invalid email address.'));
 
-        throw_if($this->isEmailTaken($email), new UserEmailTakenException);
+        throw_unless($this->canUseEmail($email), new UserEmailTakenException);
 
         $user = User::make($dto->toArray());
 
@@ -45,7 +47,10 @@ class UserService
     {
         $ip_hash = $dto->getIpHash();
 
-        throw_unless($this->canRegisterFromIp($ip_hash), new UserRegisterLimitWithOneIpException);
+        throw_unless(
+            $this->canRegisterMoreUsersFromIp($ip_hash),
+            new UserRegistrationLimitPerIpReachedException
+        );
 
         return $this->createUser($dto);
     }
@@ -54,29 +59,40 @@ class UserService
     {
     }
 
-    public function deleteUser(int $id)
+    public function deleteUser(User $user)
     {
     }
 
-    public function canRegisterFromIp(string $ip_hash): bool
+    /**
+     * @return array{
+     *     is_available: bool,
+     *     available_in: string,
+     *     available_at: int,
+     * }
+     */
+    public function getDailyVoteInfo(User $user, Votable|Model $votable): array
     {
-        return $this->repository->countIpHashes($ip_hash) < self::MAX_REGISTER_PER_FROM_IP;
+        $this->voteService->setStrategy(Strategy::DAILY);
+
+        $allowed = $this->voteService->canVoteToday($votable, $user);
+
+        $curr = Carbon::now();
+        $next = $curr->copy()->addDay()->startOfDay();
+        $diff = $curr->diff($next);
+
+        return [
+            'is_available' => $allowed,
+            'available_in' => $diff->format('%H:%I:%S'),
+            'available_at' => $next->timestamp,
+        ]; // @todo move in DTO
     }
 
-    public function canVotedToday(int $user_id): bool
+    public function canRegisterMoreUsersFromIp(string $ip_hash): bool
     {
-        return !$this->hasVotedToday($user_id);
+        return $this->repository->countIpHashes($ip_hash) < self::MAX_REGISTRATIONS_PER_IP;
     }
 
-    public function hasVotedToday(int $user_id): bool
-    {
-        return !empty($this->gameVoteRepository->findOneBy([
-            'user_id' => $user_id,
-            'voted_at' => Carbon::now()->format('Y-m-d'),
-        ]));
-    }
-
-    public function isEmailTaken(string $email): bool
+    public function canUseEmail(string $email): bool
     {
         return empty($this->repository->findOneBy(['email' => $email]));
     }

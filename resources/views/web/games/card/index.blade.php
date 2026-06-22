@@ -57,7 +57,7 @@
                                 </a>
                             @endauth
                         </div>
-                        <div class="d-flex align-items-center mt-3" style="height: 55px;">
+                        <div class="d-flex align-items-center mt-3">
                             @auth
                                 @php($is_favorite = $game->is_favorite)
                                 <form action="{{ route('favorites.toggle') }}" method="post">
@@ -66,8 +66,7 @@
                                     <input type="hidden" name="favoriteable[id]" value="{{ $game->id }}" autocomplete="off">
                                     <button
                                         type="submit"
-                                        @class(['btn', 'me-3', $is_favorite ? 'btn-warning' : 'btn-outline-warning'])
-                                        style="padding: 15px;"
+                                        @class(['btn', 'me-3', 'p-2', $is_favorite ? 'btn-warning' : 'btn-outline-warning'])
                                         title="Добавить в избранное"
                                         data-loading-text
                                     >
@@ -79,17 +78,14 @@
                                 </form>
                             @endauth
                             <div
-                                @class([
-                                    'card',
-                                    'h-100',
-                                    'w-100',
-                                    $game->rating_class,
-                                ])
-                                 title="{{ $game->likes_count }} плюсов / {{ $game->dislikes_count }} минусов"
+                                @class(['card', 'h-100', 'w-100', $game->rating_class])
+                                title="{{ $game->likes_count }} плюсов / {{ $game->dislikes_count }} минусов"
                             >
                                 @auth
                                     @if($game->is_rating)
-                                        <div class="text-center mx-lg-0 my-3">{{ $game->rating_total }}</div>
+                                        <div class="text-center mx-lg-0" style="margin: 10px 0;">
+                                            {{ $game->rating_total }}
+                                        </div>
                                     @else
                                         <x-ratings-store
                                             :rateable="$game"

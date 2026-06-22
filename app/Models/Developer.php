@@ -8,10 +8,10 @@ use App\Builders\DeveloperBuilder;
 use App\Casts\DeveloperProviderCast;
 use App\Models\Concerns\Developers\HasDeveloperAttributes;
 use App\Models\Concerns\Developers\HasDeveloperRelationships;
-use App\Models\Concerns\MorphsToComment;
+use App\Models\Concerns\MorphsToComments;
 use App\Models\Concerns\MorphsToFavorites;
-use App\Models\Concerns\MorphsToRating;
-use App\Models\Concerns\MorphsToView;
+use App\Models\Concerns\MorphsToRatings;
+use App\Models\Concerns\MorphsToViews;
 use Database\Factories\DeveloperFactory;
 use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,10 +32,10 @@ class Developer extends Model
     use HasFactory,
         HasDeveloperAttributes,
         HasDeveloperRelationships,
-        MorphsToView,
-        MorphsToComment,
+        MorphsToViews,
+        MorphsToComments,
         MorphsToFavorites,
-        MorphsToRating;
+        MorphsToRatings;
 
     /**
      * The attributes that are mass assignable.

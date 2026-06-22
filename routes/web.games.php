@@ -25,5 +25,5 @@ Route::group(['prefix' => 'games', 'as' => 'games'], function () {
                 Route::get('/', [GameCommentController::class, 'index']);
             }); # comments
         });
-    }); # game
+    }); # entity
 }); # games

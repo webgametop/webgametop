@@ -5,21 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\API\GameVoteStoreRequest;
-use App\Models\Game;
-use App\Services\GameVoteService;
-use App\Values\Game\VoteRegisterData;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class GameVoteController extends Controller
+class VoteController extends Controller
 {
-    public function __construct(
-        private readonly GameVoteService $service,
-    )
-    {
-    }
-
     /**
      * Display a listing of the resource.
      */
@@ -39,21 +28,9 @@ class GameVoteController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(GameVoteStoreRequest $request, Game $game): JsonResponse
+    public function store(Request $request)
     {
-        $dto = new VoteRegisterData(
-            $game->id,
-            $request->input('key'),
-            'api'
-        );
-
-        try {
-            $this->service->registerVote($dto);
-        } catch (\Exception $e) {
-            return response()->json(['ok' => false, 'description' => $e->getMessage()], 500);
-        }
-
-        return response()->json(['ok' => true]);
+        //
     }
 
     /**

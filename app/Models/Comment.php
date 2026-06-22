@@ -8,8 +8,8 @@ use App\Builders\CommentBuilder;
 use App\Models\Concerns\BelongsToUser;
 use App\Models\Concerns\Comments\HasCommentAttributes;
 use App\Models\Concerns\Comments\HasCommentRelationships;
-use App\Models\Concerns\MorphsToRating;
-use App\Models\Concerns\MorphsToView;
+use App\Models\Concerns\MorphsToRatings;
+use App\Models\Concerns\MorphsToViews;
 use Database\Factories\CommentFactory;
 use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,8 +24,8 @@ class Comment extends Model
         BelongsToUser,
         HasCommentAttributes,
         HasCommentRelationships,
-        MorphsToView,
-        MorphsToRating;
+        MorphsToViews,
+        MorphsToRatings;
 
     /**
      * The attributes that are mass assignable.

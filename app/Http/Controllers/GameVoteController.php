@@ -8,14 +8,13 @@ use App\Enums\GameProvider as GameProviderEnum;
 use App\Models\Developer;
 use App\Models\Game;
 use App\Models\User;
-use App\Services\GameVoteService;
-use App\Values\Game\VoteRegisterData;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 
 class GameVoteController extends Controller
 {
     public function __construct(
-        private readonly GameVoteService $service,
+        private readonly UserService $userService,
     )
     {
     }
@@ -31,18 +30,11 @@ class GameVoteController extends Controller
         $provider = $developer->provider;
 
         /** @var User $user */
-        $user = \Auth::user();
+        $user = auth()->user();
 
-        /**
-         * @var array{
-         *     allowed: bool,
-         *     next_in: string,
-         *     next_at: int,
-         * } $process
-         */
-        $process = $this->service->processVote($game, $user);
+        $vote_info = $this->userService->getDailyVoteInfo($user, $game);
 
-        return view('web.games.card.votes', compact('game', 'provider', 'process'));
+        return view('web.games.card.votes', compact(['game', 'provider', 'vote_info']));
     }
 
     /**
@@ -58,24 +50,7 @@ class GameVoteController extends Controller
      */
     public function store(Request $request, Game $game)
     {
-        /** @var User $user */
-        $user = \Auth::user();
-
-        $message = 'Thank you! Your vote has been counted. Come back tomorrow to vote again.';
-
-        $route_data = [$game, $game->slug];
-        $flash_data = ['type' => 'success', 'message' => $message];
-
-        $dto = new VoteRegisterData($game->id, game_vote_key($user->id));
-
-        try {
-            $this->service->registerVote($dto);
-        } catch (\Exception $e) {
-            $flash_data['type'] = 'info';
-            $flash_data['message'] = $e->getMessage();
-        }
-
-        return redirect()->route('games.votes', $route_data)->with('flash', $flash_data);
+        //
     }
 
     /**
