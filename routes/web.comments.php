@@ -6,6 +6,7 @@ use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'comments', 'as' => 'comments'], function () {
+    Route::get('/', [CommentController::class, 'redirect'])->name('.redirect');
     Route::group(['prefix' => '/{comment}'], function () {
         Route::get('/', [CommentController::class, 'show'])->name('.show');
     }); # comment

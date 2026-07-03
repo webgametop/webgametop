@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Services\CommentService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -102,5 +103,10 @@ class CommentController extends Controller
     public function destroy(Comment $comment)
     {
         //
+    }
+
+    public function redirect(): RedirectResponse
+    {
+        return redirect()->back();
     }
 }
