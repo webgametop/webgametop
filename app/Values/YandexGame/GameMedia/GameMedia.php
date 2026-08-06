@@ -10,7 +10,7 @@ use App\Values\YandexGame\GameMedia\GameMediaScreenshot as Screenshot;
 use App\Values\YandexGame\GameMedia\GameMediaVideo as Video;
 use Illuminate\Support\Collection;
 
-class GameMedia
+readonly class GameMedia
 {
     /**
      * @param Cover $cover
@@ -19,10 +19,10 @@ class GameMedia
      * @param Collection<Screenshot> $screenshots
      */
     public function __construct(
-        public readonly Cover $cover,
-        public readonly Icon $icon,
-        public readonly Collection $videos,
-        public readonly Collection $screenshots,
+        public Cover $cover,
+        public Icon $icon,
+        public Collection $videos,
+        public Collection $screenshots,
     )
     {
     }

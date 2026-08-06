@@ -83,3 +83,8 @@ Breadcrumbs::for('users.edit.account', function (BreadcrumbTrail $trail, UserMod
     $trail->parent('users.show', $user);
     $trail->push('Редактировать', route('users.edit.account', [$user, $user->username]));
 });
+
+Breadcrumbs::for('comments', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Комментарии', '/');
+});

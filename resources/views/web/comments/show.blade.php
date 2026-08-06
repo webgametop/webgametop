@@ -3,6 +3,9 @@
 @section('title', 'Комментарий от ' . $user->nickname)
 
 <x-layouts::main>
+    <div class="container mt-4">
+        {{ Breadcrumbs::render('comments') }}
+    </div>
     <div class="page-body">
         <div class="container">
             <x-ui.subheadline label="Комментарий {{ '#' . $comment->id }} от <a href={{ route('users.show', [$user, $user->username]) }}>{{ $user->nickname }}</a>">

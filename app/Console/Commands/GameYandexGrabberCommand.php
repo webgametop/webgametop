@@ -85,6 +85,7 @@ class GameYandexGrabberCommand extends Command
             /** @var Collection<GameDataItem> $data */
             $data = new Collection;
 
+            /** @var GameDataItem $game */
             foreach ($games as $game) {
                 /** @var string $dedup_key */
                 $dedup_key = Str::replace(':identity', $game->developer->id, $dedup_developer);

@@ -8,13 +8,13 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 use Saloon\Http\Response;
 
-class GamesListData implements Arrayable
+readonly class GamesListData implements Arrayable
 {
     /**
      * @param Collection<GameDataItem> $games
      */
     public function __construct(
-        public readonly Collection $games,
+        public Collection $games,
     )
     {
     }

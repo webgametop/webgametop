@@ -16,11 +16,12 @@ return new class extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->id();
             $table->string('identity');
-            $table->binary('dedup_hash', 32)->index('idx_games_on_dedup_hash');
             $table->string('slug',128)->unique('unq_games_on_slug');
             $table->string('title');
             $table->text('description');
             $table->dateTime('released_at');
+            $table->integer('views_count')->unsigned()->default(0);
+            $table->binary('dedup_hash', 32)->index('idx_games_on_dedup_hash');
             $table->timestamps();
         });
     }

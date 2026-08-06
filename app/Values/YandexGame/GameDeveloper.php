@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Values\YandexGame;
 
-class GameDeveloper
+readonly class GameDeveloper
 {
     public function __construct(
-        public readonly int $id,
-        public readonly string $name,
+        public int $id,
+        public string $name,
     )
     {
     }

@@ -15,11 +15,12 @@ return new class extends Migration
     {
         Schema::create('developers', function (Blueprint $table) {
             $table->id();
-            $table->string('provider')->index('idx_developers_on_provider');
+            $table->string('provider');
             $table->string('identity');
-            $table->binary('dedup_hash', 32)->index('idx_developers_on_dedup_hash');
             $table->string('slug', 128)->unique('unq_developers_on_slug');
             $table->string('name');
+            $table->integer('views_count')->unsigned()->default(0);
+            $table->binary('dedup_hash', 32)->index('idx_developers_on_dedup_hash');
             $table->timestamps();
         });
 
