@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Values\YandexGame;
 
-class FeedDataPageInfo
+readonly class FeedDataPageInfo
 {
     public function __construct(
-        public readonly string $next_page_id,
-        public readonly string $rtx_req_id,
-        public readonly bool $is_first_page,
-        public readonly bool $has_next_page,
+        public string $next_page_id,
+        public string $rtx_req_id,
+        public bool $is_first_page,
+        public bool $has_next_page,
     )
     {
     }

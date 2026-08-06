@@ -14,9 +14,9 @@
     </div>--}}
     <div class="page-body">
         <div class="container">
-            <div class="row row-cards">
+            <div class="row row-cols-1 row-cols-lg-2 g-3">
                 @foreach($users as $user)
-                    <div class="col-12">
+                    <div class="col">
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">

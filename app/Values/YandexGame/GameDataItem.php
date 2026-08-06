@@ -11,15 +11,15 @@ use App\Values\YandexGame\GameMedia\GameMediaScreenshot;
 use App\Values\YandexGame\GameMedia\GameMediaVideo;
 use Illuminate\Support\Collection;
 
-class GameDataItem
+readonly class GameDataItem
 {
     public function __construct(
-        public readonly int $id,
-        public readonly string $title,
-        public readonly string $description,
-        public readonly int $first_published,
-        public readonly GameDeveloper $developer,
-        public readonly GameMedia $media,
+        public int $id,
+        public string $title,
+        public string $description,
+        public int $first_published,
+        public GameDeveloper $developer,
+        public GameMedia $media,
     )
     {
     }

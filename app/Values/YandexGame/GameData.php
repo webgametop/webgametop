@@ -7,10 +7,10 @@ namespace App\Values\YandexGame;
 use Illuminate\Contracts\Support\Arrayable;
 use Saloon\Http\Response;
 
-class GameData implements Arrayable
+readonly class GameData implements Arrayable
 {
     public function __construct(
-        public readonly GameDataItem $game
+        public GameDataItem $game
     )
     {
     }

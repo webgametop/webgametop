@@ -8,15 +8,15 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 use Saloon\Http\Response;
 
-class FeedData implements Arrayable
+readonly class FeedData implements Arrayable
 {
     /**
      * @param Collection<FeedDataItem> $games
      * @param FeedDataPageInfo $pageInfo
      */
     public function __construct(
-        public readonly Collection $games,
-        public readonly FeedDataPageInfo $pageInfo,
+        public Collection $games,
+        public FeedDataPageInfo $pageInfo,
     )
     {
     }
